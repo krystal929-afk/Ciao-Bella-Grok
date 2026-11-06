@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Ciao Bella Trattoria",
+      "hasCanvas": false,
+      "bodyTextLen": 2023,
+      "bodyTextHash": "fa108cc668defe9fcc04285c8e7b6ac3d0615ead28c8bc8925f88a1814c89758",
+      "bodyTextPrefix": "Skip to main content Closed until 5:00 PM·1380 S Federal Hwy, De",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Ciao Bella Trattoria",
+      "hasCanvas": false,
+      "bodyTextLen": 2002,
+      "bodyTextHash": "978a9d9ba24ae6e740d2f779be23ac034cc5336222b3da4980132f83869d1eca",
+      "bodyTextPrefix": "Skip to main content Closed until 5:00 PM·1380 S Federal Hwy, De",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}
