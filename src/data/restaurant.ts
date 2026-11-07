@@ -3,7 +3,7 @@ export const restaurant = {
   fullName: "Ciao Bella Trattoria",
   tagline: "Authentic Italian flavors in Deerfield",
   kicker: "Serving Italian classics with care",
-  phoneDisplay: "(954) 428-2676",
+  phoneDisplay: "(954)-428-2676",
   phoneHref: "tel:+19544282676",
   email: "orfeopizzeriarestaurant@mail.com",
   emailHref: "mailto:orfeopizzeriarestaurant@mail.com",
@@ -12,8 +12,15 @@ export const restaurant = {
   maps: "https://www.google.com/maps/search/?api=1&query=1380+S+Federal+Hwy+Deerfield+Beach+FL+33441",
 };
 
+/** Online orders. Shop 121887 on Slice. Tables, parties, and catering stay on this site. */
+export const sliceOrder = {
+  shopId: "121887",
+  href: "https://slicelife.com/restaurants/fl/deerfield-beach/33441/ciao-bella-trattoria-deerfield-beach/menu",
+  offer: "5% off online orders",
+};
+
 export const about =
-  "Ciao Bella is a locally loved gem in Deerfield Beach, FL, serving authentic Italian cuisine and handcrafted pizzas in a warm, family-friendly setting. At 1380 S Federal Hwy we bring traditional flavors to the table — crisp pizzas, hearty pastas, fresh salads, seafood, and classic desserts. Dine in, grab takeout, or order delivery. Come taste the difference passion and tradition make.";
+  "Ciao Bella is a locally loved gem in Deerfield Beach, FL, serving up authentic Italian cuisine and handcrafted pizzas in a warm, family-friendly setting. Located at 1380 S Federal Hwy, we bring traditional flavors and recipes straight from Italy to your table — featuring everything from crisp, wood-fired pizzas and hearty pastas to fresh salads, seafood dishes, and classic desserts. Whether you're dining in, grabbing takeout, or ordering delivery, Ciao Bella is your go-to destination for delicious, made-from-scratch meals with genuine hospitality. Come taste the difference passion and tradition make!";
 
 export const houseLine =
   "We are the oldest Italian restaurant and pizzeria in Broward County, and we specialize in authentic old-world Southern Italian food.";

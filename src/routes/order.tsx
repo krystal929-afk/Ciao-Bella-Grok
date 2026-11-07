@@ -1,151 +1,45 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { dinnerMenu } from "@/data/restaurant";
-import { placeOrder } from "@/lib/house.functions";
-import { formatMin, LAST_PICKUP, priceCents, timesBetween, todayIso, FIRST_SEATING } from "@/lib/house";
-import { Button, Field, fieldClass, SectionKicker } from "@/components/ui";
+import { restaurant, sliceOrder } from "@/data/restaurant";
 
 export const Route = createFileRoute("/order")({
-  head: () => ({ meta: [{ title: "Pickup · Ciao Bella Trattoria" }] }),
+  head: () => ({ meta: [{ title: "Order · Ciao Bella Trattoria" }] }),
   component: OrderPage,
 });
 
-const dishes = dinnerMenu.flatMap((section) =>
-  section.items.flatMap((item) => {
-    const cents = priceCents(item.price);
-    return cents == null ? [] : [{ section: section.title, name: item.name, cents }];
-  }),
-);
-
 function OrderPage() {
-  const [qty, setQty] = useState<Record<string, number>>({});
-  const [date, setDate] = useState(todayIso());
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [slip, setSlip] = useState<{ code: string; total: string; when: string } | null>(null);
-  const times = useMemo(() => timesBetween(FIRST_SEATING, LAST_PICKUP), []);
-  const total = dishes.reduce((sum, dish) => sum + (qty[dish.name] ?? 0) * dish.cents, 0);
-
-  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    setBusy(true);
-    setError("");
-    const result = await placeOrder({
-      data: {
-        name: String(form.get("name") ?? ""),
-        phone: String(form.get("phone") ?? ""),
-        email: String(form.get("email") ?? ""),
-        date,
-        pickupMin: Number(form.get("time")),
-        notes: String(form.get("notes") ?? ""),
-        items: Object.entries(qty).map(([name, count]) => ({ name, qty: count })),
-      },
-    });
-    setBusy(false);
-    if (!result.ok) {
-      setError(result.error);
-      return;
-    }
-    setSlip(result);
-    setQty({});
-  }
-
-  if (slip) {
-    return (
-      <div className="mx-auto max-w-xl px-4 py-16">
-        <SectionKicker>Pickup</SectionKicker>
-        <h1 className="mt-3 font-display text-5xl">{slip.code}</h1>
-        <p className="mt-4 text-lg">
-          {slip.when}
-          <br />
-          {slip.total} due when you collect it
-        </p>
-        <p className="mt-4 text-sm text-muted">
-          The kitchen has the ticket. Pay at the door. Call (954) 428-2676 if you’re running late.
-        </p>
-        <Button className="mt-6" type="button" tone="quiet" onClick={() => setSlip(null)}>
-          Order something else
-        </Button>
-      </div>
-    );
-  }
-
   return (
-    <form className="mx-auto max-w-3xl px-4 py-14" onSubmit={onSubmit}>
-      <SectionKicker>Pickup</SectionKicker>
-      <h1 className="mt-3 font-display text-5xl">Order for the door</h1>
-      <p className="mt-4 max-w-xl text-muted">
-        Dinner menu, packed for pickup. No delivery app and no card on this page — you pay when the
-        bag is ready. Tuesday through Sunday, 5 to 9.
-      </p>
-      <ul className="mt-8 divide-y divide-border">
-        {dishes.map((dish) => {
-          const count = qty[dish.name] ?? 0;
-          return (
-            <li key={dish.name} className="flex items-center justify-between gap-4 py-3">
-              <span>
-                <span className="block">{dish.name}</span>
-                <span className="text-sm text-muted">
-                  {dish.section} · ${(dish.cents / 100).toFixed(2)}
-                </span>
-              </span>
-              <span className="flex items-center gap-2">
-                <button
-                  type="button"
-                  className="inline-flex size-11 items-center justify-center rounded-md border border-border"
-                  aria-label={`Remove one ${dish.name}`}
-                  onClick={() => setQty((current) => ({ ...current, [dish.name]: Math.max(0, count - 1) }))}
-                >
-                  –
-                </button>
-                <span className="w-6 text-center text-sm">{count}</span>
-                <button
-                  type="button"
-                  className="inline-flex size-11 items-center justify-center rounded-md border border-border"
-                  aria-label={`Add one ${dish.name}`}
-                  onClick={() => setQty((current) => ({ ...current, [dish.name]: Math.min(10, count + 1) }))}
-                >
-                  +
-                </button>
-              </span>
-            </li>
-          );
-        })}
-      </ul>
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        <Field label="Name">
-          <input className={fieldClass} name="name" required />
-        </Field>
-        <Field label="Phone">
-          <input className={fieldClass} name="phone" type="tel" required />
-        </Field>
-        <Field label="Email">
-          <input className={fieldClass} name="email" type="email" />
-        </Field>
-        <Field label="Date">
-          <input className={fieldClass} type="date" min={todayIso()} value={date} onChange={(event) => setDate(event.target.value)} required />
-        </Field>
-        <Field label="Pickup time">
-          <select className={fieldClass} name="time" defaultValue={17 * 60}>
-            {times.map((time) => (
-              <option key={time} value={time}>
-                {formatMin(time)}
-              </option>
-            ))}
-          </select>
-        </Field>
-        <Field label="Note">
-          <input className={fieldClass} name="notes" placeholder="Extra sauce, no garlic…" />
-        </Field>
+    <div>
+      <div className="relative">
+        <img src="/images/brand/pizza-cheese.jpg" alt="" className="h-48 w-full object-cover sm:h-64" />
+        <div className="absolute inset-0 bg-white/55" />
+        <h1 className="absolute inset-0 flex items-center justify-center px-4 text-center font-display text-5xl uppercase tracking-wide">
+          Order
+        </h1>
       </div>
-      {error ? <p className="mt-4 text-sm text-primary">{error}</p> : null}
-      <div className="mt-6 flex items-center justify-between gap-4">
-        <p className="font-display text-3xl">${(total / 100).toFixed(2)}</p>
-        <Button type="submit" disabled={busy || total === 0}>
-          Place pickup
-        </Button>
+      <div className="mx-auto max-w-3xl px-4 py-12 text-center">
+        <p className="font-script text-3xl text-primary">Takeout and delivery</p>
+        <p className="mx-auto mt-4 max-w-xl text-[17px] leading-relaxed">
+          Food orders go through Slice, Ciao Bella’s ordering desk at {restaurant.street}. Pickup or
+          delivery, guest checkout is fine. Slice emails a confirmation as soon as the kitchen accepts
+          the ticket. {sliceOrder.offer}.
+        </p>
+        <p className="mt-3 text-sm text-muted">
+          Tables are separate. A Slice order does not hold a dining-room table.
+        </p>
+        <a
+          href={sliceOrder.href}
+          className="mt-8 inline-flex bg-primary px-10 py-3 text-sm uppercase tracking-[0.2em] text-white"
+        >
+          Order on Slice
+        </a>
+        <p className="mt-6 text-sm">
+          Prefer the phone?{" "}
+          <a className="underline" href={restaurant.phoneHref}>
+            {restaurant.phoneDisplay}
+          </a>
+        </p>
+        <p className="mt-8 text-sm text-muted">Tuesday–Sunday, 5:00 PM – 9:00 PM. Monday the kitchen is closed.</p>
       </div>
-    </form>
+    </div>
   );
 }

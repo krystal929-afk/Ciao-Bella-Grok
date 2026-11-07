@@ -13,8 +13,8 @@ function CateringPage() {
     <div>
       <section className="relative">
         <img
-          src="/images/catering.jpg"
-          alt="Trays of lasagna, pasta, and salad set for a gathering"
+          src="/images/brand/parm.jpg"
+          alt="Chicken parmigiana and penne set for a gathering"
           className="aspect-video w-full object-cover"
         />
         <div className="absolute inset-0 bg-fg/45" />

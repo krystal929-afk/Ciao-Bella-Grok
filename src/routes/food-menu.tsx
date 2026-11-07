@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { dinnerMenu, cateringMenu } from "@/data/restaurant";
 import { cn } from "@/lib/cn";
-import { SectionKicker } from "@/components/ui";
 
 export const Route = createFileRoute("/food-menu")({
   head: () => ({ meta: [{ title: "Menu · Ciao Bella Trattoria" }] }),
@@ -10,10 +9,12 @@ export const Route = createFileRoute("/food-menu")({
 });
 
 const highlights: Record<string, { src: string; alt: string }> = {
-  appetizers: { src: "/images/calamari.jpg", alt: "Fried calamari with lemon and marinara" },
-  pizza: { src: "/images/pizza.jpg", alt: "Pizza with basil and blistered crust" },
-  chicken: { src: "/images/chicken-parm.jpg", alt: "Chicken parmigiana with spaghetti" },
-  desserts: { src: "/images/tiramisu.jpg", alt: "Slice of tiramisu" },
+  appetizers: { src: "/images/brand/calamari.jpg", alt: "Fried calamari with lemon and marinara" },
+  pizza: { src: "/images/brand/pizza-hawaiian.jpg", alt: "Ham and pineapple pizza" },
+  chicken: { src: "/images/brand/parm.jpg", alt: "Chicken parmigiana with penne" },
+  fish: { src: "/images/brand/salmon.jpg", alt: "Salmon with caprese salad" },
+  pasta: { src: "/images/brand/shrimp.jpg", alt: "Shrimp scampi over pasta" },
+  desserts: { src: "/images/brand/tiramisu.jpg", alt: "Slice of tiramisu" },
 };
 
 function FoodMenu() {
@@ -22,46 +23,37 @@ function FoodMenu() {
   const [active, setActive] = useState(sections[0].id);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <SectionKicker>Dinner</SectionKicker>
-      <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="font-display text-5xl">Our menu</h1>
-          <p className="mt-3 max-w-xl text-muted">
-            Prices from the published Ciao Bella menu. Plates are generous — guests regularly leave
-            with tomorrow’s lunch. Call if you need to confirm a dish.
-          </p>
+    <div>
+      <div className="relative">
+        <img src="/images/brand/parm.jpg" alt="" className="h-48 w-full object-cover sm:h-64" />
+        <div className="absolute inset-0 bg-white/55" />
+        <h1 className="absolute inset-0 flex items-center justify-center font-display text-5xl uppercase tracking-wide">
+          Our menu
+        </h1>
+      </div>
+      <div className="mx-auto -mt-8 max-w-3xl px-4 pb-16">
+        <div className="bg-white p-4 shadow-sm">
+          <button
+            type="button"
+            className={cn("w-full py-3 text-center text-sm uppercase tracking-[0.2em]", menu === "dinner" ? "text-fg" : "bg-primary text-white")}
+            onClick={() => {
+              setMenu("dinner");
+              setActive(dinnerMenu[0].id);
+            }}
+          >
+            Menu
+          </button>
+          <button
+            type="button"
+            className={cn("mt-1 w-full py-3 text-center text-sm uppercase tracking-[0.2em]", menu === "catering" ? "text-fg" : "bg-primary text-white")}
+            onClick={() => {
+              setMenu("catering");
+              setActive(cateringMenu[0].id);
+            }}
+          >
+            Catering menu
+          </button>
         </div>
-        <Link
-          to="/order"
-          className="rounded-md bg-primary px-5 py-3 text-sm text-bg hover:bg-fg"
-        >
-          Order pickup
-        </Link>
-      </div>
-
-      <div className="mt-6 flex gap-2">
-        <button
-          type="button"
-          className={cn("rounded-full border px-4 py-2 text-sm", menu === "dinner" ? "border-primary bg-primary text-bg" : "border-border")}
-          onClick={() => {
-            setMenu("dinner");
-            setActive(dinnerMenu[0].id);
-          }}
-        >
-          Menu
-        </button>
-        <button
-          type="button"
-          className={cn("rounded-full border px-4 py-2 text-sm", menu === "catering" ? "border-primary bg-primary text-bg" : "border-border")}
-          onClick={() => {
-            setMenu("catering");
-            setActive(cateringMenu[0].id);
-          }}
-        >
-          Catering Menu
-        </button>
-      </div>
 
       <div className="sticky top-20 z-30 -mx-4 mt-8 overflow-x-auto border-y border-border bg-bg/95 px-4 py-3 backdrop-blur">
         <div className="flex gap-2">
@@ -93,7 +85,7 @@ function FoodMenu() {
             <section key={section.id} id={section.id} className="scroll-mt-36">
               <div className="grid gap-6 md:grid-cols-5">
                 <div className={photo ? "md:col-span-3" : "md:col-span-5"}>
-                  <h2 className="font-display text-3xl">{section.title}</h2>
+                  <h2 className="font-display text-3xl uppercase tracking-wide text-green">{section.title}</h2>
                   <ul className="mt-4 divide-y divide-border">
                     {section.items.map((item) => (
                       <li key={item.name} className="py-4">
@@ -119,6 +111,7 @@ function FoodMenu() {
             </section>
           );
         })}
+      </div>
       </div>
     </div>
   );

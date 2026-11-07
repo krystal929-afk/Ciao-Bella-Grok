@@ -54,7 +54,7 @@ function DeskPage() {
       >
         <SectionKicker>Staff</SectionKicker>
         <h1 className="mt-3 font-display text-4xl">House desk</h1>
-        <p className="mt-3 text-sm text-muted">Tonight’s book, pickup tickets, and notes. Guests don’t see this.</p>
+        <p className="mt-3 text-sm text-muted">Tonight’s book and guest notes. Food tickets print on Slice. Guests don’t see this.</p>
         <div className="mt-6">
           <Field label="Pin">
             <input className={fieldClass} name="pin" type="password" autoComplete="current-password" required />
@@ -107,8 +107,10 @@ function DeskPage() {
         </ul>
       </section>
       <section className="mt-10">
-        <h2 className="font-display text-2xl">Pickup</h2>
-        {desk.orders.length === 0 ? <p className="mt-3 text-sm text-muted">No tickets.</p> : null}
+        <h2 className="font-display text-2xl">Food orders</h2>
+        <p className="mt-3 text-sm text-muted">
+          Takeout and delivery print on the Slice tablet. This list is only leftover house tickets from before that switch.
+        </p>
         <ul className="mt-3 divide-y divide-border">
           {desk.orders.map((row) => (
             <li key={row.code} className="grid gap-2 py-4 sm:grid-cols-[1fr_auto] sm:items-center">

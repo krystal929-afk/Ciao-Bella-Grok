@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { specials } from "@/data/menus";
-import { SectionKicker } from "@/components/ui";
 
 export const Route = createFileRoute("/specials")({
   head: () => ({ meta: [{ title: "Specials · Ciao Bella Trattoria" }] }),
@@ -18,27 +17,32 @@ function tonight() {
 function SpecialsPage() {
   const current = tonight();
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <SectionKicker>This week</SectionKicker>
-      <h1 className="mt-3 font-display text-5xl">Specials</h1>
-      <p className="mt-4 max-w-xl text-muted">
-        {current
-          ? `Tonight is ${current.day}: ${current.title}. ${current.detail}`
-          : "No printed special tonight. Tuesday and Wednesday are wine night. Thursday is pizza night. Friday through Sunday are the regular menu."}
-      </p>
-      <div className="mt-10 grid gap-4 md:grid-cols-3">
-        {specials.map((item) => (
-          <article key={item.day} className="rounded-md border border-border bg-surface p-5">
-            <p className="text-xs uppercase tracking-widest text-primary">{item.day}</p>
-            <h2 className="mt-2 font-display text-3xl">{item.title}</h2>
-            <p className="mt-3 text-sm text-muted">{item.detail}</p>
-            <p className="mt-4 text-sm">{item.hours}</p>
-          </article>
-        ))}
+    <div className="relative min-h-[70vh]">
+      <img src="/images/brand/tiramisu.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <div className="absolute inset-0 bg-black/55" />
+      <div className="relative mx-auto max-w-3xl px-4 py-16 text-center text-white">
+        <h1 className="font-display text-5xl uppercase tracking-wide">Specials</h1>
+        <div className="mt-10 flex flex-col gap-10">
+          {specials.map((item) => (
+            <article key={item.day}>
+              <p className="text-sm uppercase tracking-[0.25em]">{item.day}</p>
+              <div className="mt-4 border border-white/30 bg-black/70 p-4 text-left">
+                {item.day === "Tuesday" ? (
+                  <img src="/images/brand/wine.jpg" alt="Wine bottles on the dining-room rack" className="mb-4 aspect-video w-full object-cover" />
+                ) : null}
+                <p>
+                  {item.title}! {item.detail}
+                </p>
+                <p className="mt-4 text-center">{item.hours}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        {current ? <p className="mt-8 text-sm">Tonight: {current.title}.</p> : null}
+        <Link to="/reservations" className="mt-6 inline-flex bg-green px-8 py-3 text-sm uppercase tracking-[0.2em] text-white">
+          Reserve
+        </Link>
       </div>
-      <Link to="/reservations" className="mt-8 inline-flex rounded-md bg-primary px-5 py-3 text-sm text-bg hover:bg-fg">
-        Reserve a table
-      </Link>
     </div>
   );
 }

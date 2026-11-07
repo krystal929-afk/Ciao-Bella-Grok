@@ -73,15 +73,15 @@ function ReservationsPage() {
   return (
     <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
       <div>
-        <SectionKicker>The book</SectionKicker>
-        <h1 className="mt-3 font-display text-5xl leading-tight">Hold a table</h1>
+        <SectionKicker>Dine with us</SectionKicker>
+        <h1 className="mt-3 font-display text-5xl leading-tight">Reservations</h1>
         <p className="mt-5 text-muted">
-          The dining room keeps its own book. A seating is ninety minutes, last call is 8:30, and a
-          table is only offered if one is actually free. Parties over eight use the party page.
+          To make a reservation, choose your date, time, and number of guests. Please also tell us
+          about any special requests. Thank you for choosing to dine with us.
         </p>
         <img
-          src="/images/house/g6.jpg"
-          alt="Grilled salmon with caprese salad"
+          src="/images/brand/dining-wide.jpg"
+          alt="The dining room"
           className="mt-8 aspect-video w-full rounded-md object-cover"
         />
         <div className="mt-8">

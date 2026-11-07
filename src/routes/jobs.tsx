@@ -11,14 +11,18 @@ function JobsPage() {
   return (
     <div className="mx-auto grid max-w-6xl items-start gap-10 px-4 py-14 lg:grid-cols-2">
       <div>
-        <SectionKicker>The house</SectionKicker>
-        <h1 className="mt-3 font-display text-5xl leading-tight">Work a service</h1>
+        <SectionKicker>Careers</SectionKicker>
+        <h1 className="mt-3 font-display text-5xl leading-tight">We are hiring</h1>
         <p className="mt-5 text-muted">
-          Servers, hosts, and kitchen hands. The note goes to the house desk, not a job board. If a
-          service is hiring, someone calls.
+          Apply below to become a part of the team and we’ll get back to you. If you have questions,
+          call {""}
+          <a className="underline" href="tel:+19544282676">
+            (954) 428-2676
+          </a>
+          .
         </p>
         <img
-          src="/images/dining-room.jpg"
+          src="/images/brand/dining-wide.jpg"
           alt="The dining room set for service"
           className="mt-8 aspect-video w-full rounded-md object-cover"
         />

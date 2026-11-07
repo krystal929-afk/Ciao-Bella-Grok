@@ -20,14 +20,16 @@ function PartyPage() {
     <div className="mx-auto grid max-w-6xl items-start gap-10 px-4 py-14 lg:grid-cols-2">
       <div>
         <SectionKicker>Celebrate with us</SectionKicker>
-        <h1 className="mt-3 font-display text-5xl leading-tight">A room for the occasion</h1>
+        <h1 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
+          Private parties & group events in Deerfield Beach
+        </h1>
         <p className="mt-5 text-muted">
-          Host the next celebration at Ciao Bella. Family gatherings, birthdays, and corporate
-          dinners sit down to the same kitchen — pizzas, pastas, and the dishes regulars already
-          trust. We’ll help from the first phone call to the last cannoli.
+          Birthdays, anniversaries, and family reunions all have a place at Ciao Bella, where a warm,
+          casual setting gives groups an easygoing way to gather. We can accommodate up to 50 guests
+          at 1380 South Federal Highway. Inquire today to book your private party.
         </p>
         <img
-          src="/images/dining-room.jpg"
+          src="/images/brand/dining.jpg"
           alt="Tables set for a private dinner"
           className="mt-8 aspect-video w-full rounded-md object-cover"
         />

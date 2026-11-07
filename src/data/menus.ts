@@ -6,13 +6,13 @@ export type Promo = {
   body: string;
   cta: string;
   href: string;
-  external?: boolean;
+  image?: string;
 };
 
 export const SOCIALS = [
 	{
 		label: "Facebook",
-		href: "https://www.facebook.com/100063594282286"
+		href: "https://www.facebook.com/share/19r6EvE6uH/"
 	},
 	{
 		label: "Instagram",
@@ -25,41 +25,43 @@ export const SOCIALS = [
 ];
 export const HERO_VIDEO = "https://static.spotapps.co/new_website_videos/344525_videos/344525_video_desktop_v3.mp4";
 export const promos: Promo[] = [
-	{
-		id: "order",
-		title: "Order your favorite dishes in seconds!",
-		body: "Pizzas, pastas, and seafood, packed for pickup. Pay when you collect it.",
-		cta: "Order pickup",
-		href: "/order"
-	},
-	{
-		id: "holiday",
-		title: "Holiday Parties",
-		body: "The perfect venue for your holiday party. Book your party today.",
-		cta: "Book your party",
-		href: "/party"
-	},
-	{
-		id: "catering",
-		title: "Did you know we do catering?",
-		body: "Whatever the occasion, however big or small. Birthdays, holidays, corporate events, wedding festivities, and more.",
-		cta: "Catering Packages",
-		href: "/catering"
-	},
-	{
-		id: "reserve",
-		title: "We are taking reservations!",
-		body: "Let’s make sure you get a great table. We recommend booking ahead.",
-		cta: "Book Table",
-		href: "/reservations"
-	},
-	{
-		id: "memories",
-		title: "Turn moments into memories!",
-		body: "Birthday, rehearsal dinner, corporate gathering — tell us the date and we’ll take it from there.",
-		cta: "Book your party",
-		href: "/party"
-	}
+  {
+    id: "holiday",
+    title: "Holiday Parties",
+    body: "The perfect venue for your Holiday Party! Book your party today!",
+    cta: "Book your party",
+    href: "/party",
+    image: "/images/brand/holiday.jpg",
+  },
+  {
+    id: "catering",
+    title: "Did you know we do catering?",
+    body: "Whatever your occasion, however big or small, we have the perfect options to choose from. Cater your birthday party, holiday party, corporate events, wedding festivities and more!",
+    cta: "Catering Packages",
+    href: "/catering",
+    image: "/images/brand/catering-card.jpg",
+  },
+  {
+    id: "reserve",
+    title: "We are taking reservations!",
+    body: "Let’s ensure you get a great table. We recommend making a reservation ahead of time.",
+    cta: "Book Table",
+    href: "/reservations",
+  },
+  {
+    id: "order",
+    title: "Order your favorite dishes in seconds!",
+    body: "Takeout and delivery through Slice. 5% off online orders, and a confirmation email when the kitchen accepts the ticket.",
+    cta: "Order",
+    href: "/order",
+  },
+  {
+    id: "memories",
+    title: "Turn moments into memories!",
+    body: "Got a birthday party, rehearsal dinner, corporate or other event coming up? Inquire today and let us know how we can make your special occasion perfect!",
+    cta: "Book your party",
+    href: "/party",
+  },
 ];
 export const drinkMenu: MenuSection[] = [
 	{
@@ -265,59 +267,35 @@ export const specials = [
 	}
 ];
 export const slides = [
-	{
-		title: "Gather, Dine, Enjoy",
-		href: "/food-menu",
-		label: "Our Menu",
-		image: "/images/house/slide1.jpg",
-		alt: "Clams in white wine with lemon"
-	},
-	{
-		title: "Host And Celebrate",
-		href: "/party",
-		label: "Book a private party",
-		image: "/images/house/slide2.jpg",
-		alt: "Arugula salad with feta, tomato, and balsamic"
-	},
-	{
-		title: "Catering With Tradition",
-		href: "/catering",
-		label: "Inquire about catering",
-		image: "/images/house/slide3.jpg",
-		alt: "Piccata with capers, lemon, and spaghetti"
-	}
+  {
+    title: "Gather, Dine, Enjoy",
+    href: "/food-menu",
+    label: "Our Menu",
+    image: "/images/brand/bruschetta.jpg",
+    alt: "Bruschetta on a board of arugula",
+  },
+  {
+    title: "Host And Celebrate",
+    href: "/party",
+    label: "Book a private party",
+    image: "/images/brand/dining-wide.jpg",
+    alt: "The dining room set with white cloths",
+  },
+  {
+    title: "Catering With Tradition",
+    href: "/catering",
+    label: "Inquire about catering",
+    image: "/images/brand/shrimp.jpg",
+    alt: "Shrimp scampi over pasta",
+  },
 ];
 export const gallery = [
-	{
-		src: "/images/house/g8.jpg",
-		alt: "Fried calamari with marinara and lemon"
-	},
-	{
-		src: "/images/house/g1.jpg",
-		alt: "Ham and pineapple pizza"
-	},
-	{
-		src: "/images/house/g4.jpg",
-		alt: "Prosciutto and arugula pizza"
-	},
-	{
-		src: "/images/house/g3.jpg",
-		alt: "Shrimp over pasta"
-	},
-	{
-		src: "/images/house/g6.jpg",
-		alt: "Grilled salmon with caprese salad"
-	},
-	{
-		src: "/images/house/g5.jpg",
-		alt: "Arugula salad with feta and balsamic"
-	},
-	{
-		src: "/images/house/g7.jpg",
-		alt: "Tiramisu"
-	},
-	{
-		src: "/images/house/g2.jpg",
-		alt: "Lemon dessert"
-	}
+  { src: "/images/brand/calamari.jpg", alt: "Fried calamari with marinara and lemon" },
+  { src: "/images/brand/pizza-hawaiian.jpg", alt: "Ham and pineapple pizza" },
+  { src: "/images/brand/pizza-cheese.jpg", alt: "Cheese pizza with a blistered crust" },
+  { src: "/images/brand/shrimp.jpg", alt: "Shrimp scampi over pasta" },
+  { src: "/images/brand/salmon.jpg", alt: "Salmon with caprese salad" },
+  { src: "/images/brand/bruschetta.jpg", alt: "Bruschetta on arugula" },
+  { src: "/images/brand/tiramisu.jpg", alt: "Tiramisu with cocoa and whipped cream" },
+  { src: "/images/brand/parm.jpg", alt: "Chicken parmigiana with penne" },
 ];
