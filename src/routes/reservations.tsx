@@ -32,24 +32,18 @@ function ReservationsPage() {
           ))}
         </ul>
       </div>
-      <div className="flex flex-col justify-center gap-4">
-        {tableAgent.reserve ? (
-          <a href={tableAgent.reserve} className="inline-flex justify-center bg-primary px-8 py-4 text-sm uppercase tracking-[0.2em] text-white">
-            Reserve a table
-          </a>
-        ) : (
-          <p className="border border-border px-5 py-4 text-sm">
-            The TableAgent booking link is not on this preview yet. Staff add it from the TableAgent
-            website-integration screen. Guests can still call the dining room.
-          </p>
-        )}
-        {tableAgent.waitlist ? (
-          <a href={tableAgent.waitlist} className="inline-flex justify-center border border-fg px-8 py-4 text-sm uppercase tracking-[0.2em]">
-            Join the waitlist
-          </a>
-        ) : null}
-        <a href={tableAgent.staff} className="text-sm underline">
-          Staff open the TableAgent book
+      <div>
+        <iframe
+          title="Reserve a table at Ciao Bella Trattoria"
+          src={tableAgent.embed}
+          className="h-[820px] w-full border border-border bg-white"
+        />
+        <p className="mt-3 text-sm text-muted">
+          The book is TableAgent. If it says reservations are not open, call the dining room. Online
+          booking is switched on from the TableAgent desk, not from this page.
+        </p>
+        <a href={tableAgent.listing} className="mt-3 inline-flex text-sm underline">
+          Open the TableAgent listing
         </a>
       </div>
     </div>

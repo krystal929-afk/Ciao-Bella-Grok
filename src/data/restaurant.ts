@@ -21,13 +21,12 @@ export const sliceOrder = {
 
 /**
  * TableAgent is the only reservation, waitlist, and table book.
- * Set the two VITE_ URLs from the restaurant’s TableAgent “website integration”
- * screen. They are public booking links, not secrets. Leave them blank rather
- * than pointing guests at a different restaurant.
+ * The iframe is Ciao Bella’s widget. The listing URL says “miami” because
+ * TableAgent filed the free account that way; the address on the listing is Deerfield Beach.
  */
 export const tableAgent = {
-  reserve: import.meta.env.VITE_TABLEAGENT_RESERVE_URL?.trim() || "",
-  waitlist: import.meta.env.VITE_TABLEAGENT_WAITLIST_URL?.trim() || "",
+  embed: "https://tableagent.com/iframe/ciao-bella-trattoria/",
+  listing: "https://tableagent.com/miami/ciao-bella-trattoria/",
   staff: "https://tableagent.com/reservation-system/",
 };
 
