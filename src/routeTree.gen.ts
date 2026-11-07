@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as Char91PartyChar93RouteImport } from './routes/[-party]'
+import { Route as AccessibilityPage01RouteImport } from './routes/accessibility-page-01'
 import { Route as CateringRouteImport } from './routes/catering'
 import { Route as DeskRouteImport } from './routes/desk'
 import { Route as DrinkMenuRouteImport } from './routes/drink-menu'
@@ -29,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const Char91PartyChar93Route = Char91PartyChar93RouteImport.update({
   id: '/-party',
   path: '/-party',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccessibilityPage01Route = AccessibilityPage01RouteImport.update({
+  id: '/accessibility-page-01',
+  path: '/accessibility-page-01',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CateringRoute = CateringRouteImport.update({
@@ -80,6 +86,7 @@ const SpecialsRoute = SpecialsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/-party': typeof Char91PartyChar93Route
+  '/accessibility-page-01': typeof AccessibilityPage01Route
   '/catering': typeof CateringRoute
   '/desk': typeof DeskRoute
   '/drink-menu': typeof DrinkMenuRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/-party': typeof Char91PartyChar93Route
+  '/accessibility-page-01': typeof AccessibilityPage01Route
   '/catering': typeof CateringRoute
   '/desk': typeof DeskRoute
   '/drink-menu': typeof DrinkMenuRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/-party': typeof Char91PartyChar93Route
+  '/accessibility-page-01': typeof AccessibilityPage01Route
   '/catering': typeof CateringRoute
   '/desk': typeof DeskRoute
   '/drink-menu': typeof DrinkMenuRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/-party'
+    | '/accessibility-page-01'
     | '/catering'
     | '/desk'
     | '/drink-menu'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/-party'
+    | '/accessibility-page-01'
     | '/catering'
     | '/desk'
     | '/drink-menu'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/-party'
+    | '/accessibility-page-01'
     | '/catering'
     | '/desk'
     | '/drink-menu'
@@ -162,6 +174,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   Char91PartyChar93Route: typeof Char91PartyChar93Route
+  AccessibilityPage01Route: typeof AccessibilityPage01Route
   CateringRoute: typeof CateringRoute
   DeskRoute: typeof DeskRoute
   DrinkMenuRoute: typeof DrinkMenuRoute
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/-party'
       fullPath: '/-party'
       preLoaderRoute: typeof Char91PartyChar93RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accessibility-page-01': {
+      id: '/accessibility-page-01'
+      path: '/accessibility-page-01'
+      fullPath: '/accessibility-page-01'
+      preLoaderRoute: typeof AccessibilityPage01RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/catering': {
@@ -258,6 +278,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   Char91PartyChar93Route: Char91PartyChar93Route,
+  AccessibilityPage01Route: AccessibilityPage01Route,
   CateringRoute: CateringRoute,
   DeskRoute: DeskRoute,
   DrinkMenuRoute: DrinkMenuRoute,

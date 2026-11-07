@@ -192,6 +192,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         </a>
         <p className="mx-auto mt-10 max-w-md text-xs text-white/70">
           Dinner is 5:00 PM – 10:00 PM every day, including Monday. Lunch starts November 26, 11:00 AM – 2:00 PM. Menu can change — call to confirm.
+          <Link to="/accessibility-page-01" className="ml-2 underline underline-offset-4">
+            Accessibility
+          </Link>
           <Link to="/desk" className="ml-2 underline underline-offset-4">
             House desk
           </Link>
