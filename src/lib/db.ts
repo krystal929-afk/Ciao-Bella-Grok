@@ -108,6 +108,13 @@ function createNeonSql(): Promise<Sql> {
   return globalRef.__pgSqlPromise__;
 }
 
+function sqlStatements(script: string): string[] {
+  return script
+    .split(";")
+    .map((part) => part.trim())
+    .filter((part) => part.replace(/--.*$/gm, "").trim().length > 0);
+}
+
 async function applyNeonMigrations(client: {
   query: (text: string, params?: unknown[]) => Promise<unknown>;
 }): Promise<void> {
@@ -122,7 +129,10 @@ async function applyNeonMigrations(client: {
   const doneRows = (await client.query("select name from _migrations")) as { name: string }[];
   const done = doneRows.map((row) => row.name);
   for (const { name, path } of pendingMigrations(Object.keys(migrations), done)) {
-    await client.query(migrations[path]!);
+    // Neon’s HTTP driver rejects more than one command in a prepared statement.
+    for (const statement of sqlStatements(migrations[path]!)) {
+      await client.query(statement);
+    }
     await client.query("insert into _migrations (name) values ($1)", [name]);
   }
 }
