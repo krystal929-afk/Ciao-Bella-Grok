@@ -23,7 +23,6 @@ export const SOCIALS = [
 		href: "https://share.google/IWOXZ2PdL2zKv9grN"
 	}
 ];
-export const HERO_VIDEO = "https://static.spotapps.co/new_website_videos/344525_videos/344525_video_desktop_v3.mp4";
 export const promos: Promo[] = [
   {
     id: "holiday",

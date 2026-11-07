@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as Char91PartyChar93RouteImport } from './routes/[-party]'
 import { Route as CateringRouteImport } from './routes/catering'
 import { Route as DeskRouteImport } from './routes/desk'
 import { Route as DrinkMenuRouteImport } from './routes/drink-menu'
@@ -23,6 +24,11 @@ import { Route as SpecialsRouteImport } from './routes/specials'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Char91PartyChar93Route = Char91PartyChar93RouteImport.update({
+  id: '/-party',
+  path: '/-party',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CateringRoute = CateringRouteImport.update({
@@ -73,6 +79,7 @@ const SpecialsRoute = SpecialsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/-party': typeof Char91PartyChar93Route
   '/catering': typeof CateringRoute
   '/desk': typeof DeskRoute
   '/drink-menu': typeof DrinkMenuRoute
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/-party': typeof Char91PartyChar93Route
   '/catering': typeof CateringRoute
   '/desk': typeof DeskRoute
   '/drink-menu': typeof DrinkMenuRoute
@@ -98,6 +106,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/-party': typeof Char91PartyChar93Route
   '/catering': typeof CateringRoute
   '/desk': typeof DeskRoute
   '/drink-menu': typeof DrinkMenuRoute
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/-party'
     | '/catering'
     | '/desk'
     | '/drink-menu'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/-party'
     | '/catering'
     | '/desk'
     | '/drink-menu'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/-party'
     | '/catering'
     | '/desk'
     | '/drink-menu'
@@ -149,6 +161,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  Char91PartyChar93Route: typeof Char91PartyChar93Route
   CateringRoute: typeof CateringRoute
   DeskRoute: typeof DeskRoute
   DrinkMenuRoute: typeof DrinkMenuRoute
@@ -167,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/-party': {
+      id: '/-party'
+      path: '/-party'
+      fullPath: '/-party'
+      preLoaderRoute: typeof Char91PartyChar93RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/catering': {
@@ -237,6 +257,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  Char91PartyChar93Route: Char91PartyChar93Route,
   CateringRoute: CateringRoute,
   DeskRoute: DeskRoute,
   DrinkMenuRoute: DrinkMenuRoute,

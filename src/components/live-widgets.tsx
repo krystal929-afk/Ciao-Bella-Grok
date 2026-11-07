@@ -1,51 +1,45 @@
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Pause, Play, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { gallery, HERO_VIDEO, promos, slides } from "@/data/menus";
-import { joinList } from "@/lib/house.functions";
+import { useEffect, useState } from "react";
+import { gallery, promos, slides } from "@/data/menus";
+import { joinList, fileInquiry } from "@/lib/house.functions";
 import { cn } from "@/lib/cn";
 
 const PROMO_SEEN = "ciaobella-promo-seen";
 const PROMO_INDEX = "ciaobella-promo-index";
 
+const HERO_FRAMES = [
+  { src: "/images/brand/dining-wide.jpg", alt: "The dining room set with white cloths" },
+  { src: "/images/brand/bruschetta.jpg", alt: "Bruschetta on a board of arugula" },
+  { src: "/images/brand/shrimp.jpg", alt: "Shrimp scampi over pasta" },
+  { src: "/images/brand/calamari.jpg", alt: "Fried calamari with marinara and lemon" },
+] as const;
+
 export function HeroFilm() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [playing, setPlaying] = useState(true);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    if (!playing) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    video.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
-  }, []);
-
-  function toggle() {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      video.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
-    } else {
-      video.pause();
-      setPlaying(false);
-    }
-  }
+    const timer = window.setInterval(() => setIndex((value) => (value + 1) % HERO_FRAMES.length), 4500);
+    return () => window.clearInterval(timer);
+  }, [playing]);
 
   return (
-    <div className="relative aspect-video w-full bg-black">
-      <video
-        ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover"
-        poster="/images/brand/calamari.jpg"
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        src={HERO_VIDEO}
-      />
+    <div className="relative aspect-video w-full overflow-hidden bg-black">
+      {HERO_FRAMES.map((frame, frameIndex) => (
+        <img
+          key={frame.src}
+          src={frame.src}
+          alt={frame.alt}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${frameIndex === index ? "opacity-100" : "opacity-0"}`}
+        />
+      ))}
       <button
         type="button"
-        onClick={toggle}
-        aria-label={playing ? "Pause the decorative video" : "Play the decorative video"}
+        onClick={() => setPlaying((value) => !value)}
+        aria-label={playing ? "Pause the photo reel" : "Play the photo reel"}
         className="absolute left-3 top-1/2 z-10 inline-flex size-11 -translate-y-1/2 items-center justify-center text-white"
       >
         {playing ? <Pause className="size-5" /> : <Play className="size-5" />}
@@ -291,36 +285,60 @@ export function PhotoGallery() {
   );
 }
 
+function birthdayApproved() {
+  return false;
+}
+
 export function BirthdayNudge() {
-  const [open, setOpen] = useState(true);
+  if (!birthdayApproved()) return null;
+  return <BirthdayOffer />;
+}
+
+function BirthdayOffer() {
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
 
   return (
-    <div className="fixed bottom-16 right-3 z-40 lg:bottom-4">
-      {open ? (
-        <div className="flex max-w-xs items-center gap-3 rounded-2xl border border-fg/10 bg-white px-4 py-3 shadow-lg">
-          <span aria-hidden className="text-2xl">
-            🎂
-          </span>
-          <div className="text-left text-sm leading-snug">
-            <p className="font-medium">Bday coming up?</p>
-            <p>Don't miss out on your free dessert</p>
-            <Link to="/reservations" className="mt-1 inline-block underline underline-offset-2">
-              Reserve a table
-            </Link>
-          </div>
-          <button type="button" aria-label="Hide birthday note" className="self-start text-lg leading-none" onClick={() => setOpen(false)}>
-            ×
-          </button>
-        </div>
+    <div className="fixed bottom-16 right-3 z-40 max-w-xs rounded-2xl border border-fg/10 bg-white p-4 shadow-lg lg:bottom-4">
+      <p className="font-medium">Birthday dessert</p>
+      <p className="mt-1 text-sm leading-snug">
+        One complimentary dessert for the guest of honor, dine-in, during the birthday week. The house confirms before it is honored.
+      </p>
+      {sent ? (
+        <p className="mt-3 text-sm">The house has the note.</p>
       ) : (
-        <button
-          type="button"
-          aria-label="Birthday dessert"
-          onClick={() => setOpen(true)}
-          className="flex size-14 items-center justify-center rounded-full border border-fg bg-white text-xl shadow"
+        <form
+          className="mt-3 grid gap-2"
+          onSubmit={(event) => {
+            event.preventDefault();
+            const data = new FormData(event.currentTarget);
+            setError("");
+            void fileInquiry({
+              data: {
+                kind: "party",
+                details: {
+                  Name: String(data.get("name") ?? ""),
+                  Email: String(data.get("email") ?? ""),
+                  Phone: String(data.get("phone") ?? ""),
+                  Occasion: "Birthday dessert",
+                  Date: String(data.get("date") ?? ""),
+                },
+              },
+            }).then((result) => {
+              if (result.ok) setSent(true);
+              else setError(result.error);
+            });
+          }}
         >
-          🎂
-        </button>
+          <input required name="name" placeholder="Name" className="border border-border px-2 py-2 text-sm" />
+          <input required type="email" name="email" placeholder="Email" className="border border-border px-2 py-2 text-sm" />
+          <input required type="tel" name="phone" placeholder="Phone" className="border border-border px-2 py-2 text-sm" />
+          <input required type="date" name="date" aria-label="Birthday" className="border border-border px-2 py-2 text-sm" />
+          {error ? <p className="text-sm text-primary">{error}</p> : null}
+          <button type="submit" className="bg-primary px-3 py-2 text-sm text-white">
+            Ask the house
+          </button>
+        </form>
       )}
     </div>
   );
