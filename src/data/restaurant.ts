@@ -37,14 +37,17 @@ export const houseLine =
   "We are the oldest Italian restaurant and pizzeria in Broward County, and we specialize in authentic old-world Southern Italian food.";
 
 export const hours: { day: string; time: string; closed?: boolean }[] = [
-  { day: "Monday", time: "Closed", closed: true },
-  { day: "Tuesday", time: "5:00 PM – 9:00 PM" },
-  { day: "Wednesday", time: "5:00 PM – 9:00 PM" },
-  { day: "Thursday", time: "5:00 PM – 9:00 PM" },
-  { day: "Friday", time: "5:00 PM – 9:00 PM" },
-  { day: "Saturday", time: "5:00 PM – 9:00 PM" },
-  { day: "Sunday", time: "5:00 PM – 9:00 PM" },
+  { day: "Monday", time: "5:00 PM – 10:00 PM" },
+  { day: "Tuesday", time: "5:00 PM – 10:00 PM" },
+  { day: "Wednesday", time: "5:00 PM – 10:00 PM" },
+  { day: "Thursday", time: "5:00 PM – 10:00 PM" },
+  { day: "Friday", time: "5:00 PM – 10:00 PM" },
+  { day: "Saturday", time: "5:00 PM – 10:00 PM" },
+  { day: "Sunday", time: "5:00 PM – 10:00 PM" },
 ];
+
+/** Lunch is not served until this New York calendar date. */
+export const LUNCH_START = "2026-11-26";
 
 export const reviews = [
   {
@@ -363,25 +366,26 @@ export const REQUESTS_KEY = "ciaobella-requests";
 export function serviceStatus(now = new Date()) {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: "America/New_York",
-    weekday: "short",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
     hour: "numeric",
     minute: "numeric",
     hourCycle: "h23",
   }).formatToParts(now);
-  const weekday = parts.find((p) => p.type === "weekday")?.value ?? "";
-  const hour = Number(parts.find((p) => p.type === "hour")?.value ?? "0");
-  const minute = Number(parts.find((p) => p.type === "minute")?.value ?? "0");
-  const mins = hour * 60 + minute;
-  if (weekday === "Mon") {
-    return { open: false, label: "Closed Mondays · dinner starts Tuesday at 5" };
+  const value = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
+  const ymd = `${value("year")}-${value("month")}-${value("day")}`;
+  const mins = Number(value("hour")) * 60 + Number(value("minute"));
+  if (ymd >= LUNCH_START && mins >= 11 * 60 && mins < 14 * 60) {
+    return { open: true, label: "Open now for lunch" };
   }
-  const close = 21 * 60;
-  const openAt = 17 * 60;
-  if (mins >= openAt && mins < close) {
+  if (mins >= 17 * 60 && mins < 22 * 60) {
     return { open: true, label: "Open now for dinner" };
   }
-  if (mins < openAt) {
-    return { open: false, label: "Closed until 5:00 PM" };
+  if (mins < 17 * 60) {
+    return ymd >= LUNCH_START
+      ? { open: false, label: "Lunch 11:00 AM – 2:00 PM · dinner at 5:00 PM" }
+      : { open: false, label: "Dinner at 5:00 PM · lunch starts November 26" };
   }
-  return { open: false, label: "Closed for the evening · see you tomorrow" };
+  return { open: false, label: "Closed for the evening · dinner is until 10:00 PM" };
 }

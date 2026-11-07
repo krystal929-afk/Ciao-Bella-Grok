@@ -177,8 +177,10 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         <p>Deerfield Beach, FL</p>
         <p>33441</p>
         <p className="mt-10 text-sm uppercase tracking-[0.25em]">Hours</p>
-        <p className="mt-4">Sun, Tue, Wed, Thur, Fri, Sat</p>
-        <p>5:00 PM – 9:00 PM</p>
+        <p className="mt-4">Dinner, every day</p>
+        <p>5:00 PM – 10:00 PM</p>
+        <p className="mt-4">Lunch, every day starting November 26</p>
+        <p>11:00 AM – 2:00 PM</p>
         <p className="mt-10 text-sm uppercase tracking-[0.25em]">Find us on...</p>
         <Socials className="mt-4 justify-center text-2xl" />
         <p className="mt-10 text-sm uppercase tracking-[0.25em]">Contact us</p>
@@ -189,7 +191,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           {restaurant.email}
         </a>
         <p className="mx-auto mt-10 max-w-md text-xs text-white/70">
-          Monday is closed. Menu and hours can change — call to confirm.
+          Dinner is 5:00 PM – 10:00 PM every day, including Monday. Lunch starts November 26, 11:00 AM – 2:00 PM. Menu can change — call to confirm.
           <Link to="/desk" className="ml-2 underline underline-offset-4">
             House desk
           </Link>

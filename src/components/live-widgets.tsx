@@ -60,11 +60,8 @@ export function PromoPopup() {
 
   useEffect(() => {
     if (sessionStorage.getItem(PROMO_SEEN) === "1") return;
-    const stored = Number(localStorage.getItem(PROMO_INDEX) ?? "0");
-    const next = Number.isFinite(stored) ? stored % promos.length : 0;
-    setIndex(next);
-    const timer = window.setTimeout(() => setOpen(true), 900);
-    return () => window.clearTimeout(timer);
+    setIndex(0);
+    setOpen(true);
   }, []);
 
   function close() {
