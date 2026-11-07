@@ -2,11 +2,11 @@ import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Pause, Play, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { gallery, HERO_VIDEO, promos, slides } from "@/data/menus";
+import { joinList } from "@/lib/house.functions";
 import { cn } from "@/lib/cn";
 
 const PROMO_SEEN = "ciaobella-promo-seen";
 const PROMO_INDEX = "ciaobella-promo-index";
-const LIST_KEY = "ciaobella-newsletter";
 
 export function HeroFilm() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -132,6 +132,7 @@ export function openNewsletter() {
 export function NewsletterDialog() {
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     function onOpen() {
@@ -169,7 +170,7 @@ export function NewsletterDialog() {
           </button>
         </div>
         {done ? (
-          <p className="mt-4 text-sm text-muted">You’re on the list on this device.</p>
+          <p className="mt-4 text-sm text-muted">The house has your email.</p>
         ) : (
           <form
             className="mt-4 grid gap-3"
@@ -177,15 +178,18 @@ export function NewsletterDialog() {
               event.preventDefault();
               const data = new FormData(event.currentTarget);
               const email = String(data.get("email") ?? "").trim();
-              const existing = JSON.parse(localStorage.getItem(LIST_KEY) ?? "[]") as string[];
-              localStorage.setItem(LIST_KEY, JSON.stringify([email, ...existing].slice(0, 20)));
-              setDone(true);
+              setError("");
+              void joinList({ data: { email } }).then((result) => {
+                if (result.ok) setDone(true);
+                else setError(result.error);
+              });
             }}
           >
             <label className="text-sm">
               Email
               <input required type="email" name="email" className="mt-1 w-full border border-border bg-bg px-3 py-3 text-base" />
             </label>
+            {error ? <p className="text-sm text-primary">{error}</p> : null}
             <button type="submit" className="bg-green px-5 py-3 text-sm uppercase tracking-[0.15em] text-white">
               Submit
             </button>

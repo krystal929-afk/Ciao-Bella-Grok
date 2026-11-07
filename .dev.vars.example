@@ -3,3 +3,8 @@
 DATABASE_URL=
 # Staff desk. Required. There is no default.
 DESK_PIN=
+# Resend key. Without it, inquiries stay in Neon and the email is marked held.
+RESEND_API_KEY=
+# Verified From address on that Resend account. Do not use the mail.com inbox here.
+MAIL_FROM=
+

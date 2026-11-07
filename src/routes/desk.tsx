@@ -119,13 +119,13 @@ function DeskPage() {
         </ul>
       </section>
       <section className="mt-10">
-        <h2 className="font-display text-2xl">Parties, catering, jobs</h2>
+        <h2 className="font-display text-2xl">Parties, catering, jobs, mailing list</h2>
         {notes.length === 0 ? <p className="mt-3 text-sm text-muted">Nothing waiting.</p> : null}
         <ul className="mt-3 space-y-3">
           {notes.map((note) => (
             <li key={note.id} className="rounded-md border border-border p-4">
               <p className="text-xs uppercase tracking-widest text-primary">
-                {note.kind} · {note.code}
+                {note.kind} · {note.code} · {note.status === "sent" ? "emailed" : note.status === "held" ? "saved, email not sent" : note.status}
               </p>
               <p className="mt-1 font-medium">
                 {note.name} · {note.phone}

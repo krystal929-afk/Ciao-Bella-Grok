@@ -4,15 +4,15 @@ import { about, sliceOrder } from "@/data/restaurant";
 import { gallery, slides } from "@/data/menus";
 import { HeroFilm, PhotoGallery } from "@/components/live-widgets";
 import { Reviews } from "@/components/reviews";
+import { joinList } from "@/lib/house.functions";
 
 export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const LIST_KEY = "ciaobella-newsletter";
-
 function Home() {
   const [joined, setJoined] = useState(false);
+  const [listError, setListError] = useState("");
   const [slide, setSlide] = useState(0);
   const current = slides[slide];
 
@@ -135,7 +135,7 @@ function Home() {
       <section className="bg-white px-5 py-12 text-center">
         <h2 className="font-display text-3xl uppercase tracking-[0.2em]">Stay in touch</h2>
         {joined ? (
-          <p className="mt-4 text-sm">You’re on the list on this phone.</p>
+          <p className="mt-4 text-sm">The house has your email.</p>
         ) : (
           <form
             className="mx-auto mt-6 flex max-w-md flex-col gap-3"
@@ -143,9 +143,11 @@ function Home() {
               event.preventDefault();
               const data = new FormData(event.currentTarget);
               const email = String(data.get("email") ?? "").trim();
-              const existing = JSON.parse(localStorage.getItem(LIST_KEY) ?? "[]") as string[];
-              localStorage.setItem(LIST_KEY, JSON.stringify([email, ...existing].slice(0, 20)));
-              setJoined(true);
+              setListError("");
+              void joinList({ data: { email } }).then((result) => {
+                if (result.ok) setJoined(true);
+                else setListError(result.error);
+              });
             }}
           >
             <label className="sr-only" htmlFor="home-email">
@@ -162,6 +164,7 @@ function Home() {
             <button type="submit" className="bg-green py-3 text-sm uppercase tracking-[0.2em] text-white">
               Submit
             </button>
+            {listError ? <p className="text-sm text-primary">{listError}</p> : null}
           </form>
         )}
       </section>

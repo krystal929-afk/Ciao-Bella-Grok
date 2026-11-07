@@ -57,6 +57,32 @@ function assertDesk(pin: string) {
   }
 }
 
+const HOUSE_TO = "orfeopizzeriarestaurant@mail.com";
+const HOUSE_CC = ["krystal@thekrystalmethod.com", "kat@athenallcconsulting.com"];
+
+async function notifyHouse(subject: string, text: string, replyTo?: string): Promise<"sent" | "held"> {
+  const key = process.env.RESEND_API_KEY?.trim();
+  const from = process.env.MAIL_FROM?.trim();
+  if (!key || !from) return "held";
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from,
+        to: [HOUSE_TO],
+        cc: HOUSE_CC,
+        reply_to: replyTo && replyTo.includes("@") ? replyTo : undefined,
+        subject,
+        text,
+      }),
+    });
+    return response.ok ? "sent" : "held";
+  } catch {
+    return "held";
+  }
+}
+
 async function floorAndHolds(date: string) {
   const sql = await getSql();
   const tables = await sql<TableRow>`select id, area, seats, label from floor_tables order by id`;
@@ -87,24 +113,12 @@ async function holdLetter(input: {
 }) {
   const sql = await getSql();
   const id = crypto.randomUUID();
-  const status = await sendLetter(input.to, `Ciao Bella · ${input.summary}`, input.body);
+  const status = await notifyHouse(`Ciao Bella · ${input.summary}`, `${input.name} <${input.to}>\n\n${input.body}`, input.to);
   await sql`
     insert into inbox (id, kind, code, name, email, summary, body, status)
     values (${id}, 'letter', ${input.code}, ${input.name}, ${input.to}, ${input.summary}, ${input.body}, ${status})
   `;
   return status;
-}
-
-async function sendLetter(to: string, subject: string, text: string): Promise<"sent" | "held"> {
-  const key = process.env.RESEND_API_KEY?.trim();
-  const from = process.env.MAIL_FROM?.trim();
-  if (!key || !from) return "held";
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from, to: [to], subject, text }),
-  });
-  return response.ok ? "sent" : "held";
 }
 
 export const listOpenings = createServerFn({ method: "POST" })
@@ -226,14 +240,46 @@ export const fileInquiry = createServerFn({ method: "POST" })
     const prefix = kind === "party" ? "PY" : kind === "catering" ? "CT" : "JB";
     const confirmation = code(prefix);
     const sql = await getSql();
+    const body = Object.entries(details).map(([key, value]) => `${key}: ${value}`).join("\n");
+    const id = crypto.randomUUID();
     await sql`
       insert into inbox (id, kind, code, name, email, phone, summary, body, status)
       values (
-        ${crypto.randomUUID()}, ${kind}, ${confirmation}, ${name}, ${email}, ${phone},
-        ${summary || kind}, ${Object.entries(details).map(([key, value]) => `${key}: ${value}`).join("\n")},
+        ${id}, ${kind}, ${confirmation}, ${name}, ${email}, ${phone},
+        ${summary || kind}, ${body},
         'open'
       )
     `;
+    const label = kind === "party" ? "Private event" : kind === "catering" ? "Catering inquiry" : "Job application";
+    const mailed = await notifyHouse(
+      `Ciao Bella ${label} ${confirmation}`,
+      `${label}\nCode: ${confirmation}\n\n${body}`,
+      email,
+    );
+    await sql`update inbox set status = ${mailed} where id = ${id}`;
+    return { ok: true as const, code: confirmation };
+  });
+
+export const joinList = createServerFn({ method: "POST" })
+  .validator((input: { email: string }) => input)
+  .handler(async ({ data }) => {
+    const email = clean(data.email, 120).toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return { ok: false as const, error: "A real email is required." };
+    }
+    const confirmation = code("ML");
+    const id = crypto.randomUUID();
+    const sql = await getSql();
+    await sql`
+      insert into inbox (id, kind, code, name, email, summary, body, status)
+      values (${id}, 'signup', ${confirmation}, ${email}, ${email}, 'Mailing list', ${email}, 'open')
+    `;
+    const mailed = await notifyHouse(
+      `Ciao Bella mailing list ${confirmation}`,
+      `New list signup\nCode: ${confirmation}\nEmail: ${email}`,
+      email,
+    );
+    await sql`update inbox set status = ${mailed} where id = ${id}`;
     return { ok: true as const, code: confirmation };
   });
 
