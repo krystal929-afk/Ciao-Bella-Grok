@@ -12,11 +12,23 @@ export const restaurant = {
   maps: "https://www.google.com/maps/search/?api=1&query=1380+S+Federal+Hwy+Deerfield+Beach+FL+33441",
 };
 
-/** Online orders. Shop 121887 on Slice. Tables, parties, and catering stay on this site. */
+/** Online orders. Shop 121887 on Slice. Tables stay on TableAgent. */
 export const sliceOrder = {
   shopId: "121887",
   href: "https://slicelife.com/restaurants/fl/deerfield-beach/33441/ciao-bella-trattoria-deerfield-beach/menu",
   offer: "5% off online orders",
+};
+
+/**
+ * TableAgent is the only reservation, waitlist, and table book.
+ * Set the two VITE_ URLs from the restaurant’s TableAgent “website integration”
+ * screen. They are public booking links, not secrets. Leave them blank rather
+ * than pointing guests at a different restaurant.
+ */
+export const tableAgent = {
+  reserve: import.meta.env.VITE_TABLEAGENT_RESERVE_URL?.trim() || "",
+  waitlist: import.meta.env.VITE_TABLEAGENT_WAITLIST_URL?.trim() || "",
+  staff: "https://tableagent.com/reservation-system/",
 };
 
 export const about =

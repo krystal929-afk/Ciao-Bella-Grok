@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { openDesk, setInboxStatus, setOrderStatus, setReservationStatus } from "@/lib/house.functions";
-import { areaLabel, formatMin, formatNight, type DeskBoard } from "@/lib/house";
+import { tableAgent } from "@/data/restaurant";
+import { openDesk, setInboxStatus, setOrderStatus } from "@/lib/house.functions";
+import { formatMin, formatNight, type DeskBoard } from "@/lib/house";
 import { Button, Field, fieldClass, SectionKicker } from "@/components/ui";
 
 export const Route = createFileRoute("/desk")({
@@ -27,11 +28,6 @@ function DeskPage() {
     }
   }
 
-  async function reservation(code: string, status: string) {
-    await setReservationStatus({ data: { pin, code, status } });
-    await load(pin);
-  }
-
   async function order(code: string, status: string) {
     await setOrderStatus({ data: { pin, code, status } });
     await load(pin);
@@ -54,7 +50,10 @@ function DeskPage() {
       >
         <SectionKicker>Staff</SectionKicker>
         <h1 className="mt-3 font-display text-4xl">House desk</h1>
-        <p className="mt-3 text-sm text-muted">Tonight’s book and guest notes. Food tickets print on Slice. Guests don’t see this.</p>
+        <p className="mt-3 text-sm text-muted">
+          Guest notes for parties, catering, and jobs. Tables and the waitlist live in TableAgent.
+          Food tickets print on Slice. There is no default pin.
+        </p>
         <div className="mt-6">
           <Field label="Pin">
             <input className={fieldClass} name="pin" type="password" autoComplete="current-password" required />
@@ -76,35 +75,13 @@ function DeskPage() {
       <SectionKicker>Staff</SectionKicker>
       <h1 className="mt-2 font-display text-4xl">House desk</h1>
       <section className="mt-8">
-        <h2 className="font-display text-2xl">Reservations</h2>
-        {desk.reservations.length === 0 ? <p className="mt-3 text-sm text-muted">No tables held.</p> : null}
-        <ul className="mt-3 divide-y divide-border">
-          {desk.reservations.map((row) => (
-            <li key={row.code} className="grid gap-2 py-4 sm:grid-cols-[1fr_auto] sm:items-center">
-              <div>
-                <p className="font-medium">
-                  {formatNight(row.serviceDate)} · {formatMin(row.startMin)} · {row.guestName}
-                </p>
-                <p className="text-sm text-muted">
-                  {row.code} · {row.party} · {areaLabel(row.area)} · {row.tableLabel} · {row.phone} · {row.status}
-                  {row.notes ? ` · ${row.notes}` : ""}
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {["seated", "done", "no-show", "cancelled"].map((status) => (
-                  <button
-                    key={status}
-                    type="button"
-                    className="rounded-md border border-border px-3 py-2 text-xs"
-                    onClick={() => void reservation(row.code, status)}
-                  >
-                    {status}
-                  </button>
-                ))}
-              </div>
-            </li>
-          ))}
-        </ul>
+        <h2 className="font-display text-2xl">Tables</h2>
+        <p className="mt-3 text-sm text-muted">
+          Reservations, the waitlist, and the floor are in TableAgent. This desk does not seat tables.
+        </p>
+        <a className="mt-4 inline-flex bg-primary px-6 py-3 text-sm uppercase tracking-[0.16em] text-white" href={tableAgent.staff}>
+          Open TableAgent
+        </a>
       </section>
       <section className="mt-10">
         <h2 className="font-display text-2xl">Food orders</h2>

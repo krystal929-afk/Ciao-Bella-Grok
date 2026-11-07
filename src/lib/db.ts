@@ -85,24 +85,46 @@ function toSql(run: Run): Sql {
   return sql;
 }
 
+function onCloudflareWorkers(): boolean {
+  return typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers";
+}
+
 function createNeonSql(): Promise<Sql> {
   globalRef.__pgSqlPromise__ ??= (async () => {
-    // Regular Postgres driver: node-postgres (`pg`) — works directly with Neon's
-    // pooled endpoint. One pool per process; warm serverless instances reuse it.
-    const { Pool, types } = await import("pg");
-    types.setTypeParser(OID_INT8, Number);
-    types.setTypeParser(OID_DATE, identity);
-    types.setTypeParser(OID_INTERVAL, identity);
-    const pool = new Pool({ connectionString: databaseUrl });
+    // HTTP driver. Workers cannot hold a node-postgres pool, and Neon’s
+    // serverless client speaks fetch, which stays inside the free-plan subrequest
+    // budget for a single query.
+    const { neon } = await import("@neondatabase/serverless");
+    const client = neon(databaseUrl!);
+    await applyNeonMigrations(client);
     return toSql(async <T>(text: string, params: unknown[]) => {
-      const res = await pool.query(text, params);
-      return res.rows as T[];
+      const rows = await client.query(text, params);
+      return rows as T[];
     });
   })().catch((err) => {
     globalRef.__pgSqlPromise__ = undefined;
     throw err;
   });
   return globalRef.__pgSqlPromise__;
+}
+
+async function applyNeonMigrations(client: {
+  query: (text: string, params?: unknown[]) => Promise<unknown>;
+}): Promise<void> {
+  const migrations = import.meta.glob("/migrations/*.sql", {
+    query: "?raw",
+    import: "default",
+    eager: true,
+  }) as Record<string, string>;
+  await client.query(
+    "create table if not exists _migrations (name text primary key, applied_at timestamptz not null default now())",
+  );
+  const doneRows = (await client.query("select name from _migrations")) as { name: string }[];
+  const done = doneRows.map((row) => row.name);
+  for (const { name, path } of pendingMigrations(Object.keys(migrations), done)) {
+    await client.query(migrations[path]!);
+    await client.query("insert into _migrations (name) values ($1)", [name]);
+  }
 }
 
 async function createPgliteSql(): Promise<Sql> {
@@ -176,7 +198,13 @@ async function createSql(): Promise<Sql> {
         "or a server route loader, never from client code.",
     );
   }
-  return dbSource === "neon" ? createNeonSql() : createPgliteSql();
+  if (dbSource === "neon") return createNeonSql();
+  if (onCloudflareWorkers()) {
+    throw new Error(
+      "Cloudflare Workers has no embedded database. Set DATABASE_URL to the Neon pooled connection string.",
+    );
+  }
+  return createPgliteSql();
 }
 
 /**
@@ -229,7 +257,7 @@ export function ensureDbReady(): Promise<void> {
 const globalBoot = globalThis as typeof globalThis & {
   __pgBootstrapPromise__?: Promise<void>;
 };
-if (typeof window === "undefined" && dbSource === "pglite") {
+if (typeof window === "undefined" && dbSource === "pglite" && !onCloudflareWorkers()) {
   globalBoot.__pgBootstrapPromise__ ??= ensureDbReady().catch((err) => {
     globalBoot.__pgBootstrapPromise__ = undefined;
     console.error("[db] PGLite bootstrap failed:", err);

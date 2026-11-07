@@ -6,6 +6,7 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { nitro } from "nitro/vite";
+import { cloudflare } from "@cloudflare/vite-plugin";
 // @ts-expect-error JS plugin alongside the TS vite config
 import { grokPwaPlugin } from "./scripts/grok-pwa-plugin.mjs";
 // @ts-expect-error JS plugin alongside the TS vite config
@@ -142,6 +143,10 @@ function authPopupPlugin(): Plugin {
   };
 }
 
+// Cloudflare Workers build. The sandbox preview keeps Nitro. Official Workers
+// guide: https://developers.cloudflare.com/workers/static-assets/migration-guides/vercel-to-workers/tanstack-start/
+const workers = process.env.CF_WORKERS === "1";
+
 // `0.0.0.0:8080` is the live-preview contract — don't change host/port.
 // The dev server starts once `src/router.tsx` and `src/routes/` exist — see
 // AGENTS.md § "First scaffold".
@@ -158,6 +163,7 @@ export default defineConfig(({ command, isPreview }) => ({
   },
   resolve: { tsconfigPaths: true },
   plugins: [
+    ...(workers ? [cloudflare({ viteEnvironment: { name: "ssr" } })] : []),
     pgliteBootstrapPlugin(),
     // Before tanstackStart so /auth/popup never falls through to the SPA.
     authPopupPlugin(),
@@ -167,7 +173,7 @@ export default defineConfig(({ command, isPreview }) => ({
     grokPwaPlugin(),
     tailwindcss(),
     tanstackStart(),
-    ...(command === "build" || isPreview
+    ...(!workers && (command === "build" || isPreview)
       ? [
           nitro({
             preset: "vercel",

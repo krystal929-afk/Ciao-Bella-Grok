@@ -38,11 +38,23 @@ function code(prefix: string): string {
 }
 
 function deskPin(): string {
-  return process.env.DESK_PIN?.trim() || "1380";
+  return process.env.DESK_PIN?.trim() ?? "";
+}
+
+function sameSecret(given: string, expected: string): boolean {
+  const a = new TextEncoder().encode(given);
+  const b = new TextEncoder().encode(expected);
+  if (a.length === 0 || a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i += 1) diff |= a[i]! ^ b[i]!;
+  return diff === 0;
 }
 
 function assertDesk(pin: string) {
-  if (pin !== deskPin()) throw new Error("That pin doesn’t open the desk.");
+  const expected = deskPin();
+  if (!expected || !sameSecret(pin, expected)) {
+    throw new Error("That pin doesn’t open the desk.");
+  }
 }
 
 async function floorAndHolds(date: string) {
@@ -119,86 +131,10 @@ export const bookTable = createServerFn({ method: "POST" })
       notes: string;
     }) => input,
   )
-  .handler(async ({ data }) => {
-    const area = asArea(data.area);
-    const party = Number(data.party);
-    const start = Number(data.startMin);
-    const name = clean(data.name, 80);
-    const email = clean(data.email, 120);
-    const phone = clean(data.phone, 30);
-    const notes = clean(data.notes, 400);
-    if (!area || !isBookableDate(data.date)) return { ok: false as const, error: "That night isn’t a service night." };
-    if (data.date === todayIso() && start < nowMinutesNY() + 30) {
-      return { ok: false as const, error: "That seating has already passed." };
-    }
-    if (!Number.isInteger(start) || start < 17 * 60 || start > 20 * 60 + 30 || (start - 17 * 60) % STEP_MIN !== 0) {
-      return { ok: false as const, error: "Pick one of the open seatings." };
-    }
-    if (party < 1 || party > 8 || !name || !email.includes("@") || phone.replace(/\D/g, "").length < 7) {
-      return { ok: false as const, error: "Name, a real email, and a phone number are required." };
-    }
-
-    const { sql, tables, holds } = await floorAndHolds(data.date);
-    const table = tables
-      .filter((item) => item.area === area && item.seats >= party)
-      .sort((a, b) => a.seats - b.seats || a.id.localeCompare(b.id))
-      .find((item) => !holds.some((hold) => hold.tableId === item.id && hold.startMin < start + TURN_MIN && hold.startMin + TURN_MIN > start));
-    if (!table) return { ok: false as const, error: "That seating just filled. Pick another time." };
-
-    const id = crypto.randomUUID();
-    const confirmation = code("CB");
-    const rows = await sql<{ code: string }>`
-      insert into reservations (id, code, guest_name, email, phone, party, area, table_id, service_date, start_min, notes)
-      select ${id}, ${confirmation}, ${name}, ${email}, ${phone}, ${party}, ${area}, ${table.id}, ${data.date}::date, ${start}, ${notes}
-      where not exists (
-        select 1 from reservations
-        where table_id = ${table.id} and service_date = ${data.date}::date and status = 'booked'
-          and start_min < ${start + TURN_MIN} and start_min + ${TURN_MIN} > ${start}
-      )
-      returning code
-    `;
-    if (!rows[0]) return { ok: false as const, error: "That seating just filled. Pick another time." };
-
-    const when = `${formatNight(data.date)} at ${formatMin(start)}`;
-    const body = [
-      `${name}, your table is held.`,
-      ``,
-      `${when}`,
-      `${party} ${party === 1 ? "guest" : "guests"} · ${areaLabel(area)}`,
-      `Confirmation ${confirmation}`,
-      notes ? `Note: ${notes}` : "",
-      ``,
-      `${restaurant.fullName}`,
-      `${restaurant.street}, ${restaurant.city}`,
-      restaurant.phoneDisplay,
-      ``,
-      `Call if the night changes. A table is held for 15 minutes past the seating.`,
-    ]
-      .filter((line) => line !== "")
-      .join("\n");
-
-    const mail = await holdLetter({
-      to: email,
-      name,
-      summary: confirmation,
-      body,
-      code: confirmation,
-    });
-    await holdLetter({
-      to: restaurant.email,
-      name: restaurant.fullName,
-      summary: `${confirmation} house copy`,
-      body,
-      code: confirmation,
-    });
-
+  .handler(async () => {
     return {
-      ok: true as const,
-      code: confirmation,
-      when,
-      party,
-      area: areaLabel(area),
-      mailed: mail === "sent",
+      ok: false as const,
+      error: "Tables, the waitlist, and seating are handled in TableAgent. This site does not keep a second book.",
     };
   });
 

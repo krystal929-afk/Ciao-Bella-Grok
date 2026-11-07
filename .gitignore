@@ -3,3 +3,7 @@ node_modules/
 .github_repo
 .env
 .env.*
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example

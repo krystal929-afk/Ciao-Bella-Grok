@@ -1,0 +1,5 @@
+# Copy to .dev.vars for local Workers. Never commit the real file.
+# Neon pooled connection string. Required on Cloudflare. Not a secret to print.
+DATABASE_URL=
+# Staff desk. Required. There is no default.
+DESK_PIN=
