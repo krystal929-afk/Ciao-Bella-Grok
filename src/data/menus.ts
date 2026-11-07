@@ -1,4 +1,4 @@
-import type { MenuSection } from "@/data/restaurant";
+import { sliceOrder, type MenuSection } from "@/data/restaurant";
 
 export type Promo = {
   id: string;
@@ -53,7 +53,7 @@ export const promos: Promo[] = [
     title: "Order your favorite dishes in seconds!",
     body: "Takeout and delivery through Slice. 5% off online orders, and a confirmation email when the kitchen accepts the ticket.",
     cta: "Order",
-    href: "/order",
+    href: sliceOrder.href,
   },
   {
     id: "memories",

@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { restaurant } from "@/data/restaurant";
+import { restaurant, sliceOrder } from "@/data/restaurant";
 import { SOCIALS } from "@/data/menus";
 import { BirthdayNudge, NewsletterDialog, PromoPopup } from "@/components/live-widgets";
 import { cn } from "@/lib/cn";
@@ -10,14 +10,14 @@ const links = [
   { to: "/food-menu", label: "Menu" },
   { to: "/drink-menu", label: "Drinks" },
   { to: "/specials", label: "Specials" },
-  { to: "/order", label: "Order" },
+  { href: sliceOrder.href, label: "Order" },
   { to: "/reservations", label: "Reserve" },
   { to: "/catering", label: "Catering" },
   { to: "/jobs", label: "Jobs" },
 ] as const;
 
 const bottom = [
-  { label: "Order", to: "/order" },
+  { label: "Order", href: sliceOrder.href },
   { label: "Reserve", to: "/reservations" },
   { label: "Jobs", to: "/jobs" },
   { label: "Parties", to: "/party" },
@@ -105,18 +105,28 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         <nav className="mx-auto hidden max-w-6xl items-center justify-end gap-6 px-4 pb-3 lg:flex" aria-label="Primary">
-          {links.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={cn(
-                "text-sm uppercase tracking-[0.18em]",
-                path === link.to ? "text-primary" : "text-fg hover:text-primary",
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {links.map((link) =>
+            "href" in link ? (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-sm uppercase tracking-[0.18em] text-fg hover:text-primary"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={cn(
+                  "text-sm uppercase tracking-[0.18em]",
+                  path === link.to ? "text-primary" : "text-fg hover:text-primary",
+                )}
+              >
+                {link.label}
+              </Link>
+            ),
+          )}
           <Link to="/party" className="bg-green px-5 py-2 text-sm uppercase tracking-[0.18em] text-white">
             Parties
           </Link>
@@ -130,18 +140,28 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             </button>
           </div>
           <nav className="mx-auto flex max-w-sm flex-col px-6 pb-24 text-center" aria-label="Mobile">
-            {links.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={cn(
-                  "py-3 text-lg uppercase tracking-[0.2em]",
-                  path === link.to && "bg-fg text-white",
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {links.map((link) =>
+              "href" in link ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="py-3 text-lg uppercase tracking-[0.2em]"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={cn(
+                    "py-3 text-lg uppercase tracking-[0.2em]",
+                    path === link.to && "bg-fg text-white",
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ),
+            )}
             <Link to="/party" className="mt-2 bg-green py-3 text-lg uppercase tracking-[0.2em] text-white">
               Parties
             </Link>
@@ -176,11 +196,17 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         </p>
       </footer>
       <nav aria-label="Quick actions" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 bg-black text-white lg:hidden">
-        {bottom.map((item) => (
-          <Link key={item.label} to={item.to} className="px-1 py-3 text-center text-[11px] uppercase tracking-wide">
-            {item.label}
-          </Link>
-        ))}
+        {bottom.map((item) =>
+          "href" in item ? (
+            <a key={item.label} href={item.href} className="px-1 py-3 text-center text-[11px] uppercase tracking-wide">
+              {item.label}
+            </a>
+          ) : (
+            <Link key={item.label} to={item.to} className="px-1 py-3 text-center text-[11px] uppercase tracking-wide">
+              {item.label}
+            </Link>
+          ),
+        )}
       </nav>
       <BirthdayNudge />
       <PromoPopup />

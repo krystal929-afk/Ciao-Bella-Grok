@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { about } from "@/data/restaurant";
+import { about, sliceOrder } from "@/data/restaurant";
 import { gallery, slides } from "@/data/menus";
 import { HeroFilm, PhotoGallery } from "@/components/live-widgets";
 import { Reviews } from "@/components/reviews";
@@ -121,9 +121,9 @@ function Home() {
           delivery — pizzas, pastas, seafood, and more. 5% off online orders. You’ll get a confirmation
           email when the kitchen accepts the ticket.
         </p>
-        <Link to="/order" className="mt-6 inline-flex bg-primary px-10 py-3 text-sm uppercase tracking-[0.2em] text-white">
+        <a href={sliceOrder.href} className="mt-6 inline-flex bg-primary px-10 py-3 text-sm uppercase tracking-[0.2em] text-white">
           Order
-        </Link>
+        </a>
         <div className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-4">
           <img src="/images/brand/pizza-cheese.jpg" alt="Cheese pizza" className="aspect-square w-full border border-fg/30 object-cover p-2" />
           <img src="/images/brand/tiramisu.jpg" alt="Tiramisu" className="aspect-square w-full border border-fg/30 object-cover p-2" />

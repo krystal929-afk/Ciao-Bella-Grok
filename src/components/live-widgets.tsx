@@ -107,13 +107,22 @@ export function PromoPopup() {
         </h2>
         {promo.image ? <img src={promo.image} alt="" className="mt-4 w-full object-cover" /> : null}
         <p className="mt-5 text-lg leading-snug">{promo.body}</p>
-        <Link
-          to={promo.href as "/party"}
-          onClick={close}
-          className="mt-6 inline-flex w-full items-center justify-center bg-black px-5 py-3 text-base text-white"
-        >
-          {promo.cta}
-        </Link>
+        {promo.href.startsWith("http") ? (
+          <a
+            href={promo.href}
+            className="mt-6 inline-flex w-full items-center justify-center bg-black px-5 py-3 text-base text-white"
+          >
+            {promo.cta}
+          </a>
+        ) : (
+          <Link
+            to={promo.href as "/party"}
+            onClick={close}
+            className="mt-6 inline-flex w-full items-center justify-center bg-black px-5 py-3 text-base text-white"
+          >
+            {promo.cta}
+          </Link>
+        )}
       </div>
     </div>
   );
