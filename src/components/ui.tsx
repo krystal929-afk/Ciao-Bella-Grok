@@ -25,6 +25,35 @@ export function Button({
   return <button className={cn(buttonStyles({ tone }), className)} {...props} />;
 }
 
+export function InteriorHold({
+  className,
+  tone = "light",
+  quiet = false,
+}: {
+  className?: string;
+  tone?: "light" | "dark";
+  quiet?: boolean;
+}) {
+  const dark = tone === "dark";
+  return (
+    <div
+      role="img"
+      aria-label="Dining room photographs are paused during the renovation"
+      className={cn(
+        "flex items-center justify-center text-center",
+        dark ? "bg-[#2a1216] text-white" : "bg-[#f3efe6] text-[#7a1e2c]",
+        className,
+      )}
+    >
+      {quiet ? null : (
+        <div className="px-6 py-8">
+          <img src="/images/brand/logo.png" alt="" className="mx-auto h-16 w-16 object-contain" />
+          <p className="mt-3 text-xs uppercase tracking-[0.2em]">Dining room photos return after the renovation</p>
+        </div>
+      )}
+    </div>
+  );
+}
 export const fieldClass =
   "w-full rounded-md border border-border bg-surface px-3 py-3 text-base text-fg outline-none transition-colors focus:border-primary";
 

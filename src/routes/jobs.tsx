@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { InquiryForm } from "@/components/inquiry-form";
-import { SectionKicker } from "@/components/ui";
+import { InteriorHold, SectionKicker } from "@/components/ui";
 
 export const Route = createFileRoute("/jobs")({
   head: () => ({ meta: [{ title: "Jobs · Ciao Bella Trattoria" }] }),
@@ -21,11 +21,7 @@ function JobsPage() {
           </a>
           .
         </p>
-        <img
-          src="/images/brand/dining-wide.jpg"
-          alt="The dining room set for service"
-          className="mt-8 aspect-video w-full rounded-md object-cover"
-        />
+        <InteriorHold className="mt-8 aspect-video w-full rounded-md" />
       </div>
       <div className="rounded-md border border-border bg-surface p-6">
         <h2 className="font-display text-3xl">Leave a note</h2>

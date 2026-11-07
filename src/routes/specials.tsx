@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { specials } from "@/data/menus";
+import { InteriorHold } from "@/components/ui";
 
 export const Route = createFileRoute("/specials")({
   head: () => ({ meta: [{ title: "Specials · Ciao Bella Trattoria" }] }),
@@ -28,7 +29,7 @@ function SpecialsPage() {
               <p className="text-sm uppercase tracking-[0.25em]">{item.day}</p>
               <div className="mt-4 border border-white/30 bg-black/70 p-4 text-left">
                 {item.day === "Tuesday" ? (
-                  <img src="/images/brand/wine.jpg" alt="Wine bottles on the dining-room rack" className="mb-4 aspect-video w-full object-cover" />
+                  <InteriorHold className="mb-4 aspect-video w-full" />
                 ) : null}
                 <p>
                   {item.title}! {item.detail}

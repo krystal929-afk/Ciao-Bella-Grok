@@ -91,7 +91,9 @@ function FoodMenu() {
                       <li key={item.name} className="py-4">
                         <div className="flex items-baseline justify-between gap-4">
                           <h3 className="text-lg">{item.name}</h3>
-                          <span className="shrink-0 text-sm text-primary">{item.price}</span>
+                          {menu === "catering" ? (
+                            <span className="shrink-0 text-sm text-primary">{item.price}</span>
+                          ) : null}
                         </div>
                         {item.description ? (
                           <p className="mt-1 max-w-prose text-sm text-muted">{item.description}</p>

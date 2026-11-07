@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { drinkMenu } from "@/data/menus";
+import { InteriorHold } from "@/components/ui";
 
 export const Route = createFileRoute("/drink-menu")({
   head: () => ({ meta: [{ title: "Drinks · Ciao Bella Trattoria" }] }),
@@ -16,7 +17,7 @@ function DrinkMenu() {
   return (
     <div>
       <div className="relative">
-        <img src="/images/brand/wine.jpg" alt="" className="h-48 w-full object-cover sm:h-64" />
+        <InteriorHold quiet className="h-48 w-full sm:h-64" />
         <div className="absolute inset-0 bg-white/50" />
         <h1 className="absolute inset-0 flex items-center justify-center font-display text-5xl uppercase tracking-wide">
           Our drinks
@@ -37,10 +38,7 @@ function DrinkMenu() {
               <ul className="mt-4">
                 {section.items.map((item) => (
                   <li key={item.name} className="border-b border-green/30 py-4 last:border-0">
-                    <div className="flex items-baseline justify-between gap-4">
-                      <h3>{item.name}</h3>
-                      <span className="shrink-0 text-sm">{item.price}</span>
-                    </div>
+                    <h3>{item.name}</h3>
                     {item.description ? <p className="mt-1 text-sm text-muted">{item.description}</p> : null}
                   </li>
                 ))}

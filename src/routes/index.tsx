@@ -4,6 +4,7 @@ import { about, sliceOrder } from "@/data/restaurant";
 import { gallery, slides } from "@/data/menus";
 import { HeroFilm, PhotoGallery } from "@/components/live-widgets";
 import { Reviews } from "@/components/reviews";
+import { InteriorHold } from "@/components/ui";
 import { joinList } from "@/lib/house.functions";
 
 export const Route = createFileRoute("/")({
@@ -103,8 +104,7 @@ function Home() {
       </section>
 
       <section className="relative">
-        <img src="/images/brand/dining-wide.jpg" alt="Dining room set for a celebration" className="h-80 w-full object-cover sm:h-[28rem]" />
-        <div className="absolute inset-0 bg-black/45" />
+        <InteriorHold tone="dark" quiet className="h-80 w-full sm:h-[28rem]" />
         <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
           <h2 className="font-display text-4xl uppercase tracking-wide">Host and celebrate</h2>
           <Link to="/party" className="mt-6 inline-flex bg-white px-8 py-3 text-sm uppercase tracking-[0.2em] text-fg">
