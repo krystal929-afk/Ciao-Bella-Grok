@@ -21,10 +21,7 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "icon", type: "image/png", href: "/images/brand/logo.png" },
-      {
-        rel: "stylesheet",
-        href: import.meta.env.PROD ? appCss : "/@tanstack-start/styles.css",
-      },
+      { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/__grok/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/images/brand/logo.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
