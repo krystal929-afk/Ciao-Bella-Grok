@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { dinnerMenu, restaurant } from "@/data/restaurant";
+import { restaurant } from "@/data/restaurant";
 import { getSql } from "@/lib/db";
 import {
   areaLabel,
@@ -180,13 +180,12 @@ export const placeOrder = createServerFn({ method: "POST" })
     if (!name || phone.replace(/\D/g, "").length < 7) {
       return { ok: false as const, error: "Name and phone are required." };
     }
+    const { menuPrices } = await import("@/data/menu-prices");
     const catalog = new Map(
-      dinnerMenu.flatMap((section) =>
-        section.items.flatMap((item) => {
-          const cents = priceCents(item.price);
-          return cents == null ? [] : [[item.name, cents] as const];
-        }),
-      ),
+      Object.entries(menuPrices).flatMap(([name, price]) => {
+        const cents = priceCents(price);
+        return cents == null ? [] : [[name, cents] as const];
+      }),
     );
     const lines = (data.items ?? [])
       .map((item) => ({ name: clean(item.name, 80), qty: Number(item.qty) }))

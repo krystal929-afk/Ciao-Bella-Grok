@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { about, sliceOrder } from "@/data/restaurant";
-import { gallery, slides } from "@/data/menus";
+import { slides } from "@/data/menus";
 import { HeroFilm, PhotoGallery } from "@/components/live-widgets";
 import { Reviews } from "@/components/reviews";
-import { InteriorHold } from "@/components/ui";
 import { joinList } from "@/lib/house.functions";
 
 export const Route = createFileRoute("/")({
@@ -14,13 +13,15 @@ export const Route = createFileRoute("/")({
 function Home() {
   const [joined, setJoined] = useState(false);
   const [listError, setListError] = useState("");
+  const [paused, setPaused] = useState(false);
   const [slide, setSlide] = useState(0);
   const current = slides[slide];
 
   useEffect(() => {
+    if (paused) return;
     const timer = window.setInterval(() => setSlide((value) => (value + 1) % slides.length), 6000);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [paused]);
 
   return (
     <>
@@ -45,38 +46,55 @@ function Home() {
       </section>
 
       <section className="bg-white">
-        <img src="/images/brand/shrimp.jpg" alt="Shrimp scampi over pasta" className="mx-auto aspect-[16/7] w-full max-w-5xl object-cover" />
+        <img src="/images/brand/shrimp.jpg" alt="Shrimp scampi over pasta" className="mx-auto aspect-[16/8] w-full max-w-4xl object-cover" />
         <div className="mx-auto max-w-3xl px-5 py-12 text-center">
-          <h2 className="font-display text-4xl uppercase tracking-wide">Deerfield Beach catering</h2>
-          <p className="mt-3 font-script text-3xl text-green">Fresh Italian favorites for events</p>
-          <p className="mt-6 text-[17px] leading-relaxed">
-            Bring authentic Italian cuisine to your next gathering with catering from Ciao Bella. Our
-            handcrafted pizzas, pastas, salads, and more are prepared fresh for groups of all sizes. We
-            make serving great food easy for any occasion.
-          </p>
-          <Link to="/catering" className="mt-6 inline-flex bg-green px-10 py-3 text-sm uppercase tracking-[0.2em] text-white">
+          <h2 className="font-display text-4xl uppercase tracking-wide text-muted">Deerfield Beach catering</h2>
+          <Link to="/catering" className="mt-8 inline-flex bg-green px-12 py-3 text-sm uppercase tracking-[0.2em] text-white">
             Inquire
           </Link>
         </div>
-        <div className="mx-auto grid max-w-5xl grid-cols-3 gap-3 px-4 pb-12">
+      </section>
+
+      <section className="bg-bg px-4 py-14 text-center">
+        <div className="mx-auto grid max-w-4xl grid-cols-3 gap-3">
           {[
             ["/images/brand/parm.jpg", "Chicken parmigiana with penne"],
             ["/images/brand/salmon.jpg", "Salmon with caprese salad"],
             ["/images/brand/shrimp.jpg", "Shrimp scampi"],
           ].map(([src, alt]) => (
-            <img key={src} src={src} alt={alt} className="aspect-square w-full object-cover" />
+            <img key={alt} src={src} alt={alt} className="aspect-[4/3] w-full object-cover" />
           ))}
         </div>
-      </section>
-
-      <section className="bg-bg px-4 py-12 text-center">
-        <Link to={current.href as "/party"} className="inline-flex bg-primary px-10 py-3 text-sm uppercase tracking-[0.2em] text-white">
+        <h2 className="mt-8 font-display text-4xl uppercase tracking-wide">Celebrate with us</h2>
+        <p className="mt-2 font-script text-3xl text-primary">Perfect space for every occasion</p>
+        <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed">
+          Host your next celebration at Ciao Bella. From family gatherings and birthdays to corporate
+          events, our welcoming atmosphere and authentic Italian dishes create memorable experiences.
+          Let our team help make your event special from start to finish.
+        </p>
+        <Link to="/party" className="mt-6 inline-flex bg-primary px-12 py-3 text-sm uppercase tracking-[0.2em] text-white">
           Book now
         </Link>
-        <div className="mx-auto mt-6 max-w-3xl border border-fg/80 bg-white p-3">
+      </section>
+
+      <section className="bg-bg px-4 pb-12 text-center">
+        <div className="relative mx-auto max-w-4xl border border-fg/70 bg-white p-2">
           <img src={current.image} alt={current.alt} className="aspect-[4/3] w-full object-cover" />
+          <Link
+            to="/food-menu"
+            className="absolute left-1/2 top-6 -translate-x-1/2 bg-white px-8 py-3 text-sm uppercase tracking-[0.2em] text-fg"
+          >
+            Our menu
+          </Link>
+          <button
+            type="button"
+            onClick={() => setPaused((value) => !value)}
+            aria-label={paused ? "Play the photo slideshow" : "Pause the photo slideshow"}
+            className="absolute bottom-4 left-4 inline-flex size-11 items-center justify-center text-white"
+          >
+            {paused ? "▶" : "❚❚"}
+          </button>
         </div>
-        <p className="mt-4 font-display text-2xl">{current.title}</p>
         <div className="mt-4 flex items-center justify-center gap-3" aria-label="Slideshow">
           {slides.map((item, index) => (
             <button
@@ -84,61 +102,53 @@ function Home() {
               type="button"
               aria-label={`Show ${item.title}`}
               onClick={() => setSlide(index)}
-              className={`h-2 w-10 ${index === slide ? "bg-green" : "bg-fg/20"}`}
+              className={`size-3 rounded-full border border-fg ${index === slide ? "bg-white" : "bg-transparent"}`}
             />
           ))}
         </div>
       </section>
 
-      <section className="bg-white px-5 py-14 text-center">
-        <h2 className="font-display text-4xl uppercase tracking-wide">Dine with us</h2>
-        <p className="mt-3 font-script text-3xl text-green">Enjoy a relaxed dining experience</p>
-        <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed">
-          Planning a meal with family or friends? Reserve your table and enjoy authentic Italian
-          dishes, handcrafted pizzas, and warm hospitality. We’re ready to welcome you for dinner and
-          special occasions.
-        </p>
-        <Link to="/reservations" className="mt-6 inline-flex bg-green px-10 py-3 text-sm uppercase tracking-[0.2em] text-white">
-          Reserve
-        </Link>
-      </section>
-
-      <section className="relative">
-        <InteriorHold tone="dark" quiet className="h-80 w-full sm:h-[28rem]" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
-          <h2 className="font-display text-4xl uppercase tracking-wide">Host and celebrate</h2>
-          <Link to="/party" className="mt-6 inline-flex bg-white px-8 py-3 text-sm uppercase tracking-[0.2em] text-fg">
-            Book now
+      <section className="bg-white text-center">
+        <img src="/images/brand/bruschetta.jpg" alt="Bruschetta on a board of arugula" className="aspect-[16/7] w-full object-cover" />
+        <div className="mx-auto max-w-3xl px-5 py-12">
+          <h2 className="font-display text-4xl uppercase tracking-wide">Dine with us</h2>
+          <p className="mt-2 font-script text-3xl text-green">Enjoy a relaxed dining experience</p>
+          <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed">
+            Planning a meal with family or friends? Reserve your table and enjoy authentic Italian
+            dishes, handcrafted pizzas, and warm hospitality. We’re ready to welcome you for dinner
+            and special occasions.
+          </p>
+          <Link to="/reservations" className="mt-6 inline-flex bg-green px-12 py-3 text-sm uppercase tracking-[0.2em] text-white">
+            Reserve
           </Link>
         </div>
       </section>
 
       <section className="bg-bg px-5 py-14 text-center">
         <h2 className="font-display text-4xl uppercase tracking-wide">Order and enjoy</h2>
-        <p className="mt-3 font-script text-3xl text-primary">Fresh Italian meals made easy</p>
-        <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed">
+        <p className="mt-2 font-script text-3xl text-primary">Fresh Italian meals made easy</p>
+        <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed">
           Enjoy your Ciao Bella favorites from the comfort of home. Order online for takeout or
-          delivery — pizzas, pastas, seafood, and more. 5% off online orders. You’ll get a confirmation
-          email when the kitchen accepts the ticket.
+          delivery and enjoy freshly prepared pizzas, pastas, seafood, and more. Great Italian meals
+          are just a few clicks away.
         </p>
-        <a href={sliceOrder.href} className="mt-6 inline-flex bg-primary px-10 py-3 text-sm uppercase tracking-[0.2em] text-white">
+        <a href={sliceOrder.href} className="mt-6 inline-flex bg-primary px-12 py-3 text-sm uppercase tracking-[0.2em] text-white">
           Order
         </a>
-        <div className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-4">
-          <img src="/images/brand/pizza-cheese.jpg" alt="Cheese pizza" className="aspect-square w-full border border-fg/30 object-cover p-2" />
-          <img src="/images/brand/tiramisu.jpg" alt="Tiramisu" className="aspect-square w-full border border-fg/30 object-cover p-2" />
-        </div>
       </section>
+
+      <PhotoGallery />
 
       <Reviews />
 
       <section className="bg-white px-5 py-12 text-center">
-        <h2 className="font-display text-3xl uppercase tracking-[0.2em]">Stay in touch</h2>
+        <h2 className="font-display text-4xl uppercase tracking-wide">Stay in touch</h2>
+        <p className="mx-auto mt-4 max-w-md text-[17px]">Sign up for our newsletter and get exclusive offers and invites.</p>
         {joined ? (
           <p className="mt-4 text-sm">The house has your email.</p>
         ) : (
           <form
-            className="mx-auto mt-6 flex max-w-md flex-col gap-3"
+            className="mx-auto mt-6 flex max-w-md flex-col items-center gap-4"
             onSubmit={(event) => {
               event.preventDefault();
               const data = new FormData(event.currentTarget);
@@ -150,18 +160,18 @@ function Home() {
               });
             }}
           >
-            <label className="sr-only" htmlFor="home-email">
-              Email
+            <label className="text-center text-base" htmlFor="home-email">
+              Email (required)
             </label>
             <input
               id="home-email"
               required
               type="email"
               name="email"
-              placeholder="Email address"
-              className="border border-fg/20 bg-bg px-3 py-3 text-base"
+              placeholder="e.g. email@example.com"
+              className="w-full border-b border-fg bg-transparent px-1 py-2 text-center text-base outline-none"
             />
-            <button type="submit" className="bg-green py-3 text-sm uppercase tracking-[0.2em] text-white">
+            <button type="submit" className="mt-2 bg-green px-12 py-3 text-sm uppercase tracking-[0.2em] text-white">
               Submit
             </button>
             {listError ? <p className="text-sm text-primary">{listError}</p> : null}
@@ -175,8 +185,6 @@ function Home() {
         src="https://www.openstreetmap.org/export/embed.html?bbox=-80.1005%2C26.2965%2C-80.0865%2C26.3028&layer=mapnik&marker=26.2996467%2C-80.0933693"
       />
 
-      <PhotoGallery />
-      <p className="sr-only">{gallery.length} photos</p>
     </>
   );
 }

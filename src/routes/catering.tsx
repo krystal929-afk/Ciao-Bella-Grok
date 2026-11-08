@@ -40,17 +40,15 @@ function CateringPage() {
               <h2 className="font-display text-3xl">{section.title}</h2>
               <ul className="mt-3 divide-y divide-border">
                 {section.items.map((item) => (
-                  <li key={item.name} className="flex items-baseline justify-between gap-4 py-3">
+                  <li key={item.name} className="border-b border-green/30 py-3 last:border-0">
                     <span>{item.name}</span>
-                    <span className="shrink-0 text-sm text-primary">{item.price}</span>
                   </li>
                 ))}
               </ul>
             </section>
           ))}
           <p className="mt-6 text-sm text-muted">
-            Tray prices are from the published catering menu. Pickup is arranged when we confirm
-            the order. Add pizza and salads on the inquiry and we’ll price them with you.
+            We’ll confirm tray sizes and pricing when we call you back. Add pizza and salads on the inquiry.
           </p>
         </div>
         <aside className="h-fit rounded-md border border-border bg-surface p-6 lg:col-span-2 lg:sticky lg:top-24">

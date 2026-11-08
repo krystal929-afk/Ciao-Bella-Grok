@@ -258,16 +258,11 @@ export function PhotoGallery() {
   const photo = active == null ? null : gallery[active];
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
-      <div className="flex items-end justify-between gap-4">
-        <h2 className="font-display text-4xl">Photo gallery</h2>
-        <a href="#content" className="text-sm text-primary">
-          Skip photo gallery
-        </a>
-      </div>
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <section className="bg-bg px-4 py-8">
+      <h2 className="sr-only">Photo gallery</h2>
+      <div className="mx-auto grid max-w-5xl grid-cols-2 gap-4">
         {gallery.map((item, index) => (
-          <button key={item.src} type="button" className="overflow-hidden" onClick={() => setActive(index)}>
+          <button key={item.src} type="button" className="border border-fg/50 bg-white p-2" onClick={() => setActive(index)}>
             <img src={item.src} alt={item.alt} className="aspect-square w-full object-cover" />
           </button>
         ))}

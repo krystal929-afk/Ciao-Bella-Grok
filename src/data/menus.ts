@@ -69,52 +69,42 @@ export const drinkMenu: MenuSection[] = [
 		items: [
 			{
 				name: "Cabernet Sauvignon \"Fuga\", Apulia",
-				price: "Glass $15.50 · Bottle $57.50",
 				description: "Deep ruby color, intense and round, excellent tannins."
 			},
 			{
 				name: "Pinot Noir, Calatroni, Italy",
-				price: "Glass $12.50 · Bottle $48",
 				description: "Boysenberry, dark cherry, and roasty mocha."
 			},
 			{
 				name: "Chianti Classico DOCG, Nabucco",
-				price: "Glass $14.50 · Bottle $55",
 				description: "Ripe cherry and strawberry on the nose."
 			},
 			{
 				name: "Supertuscan Origo, Sangiovese/Cabernet",
-				price: "Glass $14.50 · Bottle $55",
 				description: "Excellent body, matured in small French oak."
 			},
 			{
 				name: "Montepulciano Roma DOC, Poggio Le Volpi",
-				price: "Bottle $55",
 				description: "Bright ruby, ripe red fruit and cherry."
 			},
 			{
 				name: "Ripasso della Valpolicella, Tinazzi",
-				price: "Bottle $55",
 				description: "Deep ruby, prunes and cherry. 96 pts."
 			},
 			{
 				name: "Amarone della Valpolicella DOCG, Villa Loren",
-				price: "Bottle $96.50",
 				description: "Full bodied, elegant tannins, long finish."
 			},
 			{
 				name: "Brunello di Montalcino DOCG, La Togata",
-				price: "Bottle $96.50",
 				description: "Full-bodied, structured, austere and tannic. 92 pts."
 			},
 			{
 				name: "Barolo DOCG, Tre Pais, Piedmont",
-				price: "Bottle $96.50",
 				description: "Full ruby, dry, long."
 			},
 			{
 				name: "Barbera d'Asti, Duedu., Piedmont",
-				price: "Bottle $48.50",
 				description: "Vinous and fruity, with violet."
 			}
 		]
@@ -125,30 +115,24 @@ export const drinkMenu: MenuSection[] = [
 		items: [
 			{
 				name: "Prosecco Split, 200 ml",
-				price: "Glass $10 · Bottle $39.50"
 			},
 			{
 				name: "Prosecco DOC, Nino Ardevi",
-				price: "Bottle $49"
 			},
 			{
 				name: "Rosé di Amarone DOP, Campo delle Rose",
-				price: "Bottle $49",
 				description: "Salmon pink. Raspberry and wild cherry."
 			},
 			{
 				name: "Pinot Grigio delle Venezie, Tinazzi",
-				price: "Bottle $49",
 				description: "Straw yellow, fruity, floral."
 			},
 			{
 				name: "Sauvignon Blanc, Collevento 921",
-				price: "Glass $12.50 · Bottle $49",
 				description: "Citrus and a refined finish."
 			},
 			{
 				name: "Falanghina del Benevento, Lava",
-				price: "Glass $12.50 · Bottle $49",
 				description: "Medium-bodied, intense, persistent."
 			}
 		]
@@ -159,27 +143,21 @@ export const drinkMenu: MenuSection[] = [
 		items: [
 			{
 				name: "Pinot Grigio",
-				price: "Glass $9.99 · Bottle $38"
 			},
 			{
 				name: "Chardonnay",
-				price: "Glass $9.99 · Bottle $38"
 			},
 			{
 				name: "Rosé",
-				price: "Glass $9.99 · Bottle $38"
 			},
 			{
 				name: "Cabernet",
-				price: "Glass $9.99 · Bottle $38"
 			},
 			{
 				name: "Merlot",
-				price: "Glass $9.99 · Bottle $38"
 			},
 			{
 				name: "Chianti DOCG",
-				price: "Glass $9.99 · Bottle $38"
 			}
 		]
 	},
@@ -189,22 +167,18 @@ export const drinkMenu: MenuSection[] = [
 		items: [
 			{
 				name: "Espresso",
-				price: "$4.99",
 				description: "A single shot of Italian espresso."
 			},
 			{
 				name: "Caffè Americano",
-				price: "$6",
 				description: "Espresso lengthened with hot water."
 			},
 			{
 				name: "Cappuccino",
-				price: "$6.99",
 				description: "Espresso, steamed milk, and foam."
 			},
 			{
 				name: "Hot Tea",
-				price: "$3.99"
 			}
 		]
 	},
@@ -214,33 +188,26 @@ export const drinkMenu: MenuSection[] = [
 		items: [
 			{
 				name: "Red Bull",
-				price: "$6",
 				description: "The classic Red Bull."
 			},
 			{
 				name: "Canned soda",
-				price: "$3.99",
 				description: "Cola, diet cola, or lemon-lime."
 			},
 			{
 				name: "Iced Tea",
-				price: "$3.99"
 			},
 			{
 				name: "Panna water",
-				price: "$3.50"
 			},
 			{
 				name: "San Pellegrino",
-				price: "$3.50"
 			},
 			{
 				name: "Beer, domestic",
-				price: "$5.95"
 			},
 			{
 				name: "Beer, imported",
-				price: "$6.95"
 			}
 		]
 	}
@@ -277,8 +244,8 @@ export const slides = [
     title: "Host And Celebrate",
     href: "/party",
     label: "Book a private party",
-    image: "/images/brand/interior-hold.svg",
-    alt: "Dining room photographs are paused during the renovation",
+    image: "/images/brand/pizza-cheese.jpg",
+    alt: "Cheese pizza with a blistered crust",
   },
   {
     title: "Catering With Tradition",

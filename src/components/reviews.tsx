@@ -24,7 +24,7 @@ export function Reviews() {
         <button
           type="button"
           aria-label="Previous review"
-          className="absolute left-0 top-8 hidden size-11 items-center justify-center sm:inline-flex"
+          className="absolute left-0 top-8 inline-flex size-11 items-center justify-center"
           onClick={() => setIndex((value) => (value + reviews.length - 1) % reviews.length)}
         >
           <ChevronLeft className="size-6" />
@@ -32,7 +32,7 @@ export function Reviews() {
         <button
           type="button"
           aria-label="Next review"
-          className="absolute right-0 top-8 hidden size-11 items-center justify-center sm:inline-flex"
+          className="absolute right-0 top-8 inline-flex size-11 items-center justify-center"
           onClick={() => setIndex((value) => (value + 1) % reviews.length)}
         >
           <ChevronRight className="size-6" />
@@ -43,7 +43,7 @@ export function Reviews() {
             ★★★★★
           </span>
         </p>
-        <blockquote className="mx-auto mt-4 max-w-xl text-[17px] leading-relaxed">“{current.quote}”</blockquote>
+        <blockquote className="mx-auto mt-4 max-w-xl px-10 text-[17px] leading-relaxed">“{current.quote}”</blockquote>
       </div>
       <div className="mt-8 flex items-center justify-center gap-3">
         {reviews.map((review, i) => (

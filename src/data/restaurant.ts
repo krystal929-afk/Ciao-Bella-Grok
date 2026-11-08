@@ -63,13 +63,12 @@ export const reviews = [
   {
     name: "Kim H.",
     quote:
-      "Don't even get me started on the garlic knots. I could've made a meal out of those alone. The chicken parm was excellent, the portions are huge, and the chef came out after our meal to ask how everything was.",
+      "We had dinner here last night. Don't even get me started on the garlic knots. I could've made a meal out of those alone. They are amazing. The chicken parm was excellent. The serving portions are absolutely huge, be prepared for leftovers. Service was excellent, our waitress was wonderful. And the chef came out after our meal to ask how everything was. Highly recommend.",
   },
 ];
 
 export type MenuItem = {
   name: string;
-  price: string;
   description?: string;
 };
 
@@ -86,18 +85,15 @@ export const dinnerMenu: MenuSection[] = [
     items: [
       {
         name: "Fried Calamari",
-        price: "$17.95",
         description: "Crispy fried calamari, served with marinara sauce and lemon.",
       },
       {
         name: "Bruschetta",
-        price: "$9.95",
         description:
           "Toasted bread topped with fresh tomatoes, garlic, basil, olive oil and a touch of balsamic glaze.",
       },
       {
         name: "Mozzarella Sticks",
-        price: "$10.95",
         description: "Breaded mozzarella, fried golden and served with marinara sauce.",
       },
     ],
@@ -106,9 +102,9 @@ export const dinnerMenu: MenuSection[] = [
     id: "soup",
     title: "Soup",
     items: [
-      { name: "House Soup", price: "$4.99" },
-      { name: "Pasta e Fagioli", price: "$5.95" },
-      { name: "Cream of Mushroom", price: "$6.99" },
+      { name: "House Soup" },
+      { name: "Pasta e Fagioli" },
+      { name: "Cream of Mushroom" },
     ],
   },
   {
@@ -117,17 +113,14 @@ export const dinnerMenu: MenuSection[] = [
     items: [
       {
         name: "House Salad",
-        price: "$6.95",
         description: "Lettuce, tomatoes, cucumbers, onions and carrots.",
       },
       {
         name: "Arugula Salad",
-        price: "$8.95",
         description: "Fresh arugula, cherry tomatoes, shaved parmesan and balsamic vinaigrette.",
       },
       {
         name: "Caesar Salad",
-        price: "$7.95",
         description: "Crisp romaine, croutons and parmesan cheese tossed in Caesar dressing.",
       },
     ],
@@ -138,28 +131,23 @@ export const dinnerMenu: MenuSection[] = [
     items: [
       {
         name: "Cheese Pizza",
-        price: "$16.95",
         description: "Classic cheese pizza with our homemade sauce and mozzarella.",
       },
       {
         name: "Pepperoni Pizza",
-        price: "$17.95",
         description: "Classic cheese pizza topped with pepperoni.",
       },
       {
         name: "Ciao Bella Pizza",
-        price: "$24.95",
         description:
           "Mozzarella, prosciutto, arugula and burrata cheese in the center. A Ciao Bella favorite.",
       },
       {
         name: "White Pizza",
-        price: "$15.95",
         description: "Mozzarella cheese, ricotta, parmesan, and garlic.",
       },
       {
         name: "Calzone",
-        price: "$19.99",
         description: "Mozzarella cheese, ricotta, parmesan.",
       },
     ],
@@ -170,38 +158,31 @@ export const dinnerMenu: MenuSection[] = [
     items: [
       {
         name: "Spaghetti & Meatballs",
-        price: "$18.95",
         description: "Spaghetti with our homemade meatballs and marinara sauce.",
       },
       {
         name: "Penne Vodka",
-        price: "$18.95",
         description: "Penne in a creamy vodka sauce with a touch of marinara.",
       },
       {
         name: "Ciao Bella Pasta",
-        price: "$21.95",
         description: "Spaghetti with crispy bacon, vodka sauce, parmesan cheese and fresh parsley.",
       },
       {
         name: "Lasagna",
-        price: "$19.95",
         description: "Layers of pasta, ricotta, meat sauce and mozzarella.",
       },
       {
         name: "Manicotti",
-        price: "$18.95",
         description: "Pasta tubes stuffed with ricotta, topped with marinara and melted mozzarella.",
       },
       {
         name: "Eggplant Rolatini",
-        price: "$19.95",
         description:
           "Eggplant slices rolled with ricotta, baked in marinara and topped with melted mozzarella.",
       },
       {
         name: "Eggplant Parmigiana",
-        price: "$19.95",
         description:
           "Breaded eggplant topped with marinara and melted mozzarella. Served with pasta.",
       },
@@ -213,13 +194,11 @@ export const dinnerMenu: MenuSection[] = [
     items: [
       {
         name: "Veal Parmigiana",
-        price: "$25.95",
         description:
           "Breaded veal cutlet topped with marinara and melted mozzarella. Served with spaghetti.",
       },
       {
         name: "Veal Piccata",
-        price: "$26.95",
         description:
           "Sautéed veal in a lemon, white wine and caper sauce. Served with pasta or vegetables.",
       },
@@ -231,19 +210,16 @@ export const dinnerMenu: MenuSection[] = [
     items: [
       {
         name: "Chicken Parmigiana",
-        price: "$21.95",
         description:
           "Breaded chicken cutlet topped with marinara and melted mozzarella. Served with pasta.",
       },
       {
         name: "Chicken Piccata",
-        price: "$22.95",
         description:
           "Sautéed chicken in a lemon, white wine and caper sauce. Served with pasta or vegetables.",
       },
       {
         name: "Chicken Marsala",
-        price: "$23.95",
         description:
           "Sautéed chicken with mushrooms in a marsala wine sauce. Served with pasta or vegetables.",
       },
@@ -255,30 +231,25 @@ export const dinnerMenu: MenuSection[] = [
     items: [
       {
         name: "Salmone Grilled & Caprese",
-        price: "$24.95",
         description: "Grilled salmon served with a fresh caprese salad.",
       },
       {
         name: "Tilapia Piccata",
-        price: "$22.95",
         description:
           "Tilapia sautéed in a lemon, white wine and caper sauce. Served with pasta or vegetables.",
       },
       {
         name: "Shrimp Scampi",
-        price: "$24.95",
         description:
           "Jumbo shrimp sautéed in garlic, white wine and lemon sauce. Served over linguine.",
       },
       {
         name: "Snapper Francaise",
-        price: "$26.95",
         description:
           "Fresh snapper dipped in egg and sautéed in lemon, white wine and butter. Served with pasta or vegetables.",
       },
       {
         name: "White Clams over Linguini",
-        price: "$28.95",
         description: "Fresh clams sautéed in garlic, white wine and olive oil. Served over linguini.",
       },
     ],
@@ -287,13 +258,12 @@ export const dinnerMenu: MenuSection[] = [
     id: "desserts",
     title: "Desserts",
     items: [
-      { name: "Tiramisu", price: "$9.95" },
-      { name: "Spumoni Bomba", price: "$10.99" },
-      { name: "Tartufo", price: "$10.99" },
-      { name: "Sorbetto Limoncello", price: "$10.99" },
+      { name: "Tiramisu" },
+      { name: "Spumoni Bomba" },
+      { name: "Tartufo" },
+      { name: "Sorbetto Limoncello" },
       {
         name: "Cannoli",
-        price: "$7.95",
         description: "Crispy cannoli shells filled with sweet ricotta cream and chocolate chips.",
       },
     ],
@@ -305,51 +275,51 @@ export const cateringMenu: MenuSection[] = [
     id: "catering-pasta",
     title: "Pasta",
     items: [
-      { name: "Spaghetti Marinara", price: "Half $50 · Full $90" },
-      { name: "Ziti & Meat Sauce", price: "Half $50 · Full $95" },
-      { name: "Baked Ziti", price: "Half $55 · Full $95" },
-      { name: "Cheese Ravioli", price: "Half $50 · Full $85" },
-      { name: "Sausage Parmigiana with Pasta", price: "Half $65 · Full $105" },
-      { name: "Lasagna", price: "Half $65 · Full $110" },
-      { name: "Rigatoni Bolognese", price: "Half $50 · Full $90" },
-      { name: "Manicotti Cheese", price: "Half $50 · Full $90" },
-      { name: "Penne Vodka", price: "Half $65 · Full $100" },
-      { name: "Fettuccine Alfredo", price: "Half $60 · Full $100" },
+      { name: "Spaghetti Marinara" },
+      { name: "Ziti & Meat Sauce" },
+      { name: "Baked Ziti" },
+      { name: "Cheese Ravioli" },
+      { name: "Sausage Parmigiana with Pasta" },
+      { name: "Lasagna" },
+      { name: "Rigatoni Bolognese" },
+      { name: "Manicotti Cheese" },
+      { name: "Penne Vodka" },
+      { name: "Fettuccine Alfredo" },
     ],
   },
   {
     id: "catering-specialties",
     title: "Ravioli & Specialties",
     items: [
-      { name: "Linguine Red or White Clam", price: "Half $70 · Full $105" },
-      { name: "Eggplant Parmigiana with Pasta", price: "Half $60 · Full $100" },
-      { name: "Eggplant Rollatini with Pasta", price: "Half $65 · Full $105" },
-      { name: "Chicken Parmigiana with Pasta", price: "Half $65 · Full $105" },
-      { name: "Chicken Cacciatore with Pasta", price: "Half $65 · Full $105" },
-      { name: "Chicken Marsala with Pasta", price: "Half $65 · Full $110" },
-      { name: "Chicken Francese with Pasta", price: "Half $65 · Full $110" },
-      { name: "Chicken Piccata with Pasta", price: "Half $75 · Full $125" },
+      { name: "Linguine Red or White Clam" },
+      { name: "Eggplant Parmigiana with Pasta" },
+      { name: "Eggplant Rollatini with Pasta" },
+      { name: "Chicken Parmigiana with Pasta" },
+      { name: "Chicken Cacciatore with Pasta" },
+      { name: "Chicken Marsala with Pasta" },
+      { name: "Chicken Francese with Pasta" },
+      { name: "Chicken Piccata with Pasta" },
     ],
   },
   {
     id: "catering-veal-seafood",
     title: "Veal & Seafood",
     items: [
-      { name: "Veal Parmigiana with Pasta", price: "Half $70 · Full $135" },
-      { name: "Veal Piccata with Pasta", price: "Half $75 · Full $135" },
-      { name: "Veal Marsala with Pasta", price: "Half $75 · Full $135" },
-      { name: "Calamari Marinara over Linguine", price: "Half $75 · Full $145" },
-      { name: "Mussels Marinara over Linguine", price: "Half $75 · Full $135" },
-      { name: "Shrimp Marinara over Linguine", price: "Half $75 · Full $145" },
-      { name: "Shrimp Scampi over Linguine", price: "Half $90 · Full $145" },
-      { name: "Tilapia Francese over Spaghetti", price: "Half $95 · Full $145" },
-      { name: "Seafood over Linguine", price: "Half $95 · Full $145" },
+      { name: "Veal Parmigiana with Pasta" },
+      { name: "Veal Piccata with Pasta" },
+      { name: "Veal Marsala with Pasta" },
+      { name: "Calamari Marinara over Linguine" },
+      { name: "Mussels Marinara over Linguine" },
+      { name: "Shrimp Marinara over Linguine" },
+      { name: "Shrimp Scampi over Linguine" },
+      { name: "Tilapia Francese over Spaghetti" },
+      { name: "Seafood over Linguine" },
     ],
   },
   {
     id: "catering-dolce",
     title: "Dolce",
-    items: [{ name: "Tiramisu", price: "Half $75 · Full $140" }],
+    items: [{ name: "Tiramisu" }],
   },
 ];
 
