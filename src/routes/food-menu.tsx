@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { dinnerMenu, cateringMenu, type MenuSection } from "@/data/restaurant";
+import { dinnerMenu, lunchMenu, cateringMenu, type MenuSection } from "@/data/restaurant";
 import { cn } from "@/lib/cn";
 
 export const Route = createFileRoute("/food-menu")({
@@ -18,8 +18,8 @@ const highlights: Record<string, { src: string; alt: string }> = {
 };
 
 function FoodMenu() {
-  const [menu, setMenu] = useState<"dinner" | "catering">("dinner");
-  const sections = menu === "dinner" ? dinnerMenu : cateringMenu;
+  const [menu, setMenu] = useState<"lunch" | "dinner" | "catering">("dinner");
+  const sections = menu === "lunch" ? lunchMenu : menu === "dinner" ? dinnerMenu : cateringMenu;
 
   return (
     <div className="relative">
@@ -38,7 +38,17 @@ function FoodMenu() {
             )}
             onClick={() => setMenu("dinner")}
           >
-            Menu
+            Dinner menu
+          </button>
+          <button
+            type="button"
+            className={cn(
+              "block w-full py-3 text-center font-display text-sm uppercase tracking-[0.28em]",
+              menu === "lunch" ? "text-fg" : "bg-primary text-white",
+            )}
+            onClick={() => setMenu("lunch")}
+          >
+            Lunch menu
           </button>
           <button
             type="button"
@@ -77,6 +87,10 @@ function MenuCard({ section }: { section: MenuSection }) {
           </li>
         ))}
       </ul>
+      {section.note ? <p className="mt-4 text-base leading-relaxed">{section.note}</p> : null}
+      {section.warning ? (
+        <p className="mt-4 text-base leading-relaxed text-fg print:text-[12pt]">{section.warning}</p>
+      ) : null}
     </section>
   );
 }

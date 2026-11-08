@@ -94,4 +94,11 @@ export const menuPrices: Record<string, string> = {
   "San Pellegrino": "$3.50",
   "Beer, domestic": "$5.95",
   "Beer, imported": "$6.95",
+  "Ciao Bella Burger (lunch)": "$30",
+  "Truffle Burger (lunch)": "$33",
+  "Italiano Burger (lunch)": "$27",
+  "Ciao Bella Burger (dinner)": "$31",
+  "Truffle Burger (dinner)": "$33",
+  "Italiano Burger (dinner)": "$28",
+  "Truffle fries upgrade": "+$3",
 };

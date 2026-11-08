@@ -76,6 +76,33 @@ export type MenuSection = {
   id: string;
   title: string;
   items: MenuItem[];
+  note?: string;
+  warning?: string;
+};
+
+export const rawMeatWarning =
+  "*Consuming raw or undercooked meats, poultry, seafood, shellfish, or eggs may increase your risk of foodborne illness.";
+
+const burgers = {
+  note: "Grilled to order on a brioche bun • served with French fries, plain or Italian-seasoned • upgrade to truffle fries",
+  warning: rawMeatWarning,
+  items: [
+    {
+      name: "Ciao Bella Burger",
+      description:
+        "Beef patty, American cheese, crispy bacon, lettuce, tomato, pickles and our Ciao Bella sauce on a brioche bun",
+    },
+    {
+      name: "Truffle Burger*",
+      description:
+        "Wagyu beef patty, Swiss cheese, sautéed mushrooms, crispy onions, truffle aioli on a brioche bun",
+    },
+    {
+      name: "Italiano Burger",
+      description:
+        "Beef patty, provolone, roasted red peppers, lettuce, tomato, red onion, garlic aioli on a brioche bun",
+    },
+  ],
 };
 
 export const dinnerMenu: MenuSection[] = [
@@ -255,6 +282,13 @@ export const dinnerMenu: MenuSection[] = [
     ],
   },
   {
+    id: "burgers",
+    title: "The Burgers",
+    note: burgers.note,
+    warning: burgers.warning,
+    items: burgers.items,
+  },
+  {
     id: "desserts",
     title: "Desserts",
     items: [
@@ -267,6 +301,16 @@ export const dinnerMenu: MenuSection[] = [
         description: "Crispy cannoli shells filled with sweet ricotta cream and chocolate chips.",
       },
     ],
+  },
+];
+
+export const lunchMenu: MenuSection[] = [
+  {
+    id: "burgers",
+    title: "The Burgers",
+    note: burgers.note,
+    warning: burgers.warning,
+    items: burgers.items,
   },
 ];
 
