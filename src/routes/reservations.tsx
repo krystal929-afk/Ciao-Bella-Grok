@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
 import { restaurant, tableAgent } from "@/data/restaurant";
+import { LargePartyNotice } from "@/components/site-chrome";
 import { SectionKicker } from "@/components/ui";
 
 const bookingOn = createServerFn({ method: "GET" }).handler(async () => {
@@ -40,6 +41,7 @@ function ReservationsPage() {
             <dd className="mt-1 text-muted">Begins November 26, 2026</dd>
           </div>
         </dl>
+        <LargePartyNotice className="mt-6" />
       </div>
       {enabled ? <BookingWidget /> : <CallToReserve />}
     </div>

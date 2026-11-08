@@ -13,13 +13,11 @@ const links = [
   { href: sliceOrder.href, label: "Order" },
   { to: "/reservations", label: "Reserve" },
   { to: "/catering", label: "Catering" },
-  { to: "/jobs", label: "Jobs" },
 ] as const;
 
 const bottom = [
   { label: "Order", href: sliceOrder.href },
   { label: "Reserve", to: "/reservations" },
-  { label: "Jobs", to: "/jobs" },
   { label: "Parties", to: "/party" },
   { label: "Catering", to: "/catering" },
 ] as const;
@@ -49,6 +47,28 @@ function Icon({ name }: { name: string }) {
     </svg>
   );
 }
+
+function LargePartyNotice({ className, onDark = false }: { className?: string; onDark?: boolean }) {
+  return (
+    <p
+      className={cn(
+        "text-sm leading-relaxed",
+        onDark
+          ? "border border-white/30 bg-white/10 px-4 py-3 text-white"
+          : "border-l-4 border-primary bg-white px-4 py-3 text-fg",
+        className,
+      )}
+    >
+      Parties of 11 or more guests must pre-order their meals so our kitchen can prepare. Please call{" "}
+      <a href={restaurant.phoneHref} className={onDark ? "underline" : "font-medium text-primary underline"}>
+        (954) 428-2676
+      </a>{" "}
+      at least 3 days in advance to arrange your selections.
+    </p>
+  );
+}
+
+export { LargePartyNotice };
 
 function Socials({ className }: { className?: string }) {
   return (
@@ -190,6 +210,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         <a className="mt-2 block break-all" href={restaurant.emailHref}>
           {restaurant.email}
         </a>
+        {path === "/" ? <LargePartyNotice onDark className="mx-auto mt-4 max-w-md text-left" /> : null}
         <p className="mx-auto mt-10 max-w-md text-xs text-white/70">
           Dinner is daily, 5:00 PM – 10:00 PM, including Sunday. Lunch is daily, 11:00 AM – 2:00 PM, including Sunday, beginning November 26, 2026. Menu can change — call to confirm.
           <Link to="/accessibility-page-01" className="ml-2 underline underline-offset-4">
@@ -200,7 +221,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           </Link>
         </p>
       </footer>
-      <nav aria-label="Quick actions" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 bg-black text-white lg:hidden">
+      <nav aria-label="Quick actions" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 bg-black text-white lg:hidden">
         {bottom.map((item) =>
           "href" in item ? (
             <a key={item.label} href={item.href} className="px-1 py-3 text-center text-[11px] uppercase tracking-wide">

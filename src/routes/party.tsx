@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { InquiryForm } from "@/components/inquiry-form";
+import { LargePartyNotice } from "@/components/site-chrome";
 import { InteriorHold, SectionKicker } from "@/components/ui";
 
 export const Route = createFileRoute("/party")({
@@ -28,6 +29,7 @@ function PartyPage() {
           casual setting gives groups an easygoing way to gather. We can accommodate up to 50 guests
           at 1380 South Federal Highway. Inquire today to book your private party.
         </p>
+        <LargePartyNotice className="mt-6" />
         <InteriorHold className="mt-8 aspect-video w-full rounded-md" />
         <ul className="mt-8 grid gap-4 text-sm sm:grid-cols-2">
           {[
