@@ -42,7 +42,6 @@ function CateringPage() {
                 {section.items.map((item) => (
                   <li key={item.name} className="border-b border-green/30 py-3 last:border-0">
                     <span>{item.name}</span>
-                    {item.price ? <span className="ml-2 text-primary">{item.price}</span> : null}
                     {item.description ? <p className="mt-1 text-sm leading-relaxed text-muted">{item.description}</p> : null}
                   </li>
                 ))}
@@ -51,7 +50,7 @@ function CateringPage() {
             </section>
           ))}
           <p className="mt-6 text-sm text-muted">
-            We’ll confirm tray sizes and pricing when we call you back. Add pizza and salads on the inquiry.
+            We’ll confirm the trays when we call you back. Add pizza and salads on the inquiry.
           </p>
         </div>
         <aside className="h-fit rounded-md border border-border bg-surface p-6 lg:col-span-2 lg:sticky lg:top-24">

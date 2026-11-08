@@ -65,13 +65,11 @@ export const lunchMenu: MenuSection[] = [
     items: [
       {
         name: "Panino & Soup",
-        price: "$22",
         description:
-          "Your soup for just $3. Any whole panino plus a cup of soup. Dine-in or to-go. Daily once lunch service begins.",
+          "Any whole panino plus a cup of soup. Dine-in or to-go. Daily once lunch service begins.",
       },
       {
         name: "The Lunch Combo",
-        price: "$16",
         description: "Half a panino plus soup or a small salad. A lighter lunch for less.",
       },
     ],
@@ -142,19 +140,16 @@ export const lunchMenu: MenuSection[] = [
       {
         name: "Ciao Bella Pasta",
         badges: ["House favorite"],
-        price: "$20 chicken · $23 shrimp",
         description:
           "Alfredo-vodka blend with bacon and mushrooms, plus grilled chicken or wild-caught shrimp",
       },
       {
         name: "Pasta Plate",
-        price: "$16",
         description:
           "Choice of pasta and sauce, including our house favorite Ciao Bella (has bacon), plus a soda",
       },
       {
         name: "Chicken Parm & Pasta",
-        price: "$20",
         description: "Mama's fried chicken parmigiana, pasta, house salad",
       },
     ],
@@ -231,11 +226,10 @@ export const lunchMenu: MenuSection[] = [
     items: [
       {
         name: "Impero glass",
-        price: "$7",
-        description: "Or $5 paired with a dish or a board. Impero reds, whites, and rosé.",
+        description: "Impero reds, whites, and rosé. Paired with a dish or a board.",
       },
-      { name: "Impero bottle", price: "$19", description: "Regular bottle $38." },
-      { name: "Bottle and charcuterie board", price: "$44", description: "Dine-in." },
+      { name: "Impero bottle" },
+      { name: "Bottle and charcuterie board", description: "Dine-in." },
     ],
   },
 ];
@@ -636,9 +630,8 @@ export const cateringMenu: MenuSection[] = [
     items: [
       {
         name: "Team Lunch Special",
-        price: "$205",
         description:
-          "Full Chicken Alfredo tray plus a full Chicken Parmigiana tray, and a salad tray on us. Add a charcuterie platter for the team, +$69.",
+          "Full Chicken Alfredo tray plus a full Chicken Parmigiana tray, and a salad tray on us. Add a charcuterie platter for the team.",
       },
     ],
   },
@@ -667,7 +660,6 @@ export const cateringMenu: MenuSection[] = [
     id: "entree-trays",
     title: "Entrée Trays",
     kicker: "Chicken or veal, with pasta",
-    note: "Veal: call for pricing.",
     items: [
       { name: "Chicken or Veal Parmigiana, fried cutlet" },
       { name: "Grilled Chicken or Veal & Vegetables" },
@@ -678,22 +670,22 @@ export const cateringMenu: MenuSection[] = [
     title: "Pizza",
     kicker: "Chef Andrei's dough · 3 days notice",
     items: [
-      { name: "Margherita (V)", price: "Call" },
-      { name: "Pepperoni", price: "Call" },
-      { name: "Ciao Bella", badges: ["House favorite"], price: "Call" },
+      { name: "Margherita (V)" },
+      { name: "Pepperoni" },
+      { name: "Ciao Bella", badges: ["House favorite"] },
     ],
   },
   {
     id: "lunch-trays",
     title: "Lunch Trays",
     kicker: "Half and full trays",
-    note: "Call for tray pricing. Salads come with our house dressing on the side.",
+    note: "Salads come with our house dressing on the side.",
     items: [
       { name: "Charcuterie Platter, seasonal, serves 10", badges: ["New"] },
-      { name: "Panini Platter, house-made bread", price: "Call" },
-      { name: "House Salad, romaine (V)", price: "Call" },
-      { name: "Arugula Salad (V)", price: "Call" },
-      { name: "House-made soup, by the quart", price: "Call" },
+      { name: "Panini Platter, house-made bread" },
+      { name: "House Salad, romaine (V)" },
+      { name: "Arugula Salad (V)" },
+      { name: "House-made soup, by the quart" },
     ],
   },
   {
@@ -701,9 +693,9 @@ export const cateringMenu: MenuSection[] = [
     title: "Dessert",
     note: "Whole cakes for birthdays and events: add one to any catering order. Order 3 days ahead.",
     items: [
-      { name: "Chocolate Mousse Cake", price: "Call" },
-      { name: "Cheesecake", price: "Call" },
-      { name: "Tiramisu", price: "Call" },
+      { name: "Chocolate Mousse Cake" },
+      { name: "Cheesecake" },
+      { name: "Tiramisu" },
     ],
   },
 ];

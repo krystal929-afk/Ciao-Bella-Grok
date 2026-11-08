@@ -48,10 +48,10 @@ function FoodMenu() {
         </div>
         {lunchNotice ? (
           <p className="mt-6 bg-white px-5 py-4 text-base leading-relaxed shadow-sm">
-            Lunch service begins November 26, 2026. It is not available before that date. Dinner is 5:00 PM – 10:00 PM.
+            Lunch is daily, including Sunday, 11:00 AM – 2:00 PM, beginning November 26, 2026. It is not served before that date. Dinner is daily, 5:00 PM – 10:00 PM, including Sunday.
           </p>
         ) : null}
-        <MenuStack sections={sections} />
+        <MenuStack sections={sections} showPrices={menu !== "lunch" && menu !== "catering"} />
       </div>
     </div>
   );

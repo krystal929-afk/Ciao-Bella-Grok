@@ -16,23 +16,37 @@ const photos: Record<string, { src: string; alt: string }> = {
   impero: { src: "/images/brand/wine.jpg", alt: "Bottles on the wine rack" },
 };
 
-export function MenuStack({ sections }: { sections: MenuSection[] }) {
+export function MenuStack({ sections, showPrices = true }: { sections: MenuSection[]; showPrices?: boolean }) {
   return (
     <div className="mt-6 flex flex-col gap-6">
       {sections.map((section) => (
-        <MenuCard key={section.id} section={section} />
+        <MenuCard key={section.id} section={section} showPrices={showPrices} />
       ))}
     </div>
   );
 }
 
-function MenuCard({ section }: { section: MenuSection }) {
+function publicCopy(text: string | undefined, showPrices: boolean) {
+  if (!text || showPrices) return text;
+  return text
+    .replace(/\$\d+(?:\.\d+)?\s+Impero glasses\.?\s*/gi, "")
+    .replace(/\$\d+(?:\.\d+)?/g, "")
+    .replace(/\bcall for (?:tray )?pricing\.?\s*/gi, "")
+    .replace(/\bveal:\s*/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([.,])/g, "$1")
+    .trim();
+}
+
+function MenuCard({ section, showPrices }: { section: MenuSection; showPrices: boolean }) {
   const photo = photos[section.id];
   return (
     <section id={section.id} className="scroll-mt-24 border-l-4 border-primary bg-white px-5 py-8 shadow-sm sm:px-8">
       {photo ? <img src={photo.src} alt={photo.alt} className="mb-6 aspect-[4/3] w-full object-cover" /> : null}
       <h2 className="text-center font-display text-3xl uppercase tracking-wide text-green">{section.title}</h2>
-      {section.kicker ? <p className="mt-2 text-center text-sm leading-relaxed">{section.kicker}</p> : null}
+      {publicCopy(section.kicker, showPrices) ? (
+        <p className="mt-2 text-center text-sm leading-relaxed">{publicCopy(section.kicker, showPrices)}</p>
+      ) : null}
       <ul className="mt-6">
         {section.items.map((item) => (
           <li key={item.name} className="border-b border-green/40 py-4 last:border-0">
@@ -43,13 +57,19 @@ function MenuCard({ section }: { section: MenuSection }) {
                   {badge}
                 </span>
               ))}
-              {item.price ? <span className="mt-1 block font-display text-primary sm:float-right sm:mt-0">{item.price}</span> : null}
+              {showPrices && item.price ? (
+                <span className="mt-1 block font-display text-primary sm:float-right sm:mt-0">{item.price}</span>
+              ) : null}
             </h3>
-            {item.description ? <p className="mt-1 text-sm leading-relaxed text-muted">{item.description}</p> : null}
+            {publicCopy(item.description, showPrices) ? (
+              <p className="mt-1 text-sm leading-relaxed text-muted">{publicCopy(item.description, showPrices)}</p>
+            ) : null}
           </li>
         ))}
       </ul>
-      {section.note ? <p className="mt-4 text-base leading-relaxed">{section.note}</p> : null}
+      {publicCopy(section.note, showPrices) ? (
+        <p className="mt-4 text-base leading-relaxed">{publicCopy(section.note, showPrices)}</p>
+      ) : null}
       {section.warning ? (
         <p className="mt-4 text-base leading-relaxed text-fg print:text-[12pt]">{section.warning}</p>
       ) : null}

@@ -12,6 +12,81 @@ export const Route = createFileRoute("/desk")({
 
 type Desk = DeskBoard;
 
+function notice(status: string) {
+  if (status === "sent") return "Email sent";
+  if (status === "held") return "Saved. Email is held until sending is turned on";
+  if (status === "done") return "Closed";
+  return "Saved. Email has not been sent";
+}
+
+function linesOf(body: string) {
+  const fields: { label: string; value: string }[] = [];
+  for (const line of body.split("\n")) {
+    const split = line.indexOf(":");
+    if (split === -1) continue;
+    const label = line.slice(0, split).trim();
+    const value = line.slice(split + 1).trim();
+    if (label && value) fields.push({ label, value });
+  }
+  return fields;
+}
+
+function InquiryCard({
+  note,
+  onDone,
+}: {
+  note: Desk["inbox"][number];
+  onDone: () => void;
+}) {
+  const fields = linesOf(note.body);
+  const date = fields.find((field) => field.label.toLowerCase() === "date")?.value;
+  const details = fields.filter((field) => !["name", "email", "phone", "date"].includes(field.label.toLowerCase()));
+  return (
+    <li className="rounded-md border border-border bg-white p-4">
+      <p className="text-xs uppercase tracking-widest text-primary">
+        {note.kind} · {note.code}
+      </p>
+      <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+        <div>
+          <dt className="text-muted">Name</dt>
+          <dd>{note.name || "—"}</dd>
+        </div>
+        <div>
+          <dt className="text-muted">Email</dt>
+          <dd className="break-all">{note.email || "—"}</dd>
+        </div>
+        <div>
+          <dt className="text-muted">Telephone</dt>
+          <dd>{note.phone || "—"}</dd>
+        </div>
+        <div>
+          <dt className="text-muted">Date</dt>
+          <dd>{date || (note.kind === "job" ? "Not on this form" : "—")}</dd>
+        </div>
+      </dl>
+      <div className="mt-3 text-sm">
+        <p className="text-muted">Details</p>
+        {details.length === 0 ? <p>—</p> : null}
+        {details.map((field) => (
+          <p key={field.label}>
+            <span className="text-muted">{field.label}: </span>
+            {field.value}
+          </p>
+        ))}
+      </div>
+      <p className="mt-3 text-sm">
+        <span className="text-muted">Notification: </span>
+        {notice(note.status)}
+      </p>
+      {note.status !== "done" ? (
+        <button type="button" className="mt-3 text-sm underline" onClick={onDone}>
+          Mark done
+        </button>
+      ) : null}
+    </li>
+  );
+}
+
 function DeskPage() {
   const [pin, setPin] = useState("");
   const [desk, setDesk] = useState<Desk | null>(null);
@@ -123,18 +198,7 @@ function DeskPage() {
         {notes.length === 0 ? <p className="mt-3 text-sm text-muted">Nothing waiting.</p> : null}
         <ul className="mt-3 space-y-3">
           {notes.map((note) => (
-            <li key={note.id} className="rounded-md border border-border p-4">
-              <p className="text-xs uppercase tracking-widest text-primary">
-                {note.kind} · {note.code} · {note.status === "sent" ? "emailed" : note.status === "held" ? "saved, email not sent" : note.status}
-              </p>
-              <p className="mt-1 font-medium">
-                {note.name} · {note.phone}
-              </p>
-              <p className="mt-1 text-sm text-muted">{note.summary}</p>
-              <button type="button" className="mt-3 text-sm underline" onClick={() => void closeNote(note.id)}>
-                Mark done
-              </button>
-            </li>
+            <InquiryCard key={note.id} note={note} onDone={() => void closeNote(note.id)} />
           ))}
         </ul>
       </section>

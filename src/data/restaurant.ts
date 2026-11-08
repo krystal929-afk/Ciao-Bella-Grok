@@ -21,11 +21,15 @@ export const sliceOrder = {
 
 /**
  * TableAgent is the only reservation, waitlist, and table book.
- * The iframe is Ciao Bella’s widget. The listing URL says “miami” because
- * TableAgent filed the free account that way; the address on the listing is Deerfield Beach.
+ * Online booking stays off until GB confirms it is switched on there.
+ * The iframe is Ciao Bella’s widget. The search URL is the direct book,
+ * used only if the widget cannot be embedded. Do not link the public directory.
  */
+export const BOOKING_ENABLED = false;
+
 export const tableAgent = {
   embed: "https://tableagent.com/iframe/ciao-bella-trattoria/",
+  search: "https://tableagent.com/miami/ciao-bella-trattoria/table-search/",
   listing: "https://tableagent.com/miami/ciao-bella-trattoria/",
   staff: "https://tableagent.com/reservation-system/",
 };
