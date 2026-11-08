@@ -243,7 +243,7 @@ export const dinnerMenu: MenuSection[] = [
     items: [
       {
         name: "Grilled Australian Lamb Chops",
-        price: "$65",
+        price: "MKT$",
         description:
           "Five chops, oven-roasted lemon-rosemary fries, our house-made honey Dijon sauce. Pairs with Impero Cabernet.",
       },
@@ -630,8 +630,9 @@ export const cateringMenu: MenuSection[] = [
     items: [
       {
         name: "Team Lunch Special",
+        price: "$205",
         description:
-          "Full Chicken Alfredo tray plus a full Chicken Parmigiana tray, and a salad tray on us. Add a charcuterie platter for the team.",
+          "Full Chicken Alfredo tray plus a full Chicken Parmigiana tray, and a salad tray on us. Add a charcuterie platter for the team, +$69.",
       },
     ],
   },

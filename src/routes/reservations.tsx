@@ -1,16 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
-import { BOOKING_ENABLED, restaurant, tableAgent } from "@/data/restaurant";
+import { restaurant, tableAgent } from "@/data/restaurant";
 import { SectionKicker } from "@/components/ui";
+
+const bookingOn = createServerFn({ method: "GET" }).handler(async () => {
+  return process.env.BOOKING_ENABLED?.trim().toLowerCase() === "true";
+});
 
 export const Route = createFileRoute("/reservations")({
   head: () => ({ meta: [{ title: "Reservations · Ciao Bella Trattoria" }] }),
+  loader: () => bookingOn(),
   component: ReservationsPage,
 });
 
 function ReservationsPage() {
+  const enabled = Route.useLoaderData();
   return (
-    <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+    <div
+      data-booking={enabled ? "on" : "off"}
+      className="mx-auto grid max-w-6xl gap-6 px-4 pb-0 pt-8 max-lg:-mb-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-12 lg:py-14"
+    >
       <div>
         <SectionKicker>Dine with us</SectionKicker>
         <h1 className="mt-3 font-display text-5xl leading-tight">Reservations</h1>
@@ -31,7 +41,7 @@ function ReservationsPage() {
           </div>
         </dl>
       </div>
-      {BOOKING_ENABLED ? <BookingWidget /> : <CallToReserve />}
+      {enabled ? <BookingWidget /> : <CallToReserve />}
     </div>
   );
 }

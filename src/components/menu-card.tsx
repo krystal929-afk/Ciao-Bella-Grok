@@ -57,12 +57,14 @@ function MenuCard({ section, showPrices }: { section: MenuSection; showPrices: b
                   {badge}
                 </span>
               ))}
-              {showPrices && item.price ? (
+              {item.price ? (
                 <span className="mt-1 block font-display text-primary sm:float-right sm:mt-0">{item.price}</span>
               ) : null}
             </h3>
-            {publicCopy(item.description, showPrices) ? (
-              <p className="mt-1 text-sm leading-relaxed text-muted">{publicCopy(item.description, showPrices)}</p>
+            {publicCopy(item.description, showPrices || Boolean(item.price)) ? (
+              <p className="mt-1 text-sm leading-relaxed text-muted">
+                {publicCopy(item.description, showPrices || Boolean(item.price))}
+              </p>
             ) : null}
           </li>
         ))}

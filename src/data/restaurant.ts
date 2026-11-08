@@ -21,9 +21,11 @@ export const sliceOrder = {
 
 /**
  * TableAgent is the only reservation, waitlist, and table book.
- * Online booking stays off until GB confirms it is switched on there.
- * The iframe is Ciao Bella’s widget. The search URL is the direct book,
- * used only if the widget cannot be embedded. Do not link the public directory.
+ * Booking stays off until GB sets the Worker variable BOOKING_ENABLED to the
+ * exact string "true" (Cloudflare → Settings → Variables, or a Worker secret).
+ * The reservations loader reads it on the server, so the HTML and the browser
+ * render the same state. Anything else, including an unset variable, stays on
+ * Call to Reserve. Do not turn this constant on in the client bundle.
  */
 export const BOOKING_ENABLED = false;
 

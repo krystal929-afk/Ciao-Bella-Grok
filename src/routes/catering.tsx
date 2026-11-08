@@ -42,6 +42,9 @@ function CateringPage() {
                 {section.items.map((item) => (
                   <li key={item.name} className="border-b border-green/30 py-3 last:border-0">
                     <span>{item.name}</span>
+                    {item.price ? (
+                      <span className="float-right font-display text-primary">{item.price}</span>
+                    ) : null}
                     {item.description ? <p className="mt-1 text-sm leading-relaxed text-muted">{item.description}</p> : null}
                   </li>
                 ))}

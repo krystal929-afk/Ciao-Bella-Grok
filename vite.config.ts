@@ -1,6 +1,8 @@
-import { readdirSync } from "node:fs";
+import { createReadStream, existsSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
-import type { Plugin } from "vite";
+import type { Connect, Plugin } from "vite";
+import { rangeResponsePlan } from "./scripts/video-range.mjs";
+import { unifyCss } from "./scripts/unify-css.mjs";
 import { defineConfig } from "vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
@@ -22,20 +24,79 @@ function hasGlobbedMigrations(root: string): boolean {
   }
 }
 
+function videoFile(root: string, name: string, preview: boolean) {
+  if (!name || name.includes("..") || name.includes("/") || !name.endsWith(".mp4")) return null;
+  const candidates = preview
+    ? [join(root, "dist/client/video", name), join(root, "public/video", name)]
+    : [join(root, "public/video", name)];
+  return candidates.find((candidate) => existsSync(candidate)) ?? null;
+}
+
+function videoRangeMiddleware(root: string, preview: boolean): Connect.NextHandleFunction {
+  return (req, res, next) => {
+    const pathOnly = (req.url ?? "").split("?", 1)[0] ?? "";
+    if (!pathOnly.startsWith("/video/")) {
+      next();
+      return;
+    }
+    const file = videoFile(root, pathOnly.slice("/video/".length), preview);
+    if (!file) {
+      next();
+      return;
+    }
+    const method = (req.method ?? "GET").toUpperCase();
+    if (method !== "GET" && method !== "HEAD") {
+      res.statusCode = 405;
+      res.setHeader("Allow", "GET, HEAD");
+      res.end("Method Not Allowed");
+      return;
+    }
+    const size = statSync(file).size;
+    const plan = rangeResponsePlan(size, req.headers.range);
+    res.setHeader("Accept-Ranges", "bytes");
+    res.setHeader("Content-Type", "video/mp4");
+    res.setHeader("Cache-Control", "public, max-age=86400");
+    if (plan.status === 416) {
+      res.statusCode = 416;
+      res.setHeader("Content-Range", plan.contentRange ?? `bytes */${size}`);
+      res.setHeader("Content-Length", "0");
+      res.end();
+      return;
+    }
+    res.statusCode = plan.status;
+    res.setHeader("Content-Length", String(plan.length));
+    if (plan.contentRange) res.setHeader("Content-Range", plan.contentRange);
+    if (method === "HEAD") {
+      res.end();
+      return;
+    }
+    createReadStream(file, { start: plan.start, end: plan.end }).pipe(res);
+  };
+}
+
 function videoRangePlugin(): Plugin {
   return {
     name: "ciao-bella-video-range",
-    apply: "serve",
     configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        const pathOnly = (req.url ?? "").split("?", 1)[0] ?? "";
-        if (!pathOnly.startsWith("/video/") || !pathOnly.endsWith(".mp4")) {
-          next();
-          return;
-        }
-        res.setHeader("Accept-Ranges", "bytes");
-        next();
-      });
+      server.middlewares.use(videoRangeMiddleware(server.config.root, false));
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(videoRangeMiddleware(server.config.root, true));
+    },
+  };
+}
+
+function cssUnifyPlugin(): Plugin {
+  return {
+    name: "ciao-bella-css-unify",
+    apply: "build",
+    enforce: "post",
+    closeBundle() {
+      const result = unifyCss(process.cwd());
+      if (!result) return;
+      console.log(
+        `[ciao-bella] stylesheet ${result.canonicalUrl} (emitted ${result.emitted.join(", ")}), rewrote ${result.rewrote} files`,
+      );
     },
   };
 }
@@ -204,5 +265,6 @@ export default defineConfig(({ command, isPreview }) => ({
         ]
       : []),
     viteReact(),
+    cssUnifyPlugin(),
   ],
 }));
