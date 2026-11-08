@@ -22,6 +22,24 @@ function hasGlobbedMigrations(root: string): boolean {
   }
 }
 
+function videoRangePlugin(): Plugin {
+  return {
+    name: "ciao-bella-video-range",
+    apply: "serve",
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const pathOnly = (req.url ?? "").split("?", 1)[0] ?? "";
+        if (!pathOnly.startsWith("/video/") || !pathOnly.endsWith(".mp4")) {
+          next();
+          return;
+        }
+        res.setHeader("Accept-Ranges", "bytes");
+        next();
+      });
+    },
+  };
+}
+
 /**
  * Finish PGLite bootstrap during dev-server setup (before traffic). Vite awaits
  * async `configureServer` hooks. Production: `src/lib/db` kicks `ensureDbReady`
@@ -165,6 +183,7 @@ export default defineConfig(({ command, isPreview }) => ({
   plugins: [
     ...(workers ? [cloudflare({ viteEnvironment: { name: "ssr" } })] : []),
     pgliteBootstrapPlugin(),
+    videoRangePlugin(),
     // Before tanstackStart so /auth/popup never falls through to the SPA.
     authPopupPlugin(),
     // Dev-only /__app-env, read by scripts/check-auth-invariant.mjs.

@@ -1,4 +1,4 @@
-import { sliceOrder, type MenuSection } from "@/data/restaurant";
+import { sliceOrder } from "@/data/restaurant";
 
 export type Promo = {
   id: string;
@@ -62,175 +62,43 @@ export const promos: Promo[] = [
     href: "/party",
   },
 ];
-export const drinkMenu: MenuSection[] = [
-	{
-		id: "red",
-		title: "Red",
-		items: [
-			{
-				name: "Cabernet Sauvignon \"Fuga\", Apulia",
-				description: "Deep ruby color, intense and round, excellent tannins."
-			},
-			{
-				name: "Pinot Noir, Calatroni, Italy",
-				description: "Boysenberry, dark cherry, and roasty mocha."
-			},
-			{
-				name: "Chianti Classico DOCG, Nabucco",
-				description: "Ripe cherry and strawberry on the nose."
-			},
-			{
-				name: "Supertuscan Origo, Sangiovese/Cabernet",
-				description: "Excellent body, matured in small French oak."
-			},
-			{
-				name: "Montepulciano Roma DOC, Poggio Le Volpi",
-				description: "Bright ruby, ripe red fruit and cherry."
-			},
-			{
-				name: "Ripasso della Valpolicella, Tinazzi",
-				description: "Deep ruby, prunes and cherry. 96 pts."
-			},
-			{
-				name: "Amarone della Valpolicella DOCG, Villa Loren",
-				description: "Full bodied, elegant tannins, long finish."
-			},
-			{
-				name: "Brunello di Montalcino DOCG, La Togata",
-				description: "Full-bodied, structured, austere and tannic. 92 pts."
-			},
-			{
-				name: "Barolo DOCG, Tre Pais, Piedmont",
-				description: "Full ruby, dry, long."
-			},
-			{
-				name: "Barbera d'Asti, Duedu., Piedmont",
-				description: "Vinous and fruity, with violet."
-			}
-		]
-	},
-	{
-		id: "white",
-		title: "White",
-		items: [
-			{
-				name: "Prosecco Split, 200 ml",
-			},
-			{
-				name: "Prosecco DOC, Nino Ardevi",
-			},
-			{
-				name: "Rosé di Amarone DOP, Campo delle Rose",
-				description: "Salmon pink. Raspberry and wild cherry."
-			},
-			{
-				name: "Pinot Grigio delle Venezie, Tinazzi",
-				description: "Straw yellow, fruity, floral."
-			},
-			{
-				name: "Sauvignon Blanc, Collevento 921",
-				description: "Citrus and a refined finish."
-			},
-			{
-				name: "Falanghina del Benevento, Lava",
-				description: "Medium-bodied, intense, persistent."
-			}
-		]
-	},
-	{
-		id: "impero",
-		title: "Impero Premium Collection",
-		items: [
-			{
-				name: "Pinot Grigio",
-			},
-			{
-				name: "Chardonnay",
-			},
-			{
-				name: "Rosé",
-			},
-			{
-				name: "Cabernet",
-			},
-			{
-				name: "Merlot",
-			},
-			{
-				name: "Chianti DOCG",
-			}
-		]
-	},
-	{
-		id: "hot",
-		title: "Hot Drinks",
-		items: [
-			{
-				name: "Espresso",
-				description: "A single shot of Italian espresso."
-			},
-			{
-				name: "Caffè Americano",
-				description: "Espresso lengthened with hot water."
-			},
-			{
-				name: "Cappuccino",
-				description: "Espresso, steamed milk, and foam."
-			},
-			{
-				name: "Hot Tea",
-			}
-		]
-	},
-	{
-		id: "fresh",
-		title: "Fresh Drinks",
-		items: [
-			{
-				name: "Red Bull",
-				description: "The classic Red Bull."
-			},
-			{
-				name: "Canned soda",
-				description: "Cola, diet cola, or lemon-lime."
-			},
-			{
-				name: "Iced Tea",
-			},
-			{
-				name: "Panna water",
-			},
-			{
-				name: "San Pellegrino",
-			},
-			{
-				name: "Beer, domestic",
-			},
-			{
-				name: "Beer, imported",
-			}
-		]
-	}
-];
+export { drinkMenu } from "@/data/service-menus";
 export const specials = [
-	{
-		day: "Tuesday",
-		title: "Wine Night",
-		detail: "Half-price bottles. Glass $7, or $5 paired with a dish or board. Bottle $19. Bottle plus charcuterie board $44.",
-		hours: "5:00 PM – 9:00 PM"
-	},
-	{
-		day: "Wednesday",
-		title: "Wine Night",
-		detail: "Half-price bottles of wine.",
-		hours: "5:00 PM – 9:00 PM"
-	},
-	{
-		day: "Thursday",
-		title: "Pizza Night",
-		detail: "16\" pizza for $15. Dine-in only.",
-		hours: "5:00 PM – 9:00 PM"
-	}
+  {
+    day: "Tuesday",
+    title: "Wine Night",
+    detail:
+      "Impero wines. $5 a glass paired or with a board, or $7 for an Impero glass. Bottle $19 (regular $38). Bottle plus charcuterie board $44, dine-in.",
+    hours: "5:00 PM – 10:00 PM",
+  },
+  {
+    day: "Wednesday",
+    title: "Wine Night",
+    detail:
+      "Impero wines. $5 a glass paired or with a board, or $7 for an Impero glass. Bottle $19 (regular $38). Bottle plus charcuterie board $44, dine-in.",
+    hours: "5:00 PM – 10:00 PM",
+  },
+  {
+    day: "Thursday",
+    title: "Wine Night",
+    detail:
+      "Impero wines. $5 a glass paired or with a board, or $7 for an Impero glass. Bottle $19 (regular $38). Bottle plus charcuterie board $44, dine-in.",
+    hours: "5:00 PM – 10:00 PM",
+  },
+  {
+    day: "Friday",
+    title: "Wine Night",
+    detail:
+      "Impero wines, 5:00 PM – 10:00 PM. $5 a glass paired or with a board, or $7 for an Impero glass. Bottle $19 (regular $38). Bottle plus charcuterie board $44, dine-in. Fritto Friday, once lunch begins November 26: Pollo Fritto panino, fries and a soda, $23.",
+    hours: "5:00 PM – 10:00 PM",
+  },
+  {
+    day: "Sunday",
+    title: "Mama's Sunday Supper",
+    detail:
+      "$75. Feeds 4: Pollo Fritto, a big bowl of pasta, house salad, garlic knots. $5 Impero glasses. Dine-in or takeout.",
+    hours: "5:00 PM – 10:00 PM",
+  },
 ];
 export const slides = [
   {

@@ -42,9 +42,12 @@ function CateringPage() {
                 {section.items.map((item) => (
                   <li key={item.name} className="border-b border-green/30 py-3 last:border-0">
                     <span>{item.name}</span>
+                    {item.price ? <span className="ml-2 text-primary">{item.price}</span> : null}
+                    {item.description ? <p className="mt-1 text-sm leading-relaxed text-muted">{item.description}</p> : null}
                   </li>
                 ))}
               </ul>
+              {section.note ? <p className="mt-3 text-sm leading-relaxed text-muted">{section.note}</p> : null}
             </section>
           ))}
           <p className="mt-6 text-sm text-muted">

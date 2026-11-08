@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { dinnerMenu, lunchMenu, cateringMenu, type MenuSection } from "@/data/restaurant";
+import { MenuStack } from "@/components/menu-card";
+import { dinnerMenu, lunchMenu, healthyMenu, cateringMenu, type MenuSection } from "@/data/restaurant";
 import { cn } from "@/lib/cn";
 
 export const Route = createFileRoute("/food-menu")({
@@ -8,18 +9,19 @@ export const Route = createFileRoute("/food-menu")({
   component: FoodMenu,
 });
 
-const highlights: Record<string, { src: string; alt: string }> = {
-  appetizers: { src: "/images/brand/bruschetta.jpg", alt: "Bruschetta on a board of arugula" },
-  pizza: { src: "/images/brand/pizza-cheese.jpg", alt: "Cheese pizza with a blistered crust" },
-  chicken: { src: "/images/brand/parm.jpg", alt: "Chicken parmigiana with penne" },
-  fish: { src: "/images/brand/salmon.jpg", alt: "Salmon with caprese salad" },
-  pasta: { src: "/images/brand/shrimp.jpg", alt: "Shrimp scampi over pasta" },
-  desserts: { src: "/images/brand/tiramisu.jpg", alt: "Slice of tiramisu" },
-};
+const menus = [
+  { id: "dinner", label: "Dinner menu", sections: dinnerMenu },
+  { id: "lunch", label: "Lunch menu", sections: lunchMenu },
+  { id: "healthy", label: "Healthy menu", sections: healthyMenu },
+  { id: "catering", label: "Catering menu", sections: cateringMenu },
+] as const;
+
+type MenuId = (typeof menus)[number]["id"];
 
 function FoodMenu() {
-  const [menu, setMenu] = useState<"lunch" | "dinner" | "catering">("dinner");
-  const sections = menu === "lunch" ? lunchMenu : menu === "dinner" ? dinnerMenu : cateringMenu;
+  const [menu, setMenu] = useState<MenuId>("dinner");
+  const sections: MenuSection[] = menus.find((item) => item.id === menu)?.sections ?? dinnerMenu;
+  const lunchNotice = menu === "lunch" || menu === "healthy";
 
   return (
     <div className="relative">
@@ -30,67 +32,27 @@ function FoodMenu() {
       <div className="pointer-events-none absolute inset-0 bg-bg/80" aria-hidden />
       <div className="relative mx-auto max-w-3xl px-4 py-8 pb-16">
         <div className="bg-white shadow-sm">
-          <button
-            type="button"
-            className={cn(
-              "block w-full py-3 text-center font-display text-sm uppercase tracking-[0.28em]",
-              menu === "dinner" ? "text-fg" : "bg-primary text-white",
-            )}
-            onClick={() => setMenu("dinner")}
-          >
-            Dinner menu
-          </button>
-          <button
-            type="button"
-            className={cn(
-              "block w-full py-3 text-center font-display text-sm uppercase tracking-[0.28em]",
-              menu === "lunch" ? "text-fg" : "bg-primary text-white",
-            )}
-            onClick={() => setMenu("lunch")}
-          >
-            Lunch menu
-          </button>
-          <button
-            type="button"
-            className={cn(
-              "block w-full py-3 text-center font-display text-sm uppercase tracking-[0.28em]",
-              menu === "catering" ? "text-fg" : "bg-primary text-white",
-            )}
-            onClick={() => setMenu("catering")}
-          >
-            Catering menu
-          </button>
-        </div>
-        <div className="mt-6 flex flex-col gap-6">
-          {sections.map((section) => (
-            <MenuCard key={section.id} section={section} />
+          {menus.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={cn(
+                "block w-full py-3 text-center font-display text-sm uppercase tracking-[0.28em]",
+                menu === item.id ? "text-fg" : "bg-primary text-white",
+              )}
+              onClick={() => setMenu(item.id)}
+            >
+              {item.label}
+            </button>
           ))}
         </div>
+        {lunchNotice ? (
+          <p className="mt-6 bg-white px-5 py-4 text-base leading-relaxed shadow-sm">
+            Lunch service begins November 26, 2026. It is not available before that date. Dinner is 5:00 PM – 10:00 PM.
+          </p>
+        ) : null}
+        <MenuStack sections={sections} />
       </div>
     </div>
-  );
-}
-
-function MenuCard({ section }: { section: MenuSection }) {
-  const photo = highlights[section.id];
-  return (
-    <section id={section.id} className="scroll-mt-24 border-l-4 border-primary bg-white px-5 py-8 shadow-sm sm:px-8">
-      {photo ? (
-        <img src={photo.src} alt={photo.alt} className="mb-6 aspect-[4/3] w-full object-cover" />
-      ) : null}
-      <h2 className="text-center font-display text-3xl uppercase tracking-wide text-green">{section.title}</h2>
-      <ul className="mt-6">
-        {section.items.map((item) => (
-          <li key={item.name} className="border-b border-green/40 py-4 last:border-0">
-            <h3 className="text-lg">{item.name}</h3>
-            {item.description ? <p className="mt-1 text-sm leading-relaxed text-muted">{item.description}</p> : null}
-          </li>
-        ))}
-      </ul>
-      {section.note ? <p className="mt-4 text-base leading-relaxed">{section.note}</p> : null}
-      {section.warning ? (
-        <p className="mt-4 text-base leading-relaxed text-fg print:text-[12pt]">{section.warning}</p>
-      ) : null}
-    </section>
   );
 }
