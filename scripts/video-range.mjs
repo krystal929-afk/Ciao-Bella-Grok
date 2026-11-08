@@ -66,3 +66,39 @@ export function rangeResponsePlan(size, header) {
     contentRange: `bytes ${described.start}-${described.end}/${size}`,
   };
 }
+
+/**
+ * Read a response body. Cloudflare's asset binding often omits Content-Length,
+ * so a range slice has to measure the bytes itself.
+ * @param {Response} asset
+ * @param {number | undefined} limit stop after this many bytes (exclusive end)
+ * @returns {Promise<Uint8Array>}
+ */
+export async function readResponseBytes(asset, limit) {
+  if (!asset.body) return new Uint8Array(0);
+  const reader = asset.body.getReader();
+  /** @type {Uint8Array[]} */
+  const chunks = [];
+  let seen = 0;
+  try {
+    while (limit == null || seen < limit) {
+      const { done, value } = await reader.read();
+      if (done || !value) break;
+      chunks.push(value);
+      seen += value.byteLength;
+    }
+  } finally {
+    try {
+      await reader.cancel();
+    } catch {
+      /* stream already closed */
+    }
+  }
+  const merged = new Uint8Array(seen);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return merged;
+}

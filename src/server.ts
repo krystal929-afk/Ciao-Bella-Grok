@@ -1,5 +1,5 @@
 import { createStartHandler, defaultStreamHandler } from "@tanstack/react-start/server";
-import { rangeResponsePlan } from "../scripts/video-range.mjs";
+import { rangeResponsePlan, readResponseBytes } from "../scripts/video-range.mjs";
 
 const start = createStartHandler(defaultStreamHandler);
 
@@ -49,14 +49,26 @@ function withVideoHeaders(response: Response, method: string) {
 }
 
 async function sliceFullAsset(request: Request, asset: Response): Promise<Response> {
-  const size = Number(asset.headers.get("content-length") ?? "");
   const headers = new Headers();
   headers.set("accept-ranges", "bytes");
   headers.set("content-type", "video/mp4");
   headers.set("cache-control", asset.headers.get("cache-control") ?? "public, max-age=86400");
-  if (!Number.isFinite(size) || size <= 0 || !asset.body) {
-    return new Response(request.method === "HEAD" ? null : asset.body, { status: asset.status, headers });
+
+  const declared = Number(asset.headers.get("content-length") ?? "");
+  const knownSize = Number.isFinite(declared) && declared > 0;
+  let size = knownSize ? declared : 0;
+  let bytes: Uint8Array | null = null;
+  if (!knownSize) {
+    bytes = await readResponseBytes(asset);
+    size = bytes.byteLength;
   }
+  if (!Number.isFinite(size) || size <= 0) {
+    return new Response(request.method === "HEAD" ? null : bytes, {
+      status: asset.ok ? 200 : asset.status,
+      headers,
+    });
+  }
+
   const plan = rangeResponsePlan(size, request.headers.get("range"));
   if (plan.status === 416) {
     headers.set("content-range", plan.contentRange ?? `bytes */${size}`);
@@ -65,29 +77,14 @@ async function sliceFullAsset(request: Request, asset: Response): Promise<Respon
   }
   if (plan.status === 200) {
     headers.set("content-length", String(size));
-    return new Response(request.method === "HEAD" ? null : asset.body, { status: 200, headers });
+    return new Response(request.method === "HEAD" ? null : (bytes ?? asset.body), {
+      status: 200,
+      headers,
+    });
   }
-  const reader = asset.body.getReader();
-  const chunks: Uint8Array[] = [];
-  let seen = 0;
-  const need = plan.end + 1;
-  try {
-    while (seen < need) {
-      const { done, value } = await reader.read();
-      if (done || !value) break;
-      chunks.push(value);
-      seen += value.byteLength;
-    }
-  } finally {
-    await reader.cancel();
-  }
-  const merged = new Uint8Array(seen);
-  let offset = 0;
-  for (const chunk of chunks) {
-    merged.set(chunk, offset);
-    offset += chunk.byteLength;
-  }
-  const slice = merged.subarray(plan.start, plan.end + 1);
+
+  if (!bytes) bytes = await readResponseBytes(asset, plan.end + 1);
+  const slice = bytes.subarray(plan.start, Math.min(plan.end + 1, bytes.byteLength));
   headers.set("content-range", plan.contentRange ?? "");
   headers.set("content-length", String(slice.byteLength));
   return new Response(request.method === "HEAD" ? null : slice, { status: 206, headers });
