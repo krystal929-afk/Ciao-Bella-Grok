@@ -277,8 +277,8 @@ export const slides = [
     title: "Host And Celebrate",
     href: "/party",
     label: "Book a private party",
-    image: "/images/brand/dining-wide.jpg",
-    alt: "The dining room set with white cloths",
+    image: "/images/brand/interior-hold.svg",
+    alt: "Dining room photographs are paused during the renovation",
   },
   {
     title: "Catering With Tradition",

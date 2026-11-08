@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Pause, Play, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gallery, promos, slides } from "@/data/menus";
 import { joinList, fileInquiry } from "@/lib/house.functions";
 import { cn } from "@/lib/cn";
@@ -8,38 +8,46 @@ import { cn } from "@/lib/cn";
 const PROMO_SEEN = "ciaobella-promo-seen";
 const PROMO_INDEX = "ciaobella-promo-index";
 
-const HERO_FRAMES = [
-  { src: "/images/brand/dining-wide.jpg", alt: "The dining room set with white cloths" },
-  { src: "/images/brand/bruschetta.jpg", alt: "Bruschetta on a board of arugula" },
-  { src: "/images/brand/shrimp.jpg", alt: "Shrimp scampi over pasta" },
-  { src: "/images/brand/calamari.jpg", alt: "Fried calamari with marinara and lemon" },
-] as const;
+const HERO_VIDEO = "/video/ciao-bella-hero.mp4";
 
 export function HeroFilm() {
-  const [index, setIndex] = useState(0);
-  const [playing, setPlaying] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
-    if (!playing) return;
+    const video = videoRef.current;
+    if (!video) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => setIndex((value) => (value + 1) % HERO_FRAMES.length), 4500);
-    return () => window.clearInterval(timer);
-  }, [playing]);
+    video.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+  }, []);
+
+  function toggle() {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    } else {
+      video.pause();
+      setPlaying(false);
+    }
+  }
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden bg-black">
-      {HERO_FRAMES.map((frame, frameIndex) => (
-        <img
-          key={frame.src}
-          src={frame.src}
-          alt={frame.alt}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${frameIndex === index ? "opacity-100" : "opacity-0"}`}
-        />
-      ))}
+    <div className="relative aspect-video w-full bg-black">
+      <video
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover"
+        poster="/images/brand/calamari.jpg"
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        src={HERO_VIDEO}
+      />
       <button
         type="button"
-        onClick={() => setPlaying((value) => !value)}
-        aria-label={playing ? "Pause the photo reel" : "Play the photo reel"}
+        onClick={toggle}
+        aria-label={playing ? "Pause the homepage video" : "Play the homepage video"}
         className="absolute left-3 top-1/2 z-10 inline-flex size-11 -translate-y-1/2 items-center justify-center text-white"
       >
         {playing ? <Pause className="size-5" /> : <Play className="size-5" />}
