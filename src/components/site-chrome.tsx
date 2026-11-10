@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { restaurant, sliceOrder } from "@/data/restaurant";
+import { restaurant, onlineOrder } from "@/data/restaurant";
 import { SOCIALS } from "@/data/menus";
 import { BirthdayNudge, NewsletterDialog, PromoPopup } from "@/components/live-widgets";
 import { cn } from "@/lib/cn";
@@ -10,13 +10,13 @@ const links = [
   { to: "/food-menu", label: "Menu" },
   { to: "/drink-menu", label: "Drinks" },
   { to: "/specials", label: "Specials" },
-  { href: sliceOrder.href, label: "Order" },
+  { href: onlineOrder.href, label: "Order" },
   { to: "/reservations", label: "Reserve" },
   { to: "/catering", label: "Catering" },
 ] as const;
 
 const bottom = [
-  { label: "Order", href: sliceOrder.href },
+  { label: "Order", href: onlineOrder.href },
   { label: "Reserve", to: "/reservations" },
   { label: "Parties", to: "/party" },
   { label: "Catering", to: "/catering" },

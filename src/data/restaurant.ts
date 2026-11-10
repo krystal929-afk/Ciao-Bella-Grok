@@ -12,11 +12,9 @@ export const restaurant = {
   maps: "https://www.google.com/maps/search/?api=1&query=1380+S+Federal+Hwy+Deerfield+Beach+FL+33441",
 };
 
-/** Online orders. Shop 121887 on Slice. Tables stay on TableAgent. */
-export const sliceOrder = {
-  shopId: "121887",
-  href: "https://slicelife.com/restaurants/fl/deerfield-beach/33441/ciao-bella-trattoria-deerfield-beach/menu",
-  offer: "5% off online orders",
+/** Online orders on SpotOn. Tables stay on TableAgent. */
+export const onlineOrder = {
+  href: "https://order.spoton.com/BL-3265-2D8A-AF01",
 };
 
 /**

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { about, sliceOrder } from "@/data/restaurant";
+import { about, onlineOrder } from "@/data/restaurant";
 import { slides } from "@/data/menus";
 import { HeroFilm, PhotoGallery } from "@/components/live-widgets";
 import { Reviews } from "@/components/reviews";
@@ -132,9 +132,17 @@ function Home() {
           delivery and enjoy freshly prepared pizzas, pastas, seafood, and more. Great Italian meals
           are just a few clicks away.
         </p>
-        <a href={sliceOrder.href} className="mt-6 inline-flex bg-primary px-12 py-3 text-sm uppercase tracking-[0.2em] text-white">
+        <a href={onlineOrder.href} className="mt-6 inline-flex bg-primary px-12 py-3 text-sm uppercase tracking-[0.2em] text-white">
           Order
         </a>
+        <img
+          src="/images/brand/order-qr.svg"
+          alt="QR code for Ciao Bella online ordering"
+          width="160"
+          height="160"
+          className="mx-auto mt-8 size-40 bg-white p-2"
+        />
+        <p className="mt-2 text-sm">Scan to order pickup or delivery</p>
       </section>
 
       <PhotoGallery />
