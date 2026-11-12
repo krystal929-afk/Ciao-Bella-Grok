@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { MenuStack } from "@/components/menu-card";
 import { dinnerMenu, lunchMenu, healthyMenu, cateringMenu, type MenuSection } from "@/data/restaurant";
@@ -51,7 +51,15 @@ function FoodMenu() {
             Through Sunday, November 15, dinner is daily, 5:00 PM – 10:00 PM. Beginning Monday, November 16, dinner is 5:00 PM until close, with no dining service from 2:00 PM to 5:00 PM. Lunch is daily, including Sunday, 11:00 AM – 2:00 PM, beginning November 26, 2026. It is not served before that date.
           </p>
         ) : null}
-        <MenuStack sections={sections} showPrices={menu !== "lunch" && menu !== "catering"} />
+        <MenuStack sections={sections} showPrices={false} />
+        {menu === "catering" ? (
+          <Link
+            to="/catering"
+            className="mt-6 inline-flex bg-primary px-8 py-3 text-sm uppercase tracking-[0.18em] text-white"
+          >
+            Request a catering quote
+          </Link>
+        ) : null}
       </div>
     </div>
   );

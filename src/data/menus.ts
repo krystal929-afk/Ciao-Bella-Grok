@@ -62,44 +62,7 @@ export const promos: Promo[] = [
     href: "/party",
   },
 ];
-export { drinkMenu } from "@/data/service-menus";
-export const specials = [
-  {
-    day: "Tuesday",
-    title: "Wine Night",
-    detail:
-      "Impero wines. $5 a glass paired or with a board, or $7 for an Impero glass. Bottle $19 (regular $38). Bottle plus charcuterie board $44, dine-in.",
-    hours: "5:00 PM – 9:00 PM, beginning November 17",
-  },
-  {
-    day: "Wednesday",
-    title: "Wine Night",
-    detail:
-      "Impero wines. $5 a glass paired or with a board, or $7 for an Impero glass. Bottle $19 (regular $38). Bottle plus charcuterie board $44, dine-in.",
-    hours: "5:00 PM – 9:00 PM, beginning November 18",
-  },
-  {
-    day: "Thursday",
-    title: "Wine Night",
-    detail:
-      "Impero wines. $5 a glass paired or with a board, or $7 for an Impero glass. Bottle $19 (regular $38). Bottle plus charcuterie board $44, dine-in.",
-    hours: "5:00 PM – 10:00 PM on November 12. Beginning November 19, 5:00 PM – 9:00 PM",
-  },
-  {
-    day: "Friday",
-    title: "Wine Night",
-    detail:
-      "Impero wines, 5:00 PM – 10:00 PM. $5 a glass paired or with a board, or $7 for an Impero glass. Bottle $19 (regular $38). Bottle plus charcuterie board $44, dine-in. Fritto Friday, once lunch begins November 26: Pollo Fritto panino, fries and a soda, $23.",
-    hours: "5:00 PM – 10:00 PM",
-  },
-  {
-    day: "Sunday",
-    title: "Mama's Sunday Supper",
-    detail:
-      "$75. Feeds 4: Pollo Fritto, a big bowl of pasta, house salad, garlic knots. $5 Impero glasses. Dine-in or takeout.",
-    hours: "5:00 PM – 10:00 PM through November 15. Beginning November 22, 5:00 PM – 9:00 PM",
-  },
-];
+export { drinkMenu, promotions } from "@/data/service-menus";
 export const slides = [
   {
     title: "Gather, Dine, Enjoy",

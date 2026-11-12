@@ -13,7 +13,7 @@ function DrinkMenu() {
       <div className="bg-white py-4 text-center shadow-sm">
         <h1 className="font-display text-sm uppercase tracking-[0.28em]">Drinks</h1>
       </div>
-      <MenuStack sections={drinkMenu} />
+      <MenuStack sections={drinkMenu} showPrices={false} />
     </div>
   );
 }

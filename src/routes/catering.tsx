@@ -38,10 +38,16 @@ function CateringPage() {
           {cateringMenu.map((section) => (
             <section key={section.id} className="mt-10">
               <h2 className="font-display text-3xl">{section.title}</h2>
+              {section.kicker ? <p className="mt-1 text-sm text-muted">{section.kicker}</p> : null}
               <ul className="mt-3 divide-y divide-border">
                 {section.items.map((item) => (
                   <li key={item.name} className="border-b border-green/30 py-3 last:border-0">
                     <span>{item.name}</span>
+                    {item.badges?.map((badge) => (
+                      <span key={badge} className="ml-2 text-xs uppercase tracking-widest text-primary">
+                        {badge}
+                      </span>
+                    ))}
                     {item.price ? (
                       <span className="float-right font-display text-primary">{item.price}</span>
                     ) : null}

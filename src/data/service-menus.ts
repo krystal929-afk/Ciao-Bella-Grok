@@ -16,10 +16,7 @@ export type MenuSection = {
 };
 
 export const rawMeatWarning =
-  "*Consuming raw or undercooked meats, poultry, seafood, shellfish, or eggs may increase your risk of foodborne illness.";
-
-const burgerNote =
-  "Grilled to order on a brioche bun • served with French fries, plain or Italian-seasoned • upgrade to truffle fries";
+  "*Cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish, or eggs may increase your risk of foodborne illness.";
 
 const burgerItems: MenuItem[] = [
   {
@@ -42,34 +39,132 @@ const burgerItems: MenuItem[] = [
   },
 ];
 
+export type Promotion = {
+  id: string;
+  title: string;
+  price: string;
+  when: string;
+  detail: string;
+  days?: string[];
+};
+
+export const promotions: Promotion[] = [
+  {
+    id: "sunday-supper",
+    title: "Mama's Sunday Supper",
+    price: "$75",
+    when: "Sundays · Family style · Dine-in or takeout · Feeds 4",
+    days: ["Sunday"],
+    detail:
+      "Eight pieces of Pollo Fritto, a big bowl of pasta in marinara or vodka sauce, a house salad and warm garlic knots. Impero by the glass, $6. Sunday chicken meets Sunday gravy, the way Mama set the table. Pour, share, linger.",
+  },
+  {
+    id: "early-supper",
+    title: "Early Supper",
+    price: "$38",
+    when: "Every night · 5–6 PM · Three courses · Dine-in",
+    detail:
+      "Bruschetta or Caesar, then any Pick Your Pasta or Chicken, Your Way, then cheesecake or chocolate mousse cake. Add chicken +$7 or shrimp +$11.",
+  },
+  {
+    id: "pollo-bucket",
+    title: "Pollo Fritto Bucket",
+    price: "$42 · $59",
+    when: "Takeout · 8 or 12 pieces",
+    detail:
+      "Buttermilk fried chicken, a side of mac & cheese al forno and garlic knots. Hot honey +$1.",
+  },
+  {
+    id: "fritto-friday",
+    title: "Fritto Friday",
+    price: "$23",
+    when: "Fridays · Lunch · begins November 26, 2026",
+    days: ["Friday"],
+    detail: "Pollo Fritto panino, French fries and a soda. A $29.50 value. Lunch service is not available before November 26.",
+  },
+  {
+    id: "lamb-bottle",
+    title: "Lamb & Bottle for Two",
+    price: "$85",
+    when: "Weekends and holidays · When lamb is in rotation",
+    days: ["Friday", "Saturday", "Sunday"],
+    detail:
+      "Our Grilled Australian Lamb Chops with any bottle of Impero wine. A $103 value. While it lasts.",
+  },
+  {
+    id: "wine-charcuterie",
+    title: "Wine & Charcuterie",
+    price: "$55",
+    when: "Wine Nights · Tuesday–Friday · 5 PM until close · Dine-in",
+    days: ["Tuesday", "Wednesday", "Thursday", "Friday"],
+    detail:
+      "Any bottle of Impero wine with our charcuterie board. Save $5. Just a glass? $6 with any board or paired dish.",
+  },
+  {
+    id: "kids-free",
+    title: "Kids Eat Free Wednesdays",
+    price: "Free",
+    when: "Dinner · Wednesday · 12 and under",
+    days: ["Wednesday"],
+    detail: "One kids' meal free with each adult entrée, every Wednesday night.",
+  },
+  {
+    id: "office-catering",
+    title: "Office Catering",
+    price: "10% off",
+    when: "First order of $150 or more · Order 3 days ahead",
+    detail:
+      "Feed the team: try our Team Lunch Special, add a charcuterie platter, or pick any trays.",
+  },
+  {
+    id: "vip",
+    title: "VIP Club",
+    price: "$79 a year",
+    when: "Dine-in · Join with your server",
+    detail:
+      "Free bottle of Impero wine when you join, a $38 value. First seats at Mama's Sunday Supper. $6 Impero glass, any night. Free dessert every month with a dinner entrée, birthday month included. Worth $180+ in wine and desserts your first year. Show your VIP card when you order. Dine-in. Join with your server.",
+  },
+];
+
 const sundaySupper: MenuSection = {
   id: "sunday-supper",
   title: "Mama's Sunday Supper",
-  kicker: "Sundays · pour, share, linger",
+  kicker: "Sundays · family style · dine-in or takeout · feeds 4",
   items: [
     {
       name: "Mama's Sunday Supper",
       price: "$75",
-      description:
-        "Feeds 4: Pollo Fritto, a big bowl of pasta, house salad, garlic knots. $5 Impero glasses. Dine-in or takeout.",
+      description: promotions[0].detail,
     },
   ],
 };
+
+const wineNightItems: MenuItem[] = [
+  {
+    name: "Impero glass, paired or with a board",
+    price: "$6",
+    description: "Impero reds: Cabernet, Chianti, Merlot. Impero whites: Chardonnay, Pinot Grigio, Rosé.",
+  },
+  { name: "Any other Impero glass", price: "$7", description: "During Wine Night." },
+  { name: "Impero bottle", price: "$29", description: "Regular bottle $38." },
+  { name: "Bottle and charcuterie board", price: "$55", description: "Dine-in. Save $5." },
+];
 
 export const lunchMenu: MenuSection[] = [
   {
     id: "lunch-deals",
     title: "Lunch",
     kicker: "11am–2pm, beginning November 26, 2026",
-    note: "Every meal starts with our warm, house-made garlic knots, on us.",
+    note: "Every meal starts with our warm, house-made garlic knots, on us. We like our chicken fried.",
     items: [
       {
         name: "Panino & Soup",
-        description:
-          "Any whole panino plus a cup of soup. Dine-in or to-go. Daily once lunch service begins.",
+        price: "$22",
+        description: "Any whole panino plus a cup of soup. Dine-in or to-go. Daily at lunch.",
       },
       {
         name: "The Lunch Combo",
+        price: "$16",
         description: "Half a panino plus soup or a small salad. A lighter lunch for less.",
       },
     ],
@@ -78,7 +173,7 @@ export const lunchMenu: MenuSection[] = [
     id: "panini",
     title: "Panini",
     kicker: "On Chef Andrei's house-made bread",
-    note: "Every panino comes on house-made panuozzo, baked fresh each morning from the same dough as the pizza: crisp outside, soft and airy inside. Prefer a classic hoagie? Ask for a Cusano's roll. Make any chicken panino fried, or add hot honey to anything.",
+    note: "Every panino comes on his house-made panuozzo, baked fresh each morning from the same dough as our pizza: crisp outside, soft and airy inside. Prefer a classic hoagie? Ask for a Cusano's roll. Make any chicken panino fried, or add hot honey to anything.",
     items: [
       {
         name: "Pollo Fritto",
@@ -92,11 +187,11 @@ export const lunchMenu: MenuSection[] = [
       },
       {
         name: "Chicken Parmigiana",
-        description: "Mama's fried chicken cutlet, marinara, mozzarella",
+        description: "Mama's fried chicken cutlet, marinara, mozzarella, parmigiano",
       },
       {
         name: "Meatball Parmigiana",
-        description: "House-made meatballs, marinara, melted mozzarella",
+        description: "House-made meatballs, marinara, melted mozzarella, parmigiano",
       },
       {
         name: "Caprese (V)",
@@ -104,7 +199,7 @@ export const lunchMenu: MenuSection[] = [
       },
       {
         name: "Make Your Own Panino",
-        description: "Roll included. Build it your way, or make it the Lunch Combo.",
+        description: "Roll included. Build it your way, or make it a half-panino combo.",
       },
     ],
   },
@@ -139,18 +234,19 @@ export const lunchMenu: MenuSection[] = [
     items: [
       {
         name: "Ciao Bella Pasta",
+        price: "$16",
         badges: ["House favorite"],
-        description:
-          "Alfredo-vodka blend with bacon and mushrooms, plus grilled chicken or wild-caught shrimp",
+        description: "Vodka sauce with bacon. Add grilled chicken +$7 or wild-caught shrimp +$11.",
       },
       {
         name: "Pasta Plate",
-        description:
-          "Choice of pasta and sauce, including our house favorite Ciao Bella (has bacon), plus a soda",
+        price: "$16",
+        description: "Choice of pasta and sauce (marinara, vodka, alfredo, bolognese or pesto), plus a soda.",
       },
       {
         name: "Chicken Parm & Pasta",
-        description: "Mama's fried chicken parmigiana, pasta, house salad",
+        price: "$20",
+        description: "Mama's fried chicken parmigiana, pasta, house salad.",
       },
     ],
   },
@@ -179,7 +275,7 @@ export const lunchMenu: MenuSection[] = [
     id: "burgers",
     title: "The Burgers",
     kicker: "Three burgers, one bistro",
-    note: burgerNote,
+    note: "Grilled to order on a brioche bun. Served with French fries, plain or Italian-seasoned.",
     warning: rawMeatWarning,
     items: burgerItems,
   },
@@ -194,8 +290,15 @@ export const lunchMenu: MenuSection[] = [
         description: "Canned tuna, egg, olives, tomato, potato, green beans, honey Dijon vinaigrette",
       },
       { name: "Caprese (V)", description: "Tomato, fresh mozzarella, basil, extra virgin olive oil" },
-      { name: "Arugula Salad (V)", description: "Arugula, balsamic glaze, shaved parmigiano" },
-      { name: "House Salad (V)", description: "Crisp romaine, house dressing or any dressing" },
+      {
+        name: "Arugula Salad (V)",
+        badges: ["New"],
+        description: "Arugula, balsamic glaze, shaved parmigiano, black olives, red onion, tomato, cucumber",
+      },
+      {
+        name: "House Salad (V)",
+        description: "Crisp romaine, tomato, cucumber, house dressing or any dressing",
+      },
       { name: "Caesar Salad", description: "Crisp romaine, parmigiano, Caesar dressing, croutons" },
       {
         name: "Italian Bistro Salad (V)",
@@ -217,20 +320,14 @@ export const lunchMenu: MenuSection[] = [
         badges: ["New"],
         description: "Baked with fontina and parmigiano, toasted breadcrumbs",
       },
+      { name: "Sausage", badges: ["New"] },
     ],
   },
   {
-    id: "wine-night",
-    title: "Wine Night",
-    kicker: "Through November 15, 5–10pm. Beginning November 16: Tuesday–Thursday 5–9pm, Friday 5–10pm",
-    items: [
-      {
-        name: "Impero glass",
-        description: "Impero reds, whites, and rosé. Paired with a dish or a board.",
-      },
-      { name: "Impero bottle" },
-      { name: "Bottle and charcuterie board", description: "Dine-in." },
-    ],
+    id: "whats-in-it-lunch",
+    title: "What's in it",
+    note: "We fry with good oils. Organic extra virgin olive oil and organic butter. Fresh garlic. Non-GMO unbleached flour. Wild-caught salmon, shrimp and tuna. Australian lamb. Soups and lasagna are house-made daily (Pasta e Fagioli has bacon). House-made meatballs and honey Dijon. Ciao Bella sauce: vodka sauce with bacon. (V) vegetarian. Please let us know about any allergies.",
+    items: [],
   },
 ];
 
@@ -238,14 +335,17 @@ export const dinnerMenu: MenuSection[] = [
   {
     id: "chefs-special",
     title: "Chef's Special",
-    kicker: "Weekends and holidays · rotates with braised ribs and pork",
-    note: "Every meal starts with our warm, house-made garlic knots, on us. Through November 15, dinner is 5–10pm. Beginning November 16, dinner is 5pm until close, and the kitchen does not serve between 2pm and 5pm.",
+    kicker: "Weekends and holidays · rotates with braised ribs",
+    note: "Every meal starts with our warm, house-made garlic knots, on us. Through November 15, dinner is 5–10pm. Beginning November 16, dinner is 5pm until close.",
     items: [
       {
         name: "Grilled Australian Lamb Chops",
-        price: "MKT$",
-        description:
-          "Five chops, oven-roasted lemon-rosemary fries, our house-made honey Dijon sauce. Pairs with Impero Cabernet.",
+        price: "$65",
+        description: "Five chops, lemon-rosemary fries, house-made honey Dijon. Pairs with Impero Cabernet.",
+      },
+      {
+        name: "Braised Ribs",
+        price: "$42",
       },
     ],
   },
@@ -271,30 +371,11 @@ export const dinnerMenu: MenuSection[] = [
       { name: "Caprese (V)", description: "Tomato, fresh mozzarella, basil, extra virgin olive oil" },
       {
         name: "Antipasto (V)",
-        description: "Oven-roasted peppers, zucchini, eggplant, extra virgin olive oil",
+        description: "Roasted peppers, zucchini, eggplant, extra virgin olive oil",
       },
       {
         name: "Eggplant Rollatini (V)",
         description: "Eggplant rolled with ricotta, baked in marinara and mozzarella",
-      },
-    ],
-  },
-  {
-    id: "salads",
-    title: "Salads",
-    items: [
-      { name: "Arugula Salad (V)", description: "Arugula, balsamic glaze, shaved parmigiano" },
-      { name: "Caesar", description: "Crisp romaine, parmigiano, Caesar dressing, croutons" },
-      {
-        name: "Italian Bistro Salad (V)",
-        badges: ["New"],
-        description:
-          "Mixed greens, tomato, cucumber, red onion, olives, parmigiano, balsamic. Add chicken, salmon or shrimp.",
-      },
-      {
-        name: "Salad Niçoise",
-        badges: ["Signature"],
-        description: "Tuna, egg, olives, tomato, potato, green beans, honey Dijon",
       },
     ],
   },
@@ -312,12 +393,26 @@ export const dinnerMenu: MenuSection[] = [
       {
         name: "Piccata",
         badges: ["Family recipe"],
-        description: "Tender chicken, bright lemon and white wine pan sauce, capers",
+        description: "Bright lemon and white wine pan sauce, capers",
       },
       { name: "Marsala", description: "Mama's fried cutlet, mushrooms, Marsala wine sauce" },
       { name: "Francese", badges: ["New"], description: "Egg-battered, lemon, white wine, butter" },
       { name: "Grilled Lemon", description: "Grilled breast, lemon, extra virgin olive oil" },
       { name: "Siciliana", description: "Mama's fried cutlet, eggplant, marinara, mozzarella" },
+    ],
+  },
+  {
+    id: "pizza",
+    title: "Pizza",
+    kicker: "Chef Andrei's dough, fermented 2 days",
+    items: [
+      { name: "Margherita (V)", description: "Mozzarella, house sauce, basil, extra virgin olive oil" },
+      { name: "Pepperoni", description: "Mozzarella, house sauce, pepperoni" },
+      {
+        name: "Ciao Bella",
+        badges: ["House favorite"],
+        description: "Mozzarella, prosciutto, arugula, burrata in the center",
+      },
     ],
   },
   {
@@ -328,13 +423,13 @@ export const dinnerMenu: MenuSection[] = [
       {
         name: "Pick Your Pasta",
         description:
-          "Pasta: spaghetti, penne, rigatoni, or fettuccine. Sauce: marinara, vodka, alfredo, bolognese, pesto, or Ciao Bella (has bacon). Add meatballs, grilled or fried chicken, or wild-caught shrimp.",
+          "Pasta: spaghetti, penne, rigatoni, fettuccine, or angel hair. Sauce: marinara, vodka, alfredo, bolognese, or pesto. Add meatballs, grilled or fried chicken, or wild-caught shrimp.",
       },
       {
         name: "Ciao Bella Pasta",
         badges: ["House favorite"],
         description:
-          "Our signature blend of alfredo and vodka sauce with bacon and mushrooms, plus grilled chicken or wild-caught shrimp",
+          "Our signature vodka sauce with bacon. Add grilled chicken or wild-caught shrimp.",
       },
       {
         name: "Spaghetti & Meatballs",
@@ -354,16 +449,24 @@ export const dinnerMenu: MenuSection[] = [
     ],
   },
   {
-    id: "pizza",
-    title: "Pizza",
-    kicker: "Chef Andrei's dough, made daily",
+    id: "salads",
+    title: "Salads",
     items: [
-      { name: "Margherita (V)", description: "Mozzarella, house sauce, basil, extra virgin olive oil" },
-      { name: "Pepperoni", description: "Mozzarella, house sauce, pepperoni" },
       {
-        name: "Ciao Bella",
-        badges: ["House favorite"],
-        description: "Mozzarella, prosciutto, arugula, burrata in the center",
+        name: "Arugula Salad (V)",
+        badges: ["New"],
+        description: "Arugula, balsamic glaze, shaved parmigiano, black olives, red onion, tomato, cucumber",
+      },
+      { name: "Caesar", description: "Crisp romaine, parmigiano, Caesar dressing, croutons" },
+      {
+        name: "Italian Bistro Salad (V)",
+        badges: ["New"],
+        description: "Mixed greens, tomato, cucumber, red onion, olives, parmigiano, balsamic. Add chicken, salmon or shrimp.",
+      },
+      {
+        name: "Salad Niçoise",
+        badges: ["Signature"],
+        description: "Tuna, egg, olives, tomato, potato, green beans, honey Dijon",
       },
     ],
   },
@@ -371,16 +474,8 @@ export const dinnerMenu: MenuSection[] = [
   {
     id: "wine-night",
     title: "Wine Night",
-    kicker: "Through November 15, 5–10pm. Beginning November 16: Tuesday–Thursday 5–9pm, Friday 5–10pm",
-    items: [
-      {
-        name: "Impero glass, paired or with a board",
-        price: "$5",
-        description: "Impero reds: Cabernet, Chianti, Merlot. Impero whites: Chardonnay, Pinot Grigio, Rosé.",
-      },
-      { name: "Impero bottle", price: "$19", description: "Regular bottle $38." },
-      { name: "Bottle and charcuterie board", price: "$44", description: "Dine-in." },
-    ],
+    kicker: "Pour, share, linger · Tuesday, Wednesday, Thursday, and Friday, 5pm until close",
+    items: wineNightItems,
   },
   {
     id: "sea",
@@ -402,24 +497,33 @@ export const dinnerMenu: MenuSection[] = [
         badges: ["New"],
         description: "Pan-seared snapper fillet, lemon, capers, cherry tomatoes, roasted potatoes",
       },
-    ],
-  },
-  {
-    id: "grill",
-    title: "From the Grill",
-    kicker: "Fries or a side salad",
-    items: [
       {
-        name: "Sausage & Peppers",
-        description: "Grilled Italian sausage, sautéed peppers and onions, with French fries or a side salad",
+        name: "Scungilli",
+        badges: ["New"],
+        description: "Scungilli with butter, garlic and lemon",
+      },
+      {
+        name: "Zuppa di Pesce",
+        badges: ["New"],
+        description: "Mussels, shrimp, clams and calamari in our house white sauce",
+      },
+      {
+        name: "Shrimp Scampi",
+        badges: ["New"],
+        description: "Wild-caught shrimp in our house white sauce",
+      },
+      {
+        name: "Shrimp Parmigiana",
+        badges: ["New"],
+        description: "Breaded wild-caught shrimp, marinara, mozzarella",
       },
     ],
   },
   {
     id: "burgers",
     title: "The Burgers",
-    kicker: "Three burgers, one bistro",
-    note: burgerNote,
+    kicker: "With fries",
+    note: "Served with French fries.",
     warning: rawMeatWarning,
     items: burgerItems,
   },
@@ -432,6 +536,7 @@ export const dinnerMenu: MenuSection[] = [
       { name: "Chocolate Mousse Cake", badges: ["New"] },
       { name: "Cheesecake", badges: ["New"] },
       { name: "Tiramisu", badges: ["New"] },
+      { name: "Sorbetto Limoncello", badges: ["New"] },
     ],
   },
   {
@@ -460,7 +565,25 @@ export const dinnerMenu: MenuSection[] = [
         description: "Baked with fontina and parmigiano, toasted breadcrumbs",
       },
       { name: "House Salad, romaine (V)" },
+      { name: "Sausage", badges: ["New"] },
     ],
+  },
+  {
+    id: "grill",
+    title: "From the Grill",
+    kicker: "Fries or a side salad",
+    items: [
+      {
+        name: "Sausage & Peppers",
+        description: "Grilled Italian sausage, sautéed peppers and onions, with French fries or a side salad",
+      },
+    ],
+  },
+  {
+    id: "whats-in-it-dinner",
+    title: "What's in it",
+    note: "We fry with good oils. Organic extra virgin olive oil and organic butter. Fresh garlic. Non-GMO unbleached flour. Wild-caught salmon, shrimp and tuna. Australian lamb. (V) vegetarian. Please let us know about any allergies.",
+    items: [],
   },
 ];
 
@@ -485,14 +608,18 @@ export const healthyMenu: MenuSection[] = [
         badges: ["Signature"],
         description: "Canned tuna, egg, olives, tomato, potato, green beans, honey Dijon vinaigrette",
       },
-      { name: "Arugula Salad (V)", description: "Arugula, balsamic glaze, shaved parmigiano" },
+      {
+        name: "Arugula Salad (V)",
+        badges: ["New"],
+        description: "Arugula, balsamic glaze, shaved parmigiano, black olives, red onion, tomato, cucumber",
+      },
       { name: "Caprese (V)", description: "Tomato, fresh mozzarella, basil, extra virgin olive oil" },
     ],
   },
   {
     id: "healthy-dinner",
     title: "At Dinner",
-    kicker: "Through November 15, 5–10pm. Beginning November 16, 5pm until close",
+    kicker: "5pm until close",
     items: [
       {
         name: "Grilled Lemon Chicken",
@@ -503,7 +630,11 @@ export const healthyMenu: MenuSection[] = [
         badges: ["Signature"],
         description: "Canned tuna, egg, olives, tomato, potato, green beans, honey Dijon vinaigrette",
       },
-      { name: "Arugula Salad (V)", description: "Arugula, balsamic glaze, shaved parmigiano" },
+      {
+        name: "Arugula Salad (V)",
+        badges: ["New"],
+        description: "Arugula, balsamic glaze, shaved parmigiano, black olives, red onion, tomato, cucumber",
+      },
       {
         name: "Antipasto (V)",
         description: "Oven-roasted peppers, zucchini, eggplant, extra virgin olive oil",
@@ -520,19 +651,29 @@ export const healthyMenu: MenuSection[] = [
       },
     ],
   },
+  {
+    id: "whats-in-it-healthy",
+    title: "What's in it",
+    note: "(V) vegetarian. Please let us know about any allergies.",
+    items: [
+      { name: "Seafood", description: "Wild-caught salmon, shrimp and tuna" },
+      { name: "House vinaigrette", description: "House-made honey Dijon" },
+      { name: "Flour", description: "Non-GMO unbleached" },
+      { name: "Frying", description: "We fry with good oils" },
+      { name: "Grilled items", description: "Chicken, salmon, vegetables, sausage" },
+      { name: "Olive oil and butter", description: "Organic extra virgin olive oil, organic butter" },
+      { name: "Garlic", description: "Always fresh" },
+    ],
+  },
 ];
 
 export const drinkMenu: MenuSection[] = [
   {
     id: "wine-night",
     title: "Wine Night",
-    kicker: "Through November 15, 5–10pm. Beginning November 16: Tuesday–Thursday 5–9pm, Friday 5–10pm",
-    note: "Impero reds: Cabernet, Chianti, Merlot. Impero whites: Chardonnay, Pinot Grigio, Rosé. Any Impero glass is $7, or $5 with its paired dish or a board.",
-    items: [
-      { name: "A glass, paired or with a board", price: "$5" },
-      { name: "A bottle", price: "$19", description: "Regular bottle $38." },
-      { name: "Bottle and board", price: "$44", description: "Dine-in." },
-    ],
+    kicker: "Pour, share, linger · Tuesday, Wednesday, Thursday, and Friday, 5pm until close",
+    note: "Impero reds: Cabernet, Chianti, Merlot. Impero whites: Chardonnay, Pinot Grigio, Rosé.",
+    items: wineNightItems,
   },
   {
     id: "wine",
@@ -574,6 +715,17 @@ export const drinkMenu: MenuSection[] = [
     items: [{ name: "Le Cascine Sauvignon Blanc", description: "White, Italy" }],
   },
   {
+    id: "beer",
+    title: "Beer",
+    items: [
+      { name: "Domestic", description: "Bud Light, Coors Light, Michelob Ultra" },
+      {
+        name: "Imported",
+        description: "Modelo Especial, Corona Extra, Heineken, Stella Artois, Peroni, Dos Equis",
+      },
+    ],
+  },
+  {
     id: "soda",
     title: "Soda",
     items: [
@@ -604,8 +756,7 @@ export const drinkMenu: MenuSection[] = [
       {
         name: "Panino & Soup",
         price: "$22",
-        description:
-          "Lunch service begins November 26, 2026, 11am–2pm. Chef Andrei's house-made bread.",
+        description: "Lunch service begins November 26, 2026, 11am–2pm. Chef Andrei's house-made bread.",
       },
       {
         name: "Fritto Friday",
@@ -615,8 +766,7 @@ export const drinkMenu: MenuSection[] = [
       {
         name: "Mama's Sunday Supper",
         price: "$75",
-        description:
-          "Feeds 4: Pollo Fritto, a big bowl of pasta, house salad, garlic knots. $5 Impero glasses. Dine-in or takeout.",
+        description: promotions[0].detail,
       },
     ],
   },
@@ -626,13 +776,18 @@ export const cateringMenu: MenuSection[] = [
   {
     id: "team-lunch",
     title: "Team Lunch Special",
-    kicker: "Order 3 days ahead",
+    kicker: "Order 3 days ahead · serves 10",
     items: [
       {
         name: "Team Lunch Special",
-        price: "$205",
+        price: "$220",
         description:
-          "Full Chicken Alfredo tray plus a full Chicken Parmigiana tray, and a salad tray on us. Add a charcuterie platter for the team, +$69.",
+          "Half Chicken Alfredo tray, half Chicken Parmigiana tray, and a complimentary salad tray. Optional charcuterie platter for the team, +$99.",
+      },
+      {
+        name: "Office Catering",
+        price: "10% off",
+        description: "First order of $150 or more. Team Lunch, a charcuterie platter, or any trays. Order 3 days ahead.",
       },
     ],
   },
@@ -640,11 +795,14 @@ export const cateringMenu: MenuSection[] = [
     id: "catering-pasta",
     title: "Pasta",
     kicker: "Half and full trays",
-    note: "Ciao Bella Pasta is bacon, mushrooms, and chicken or shrimp.",
     items: [
       { name: "Chicken Alfredo" },
       { name: "Rigatoni Bolognese" },
-      { name: "Ciao Bella Pasta", badges: ["House favorite"] },
+      {
+        name: "Ciao Bella Pasta",
+        badges: ["House favorite"],
+        description: "Vodka sauce with bacon. Add chicken or shrimp.",
+      },
       { name: "Lasagna", badges: ["Family recipe"] },
     ],
   },
@@ -660,16 +818,16 @@ export const cateringMenu: MenuSection[] = [
   {
     id: "entree-trays",
     title: "Entrée Trays",
-    kicker: "Chicken or veal, with pasta",
+    kicker: "With pasta",
     items: [
-      { name: "Chicken or Veal Parmigiana, fried cutlet" },
-      { name: "Grilled Chicken or Veal & Vegetables" },
+      { name: "Chicken Parmigiana, fried cutlet" },
+      { name: "Grilled Chicken & Vegetables" },
     ],
   },
   {
     id: "catering-pizza",
     title: "Pizza",
-    kicker: "Chef Andrei's dough · 3 days notice",
+    kicker: "Chef Andrei's dough · priced per pizza · order 3 days ahead",
     items: [
       { name: "Margherita (V)" },
       { name: "Pepperoni" },
@@ -680,23 +838,41 @@ export const cateringMenu: MenuSection[] = [
     id: "lunch-trays",
     title: "Lunch Trays",
     kicker: "Half and full trays",
-    note: "Salads come with our house dressing on the side.",
+    note: "Panini are cut in half, a chef's mix on house-made bread. A half salad tray serves 10. A full salad tray serves 20. House dressing on the side.",
     items: [
       { name: "Charcuterie Platter, seasonal, serves 10", badges: ["New"] },
-      { name: "Panini Platter, house-made bread" },
+      { name: "Panini Platter, 10 panini" },
       { name: "House Salad, romaine (V)" },
       { name: "Arugula Salad (V)" },
-      { name: "House-made soup, by the quart" },
+      { name: "House-made soup, per quart" },
     ],
   },
   {
     id: "catering-dessert",
     title: "Dessert",
-    note: "Whole cakes for birthdays and events: add one to any catering order. Order 3 days ahead.",
+    kicker: "Whole cakes, 12 slices",
+    note: "Add one to any catering order. Order 3 days ahead.",
     items: [
       { name: "Chocolate Mousse Cake" },
       { name: "Cheesecake" },
       { name: "Tiramisu" },
+    ],
+  },
+];
+
+/** PDF afternoon service. Not published. Do not offer it, or book it, until Kat confirms the start date. */
+export const afternoonMenu: MenuSection[] = [
+  {
+    id: "afternoon",
+    title: "Afternoon",
+    kicker: "Not in service. Pending a start date and reservation rule.",
+    note: "The PDF lists panini, pizza, calzone, soups, salads and sides from 2–5pm. Lunch still begins November 26. This section is not on the public menu.",
+    items: [
+      ...lunchMenu.find((section) => section.id === "panini")!.items,
+      ...lunchMenu.find((section) => section.id === "pizza")!.items,
+      ...lunchMenu.find((section) => section.id === "soup")!.items,
+      ...lunchMenu.find((section) => section.id === "salads")!.items,
+      ...lunchMenu.find((section) => section.id === "sides")!.items,
     ],
   },
 ];
