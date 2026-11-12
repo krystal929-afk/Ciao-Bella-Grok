@@ -859,20 +859,3 @@ export const cateringMenu: MenuSection[] = [
     ],
   },
 ];
-
-/** PDF afternoon service. Not published. Do not offer it, or book it, until Kat confirms the start date. */
-export const afternoonMenu: MenuSection[] = [
-  {
-    id: "afternoon",
-    title: "Afternoon",
-    kicker: "Not in service. Pending a start date and reservation rule.",
-    note: "The PDF lists panini, pizza, calzone, soups, salads and sides from 2–5pm. Lunch still begins November 26. This section is not on the public menu.",
-    items: [
-      ...lunchMenu.find((section) => section.id === "panini")!.items,
-      ...lunchMenu.find((section) => section.id === "pizza")!.items,
-      ...lunchMenu.find((section) => section.id === "soup")!.items,
-      ...lunchMenu.find((section) => section.id === "salads")!.items,
-      ...lunchMenu.find((section) => section.id === "sides")!.items,
-    ],
-  },
-];
