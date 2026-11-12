@@ -2,6 +2,7 @@ import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-r
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { SiteChrome } from "@/components/site-chrome";
+import { businessJsonLd } from "@/data/restaurant";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "Ciao Bella Trattoria";
@@ -38,6 +39,7 @@ export const Route = createRootRoute({
         <HeadContent />
       </head>
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }} />
         <PreviewHostBridge />
         <AuthProvider>
           <SiteChrome>

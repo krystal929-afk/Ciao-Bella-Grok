@@ -41,17 +41,20 @@ export const houseLine =
   "We are the oldest Italian restaurant and pizzeria in Broward County, and we specialize in authentic old-world Southern Italian food.";
 
 export const hours: { day: string; time: string; closed?: boolean }[] = [
-  { day: "Monday", time: "5:00 PM – 10:00 PM" },
-  { day: "Tuesday", time: "5:00 PM – 10:00 PM" },
-  { day: "Wednesday", time: "5:00 PM – 10:00 PM" },
-  { day: "Thursday", time: "5:00 PM – 10:00 PM" },
-  { day: "Friday", time: "5:00 PM – 10:00 PM" },
-  { day: "Saturday", time: "5:00 PM – 10:00 PM" },
-  { day: "Sunday", time: "5:00 PM – 10:00 PM" },
+  { day: "Monday–Thursday", time: "11:00 AM – 9:00 PM" },
+  { day: "Friday", time: "11:00 AM – 10:00 PM" },
+  { day: "Saturday", time: "11:00 AM – 11:00 PM" },
+  { day: "Sunday", time: "11:00 AM – 9:00 PM" },
 ];
 
-/** Lunch is not served until this New York calendar date. */
+/** Lunch is not served until this New York calendar date. Confirm before removing. */
 export const LUNCH_START = "2026-11-26";
+
+export const serviceHours = {
+  lunch: "11:00 AM – 2:00 PM",
+  dinner: "5:00 PM until close",
+  gap: "No dining service from 2:00 PM to 5:00 PM.",
+};
 
 export const reviews = [
   {
@@ -98,6 +101,7 @@ export function serviceStatus(now = new Date()) {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
+    weekday: "short",
     hour: "numeric",
     minute: "numeric",
     hourCycle: "h23",
@@ -105,16 +109,76 @@ export function serviceStatus(now = new Date()) {
   const value = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
   const ymd = `${value("year")}-${value("month")}-${value("day")}`;
   const mins = Number(value("hour")) * 60 + Number(value("minute"));
-  if (ymd >= LUNCH_START && mins >= 11 * 60 && mins < 14 * 60) {
+  const day = value("weekday");
+  const close = day === "Fri" ? 22 * 60 : day === "Sat" ? 23 * 60 : 21 * 60;
+  const lunchOn = ymd >= LUNCH_START;
+
+  if (lunchOn && mins >= 11 * 60 && mins < 14 * 60) {
     return { open: true, label: "Open now for lunch" };
   }
-  if (mins >= 17 * 60 && mins < 22 * 60) {
+  if (mins >= 17 * 60 && mins < close) {
     return { open: true, label: "Open now for dinner" };
   }
-  if (mins < 17 * 60) {
-    return ymd >= LUNCH_START
-      ? { open: false, label: "Lunch 11:00 AM – 2:00 PM · dinner at 5:00 PM" }
-      : { open: false, label: "Dinner at 5:00 PM · lunch starts November 26" };
+  if (mins >= 14 * 60 && mins < 17 * 60) {
+    return {
+      open: false,
+      label: lunchOn
+        ? "No dining service until 5:00 PM"
+        : "No dining service until 5:00 PM · lunch starts November 26",
+    };
   }
-  return { open: false, label: "Closed for the evening · dinner is until 10:00 PM" };
+  if (mins >= 11 * 60 && mins < 14 * 60) {
+    return { open: false, label: "Lunch starts November 26 · dinner at 5:00 PM" };
+  }
+  if (mins >= close) {
+    return { open: false, label: "Closed for the evening" };
+  }
+  return lunchOn
+    ? { open: false, label: "Lunch at 11:00 AM · dinner at 5:00 PM" }
+    : { open: false, label: "Dinner at 5:00 PM · lunch starts November 26" };
 }
+
+/** Public business hours. Lunch is a separate shift and does not start before LUNCH_START. */
+export const businessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  name: restaurant.fullName,
+  telephone: "+19544282676",
+  email: restaurant.email,
+  servesCuisine: "Italian",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: restaurant.street,
+    addressLocality: "Deerfield Beach",
+    addressRegion: "FL",
+    postalCode: "33441",
+    addressCountry: "US",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "11:00",
+      closes: "14:00",
+      validFrom: LUNCH_START,
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Sunday"],
+      opens: "17:00",
+      closes: "21:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Friday",
+      opens: "17:00",
+      closes: "22:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Saturday",
+      opens: "17:00",
+      closes: "23:00",
+    },
+  ],
+};
