@@ -222,7 +222,7 @@ export const lunchMenu: MenuSection[] = [
   {
     id: "wine-night",
     title: "Wine Night",
-    kicker: "Tuesday–Thursday, 5–9pm · Friday, 5–10pm",
+    kicker: "Through November 15, 5–10pm. Beginning November 16: Tuesday–Thursday 5–9pm, Friday 5–10pm",
     items: [
       {
         name: "Impero glass",
@@ -239,7 +239,7 @@ export const dinnerMenu: MenuSection[] = [
     id: "chefs-special",
     title: "Chef's Special",
     kicker: "Weekends and holidays · rotates with braised ribs and pork",
-    note: "Every meal starts with our warm, house-made garlic knots, on us. Dinner is 5pm until close. The kitchen does not serve between 2pm and 5pm.",
+    note: "Every meal starts with our warm, house-made garlic knots, on us. Through November 15, dinner is 5–10pm. Beginning November 16, dinner is 5pm until close, and the kitchen does not serve between 2pm and 5pm.",
     items: [
       {
         name: "Grilled Australian Lamb Chops",
@@ -371,7 +371,7 @@ export const dinnerMenu: MenuSection[] = [
   {
     id: "wine-night",
     title: "Wine Night",
-    kicker: "Pour, share, linger · Tuesday–Thursday, 5–9pm · Friday, 5–10pm",
+    kicker: "Through November 15, 5–10pm. Beginning November 16: Tuesday–Thursday 5–9pm, Friday 5–10pm",
     items: [
       {
         name: "Impero glass, paired or with a board",
@@ -492,7 +492,7 @@ export const healthyMenu: MenuSection[] = [
   {
     id: "healthy-dinner",
     title: "At Dinner",
-    kicker: "5pm until close",
+    kicker: "Through November 15, 5–10pm. Beginning November 16, 5pm until close",
     items: [
       {
         name: "Grilled Lemon Chicken",
@@ -526,7 +526,7 @@ export const drinkMenu: MenuSection[] = [
   {
     id: "wine-night",
     title: "Wine Night",
-    kicker: "Pour, share, linger · Tuesday–Thursday, 5–9pm · Friday, 5–10pm",
+    kicker: "Through November 15, 5–10pm. Beginning November 16: Tuesday–Thursday 5–9pm, Friday 5–10pm",
     note: "Impero reds: Cabernet, Chianti, Merlot. Impero whites: Chardonnay, Pinot Grigio, Rosé. Any Impero glass is $7, or $5 with its paired dish or a board.",
     items: [
       { name: "A glass, paired or with a board", price: "$5" },

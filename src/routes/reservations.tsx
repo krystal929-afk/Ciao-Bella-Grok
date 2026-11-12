@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
-import { restaurant, tableAgent } from "@/data/restaurant";
+import { restaurant, tableAgent, hoursAreNew } from "@/data/restaurant";
 import { LargePartyNotice } from "@/components/site-chrome";
 import { SectionKicker } from "@/components/ui";
 
@@ -26,31 +26,31 @@ function ReservationsPage() {
         <SectionKicker>Dine with us</SectionKicker>
         <h1 className="mt-3 font-display text-5xl leading-tight">Reservations</h1>
         <p className="mt-5 text-muted">
-          Operating hours are Monday–Thursday 11:00 AM – 9:00 PM, Friday 11:00 AM – 10:00 PM,
-          Saturday 11:00 AM – 11:00 PM, and Sunday 11:00 AM – 9:00 PM. Lunch is 11:00 AM – 2:00 PM,
-          including Sunday, beginning November 26, 2026. Lunch is not served before that date.
-          Dinner is 5:00 PM until close. The dining room does not serve between 2:00 PM and 5:00 PM.
+          Through Sunday, November 15, dinner is daily, 5:00 PM – 10:00 PM. Beginning Monday,
+          November 16, operating hours are Monday–Thursday 11:00 AM – 9:00 PM, Friday 11:00 AM –
+          10:00 PM, Saturday 11:00 AM – 11:00 PM, and Sunday 11:00 AM – 9:00 PM. From that date,
+          dinner is 5:00 PM until close, and the dining room does not serve between 2:00 PM and
+          5:00 PM. Lunch is 11:00 AM – 2:00 PM, including Sunday, beginning November 26, 2026.
+          Lunch service and lunch reservations are not available before that date.
         </p>
         <dl className="mt-8 space-y-4 text-sm">
           <div className="border-b border-border py-3">
-            <dt className="uppercase tracking-[0.18em] text-primary">Operating hours</dt>
+            <dt className="uppercase tracking-[0.18em] text-primary">Through November 15</dt>
+            <dd className="mt-1">Dinner, every day · 5:00 PM – 10:00 PM</dd>
+          </div>
+          <div className="border-b border-border py-3">
+            <dt className="uppercase tracking-[0.18em] text-primary">Beginning November 16</dt>
             <dd className="mt-1">Monday–Thursday · 11:00 AM – 9:00 PM</dd>
             <dd className="mt-1">Friday · 11:00 AM – 10:00 PM</dd>
             <dd className="mt-1">Saturday · 11:00 AM – 11:00 PM</dd>
             <dd className="mt-1">Sunday · 11:00 AM – 9:00 PM</dd>
+            <dd className="mt-1">Dinner · 5:00 PM until close</dd>
+            <dd className="mt-1">No dining service from 2:00 PM to 5:00 PM</dd>
           </div>
           <div className="border-b border-border py-3">
             <dt className="uppercase tracking-[0.18em] text-primary">Lunch</dt>
             <dd className="mt-1">Daily, including Sunday · 11:00 AM – 2:00 PM</dd>
-            <dd className="mt-1 text-muted">Begins November 26, 2026</dd>
-          </div>
-          <div className="border-b border-border py-3">
-            <dt className="uppercase tracking-[0.18em] text-primary">Dinner</dt>
-            <dd className="mt-1">Daily, including Sunday · 5:00 PM until close</dd>
-          </div>
-          <div className="border-b border-border py-3">
-            <dt className="uppercase tracking-[0.18em] text-primary">Afternoon</dt>
-            <dd className="mt-1">No dining service from 2:00 PM to 5:00 PM</dd>
+            <dd className="mt-1 text-muted">Service and reservations begin November 26, 2026</dd>
           </div>
         </dl>
         <LargePartyNotice className="mt-6" />
@@ -71,7 +71,10 @@ function CallToReserve() {
         </a>
       </h2>
       <p className="mt-6 max-w-md text-muted">
-        Call the dining room for a table. Dinner is 5:00 PM until close. There is no dining service from 2:00 PM to 5:00 PM.
+        Call the dining room for a table.{" "}
+        {hoursAreNew()
+          ? "Dinner is 5:00 PM until close. There is no dining service from 2:00 PM to 5:00 PM. Lunch reservations begin November 26."
+          : "Through November 15, dinner is 5:00 PM – 10:00 PM. Lunch reservations begin November 26."}
       </p>
     </section>
   );

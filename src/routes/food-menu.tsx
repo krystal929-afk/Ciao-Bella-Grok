@@ -48,7 +48,7 @@ function FoodMenu() {
         </div>
         {lunchNotice ? (
           <p className="mt-6 bg-white px-5 py-4 text-base leading-relaxed shadow-sm">
-            Lunch is daily, including Sunday, 11:00 AM – 2:00 PM, beginning November 26, 2026. It is not served before that date. Dinner is 5:00 PM until close. There is no dining service from 2:00 PM to 5:00 PM.
+            Through Sunday, November 15, dinner is daily, 5:00 PM – 10:00 PM. Beginning Monday, November 16, dinner is 5:00 PM until close, with no dining service from 2:00 PM to 5:00 PM. Lunch is daily, including Sunday, 11:00 AM – 2:00 PM, beginning November 26, 2026. It is not served before that date.
           </p>
         ) : null}
         <MenuStack sections={sections} showPrices={menu !== "lunch" && menu !== "catering"} />

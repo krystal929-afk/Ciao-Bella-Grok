@@ -40,6 +40,16 @@ export const about =
 export const houseLine =
   "We are the oldest Italian restaurant and pizzeria in Broward County, and we specialize in authentic old-world Southern Italian food.";
 
+/** New weekly hours begin this New York calendar date. Through the day before, dinner is 5:00 PM – 10:00 PM. */
+export const HOURS_CHANGE = "2026-11-16";
+
+/** Lunch is not served, and lunch reservations are not offered, until this date. */
+export const LUNCH_START = "2026-11-26";
+
+export const interimHours: { day: string; time: string }[] = [
+  { day: "Every day, through November 15", time: "5:00 PM – 10:00 PM" },
+];
+
 export const hours: { day: string; time: string; closed?: boolean }[] = [
   { day: "Monday–Thursday", time: "11:00 AM – 9:00 PM" },
   { day: "Friday", time: "11:00 AM – 10:00 PM" },
@@ -47,14 +57,34 @@ export const hours: { day: string; time: string; closed?: boolean }[] = [
   { day: "Sunday", time: "11:00 AM – 9:00 PM" },
 ];
 
-/** Lunch is not served until this New York calendar date. Confirm before removing. */
-export const LUNCH_START = "2026-11-26";
-
 export const serviceHours = {
   lunch: "11:00 AM – 2:00 PM",
   dinner: "5:00 PM until close",
   gap: "No dining service from 2:00 PM to 5:00 PM.",
 };
+
+export function nyCalendar(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    weekday: "short",
+    hour: "numeric",
+    minute: "numeric",
+    hourCycle: "h23",
+  }).formatToParts(now);
+  const value = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
+  return {
+    ymd: `${value("year")}-${value("month")}-${value("day")}`,
+    mins: Number(value("hour")) * 60 + Number(value("minute")),
+    day: value("weekday"),
+  };
+}
+
+export function hoursAreNew(now = new Date()) {
+  return nyCalendar(now).ymd >= HOURS_CHANGE;
+}
 
 export const reviews = [
   {
@@ -96,21 +126,9 @@ export type SavedRequest = {
 export const REQUESTS_KEY = "ciaobella-requests";
 
 export function serviceStatus(now = new Date()) {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: "America/New_York",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    weekday: "short",
-    hour: "numeric",
-    minute: "numeric",
-    hourCycle: "h23",
-  }).formatToParts(now);
-  const value = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
-  const ymd = `${value("year")}-${value("month")}-${value("day")}`;
-  const mins = Number(value("hour")) * 60 + Number(value("minute"));
-  const day = value("weekday");
-  const close = day === "Fri" ? 22 * 60 : day === "Sat" ? 23 * 60 : 21 * 60;
+  const { ymd, mins, day } = nyCalendar(now);
+  const newHours = ymd >= HOURS_CHANGE;
+  const close = !newHours ? 22 * 60 : day === "Fri" ? 22 * 60 : day === "Sat" ? 23 * 60 : 21 * 60;
   const lunchOn = ymd >= LUNCH_START;
 
   if (lunchOn && mins >= 11 * 60 && mins < 14 * 60) {
@@ -119,7 +137,7 @@ export function serviceStatus(now = new Date()) {
   if (mins >= 17 * 60 && mins < close) {
     return { open: true, label: "Open now for dinner" };
   }
-  if (mins >= 14 * 60 && mins < 17 * 60) {
+  if (newHours && mins >= 14 * 60 && mins < 17 * 60) {
     return {
       open: false,
       label: lunchOn
@@ -127,7 +145,7 @@ export function serviceStatus(now = new Date()) {
         : "No dining service until 5:00 PM · lunch starts November 26",
     };
   }
-  if (mins >= 11 * 60 && mins < 14 * 60) {
+  if (newHours && mins >= 11 * 60 && mins < 14 * 60) {
     return { open: false, label: "Lunch starts November 26 · dinner at 5:00 PM" };
   }
   if (mins >= close) {
@@ -158,6 +176,13 @@ export const businessJsonLd = {
     {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "17:00",
+      closes: "22:00",
+      validThrough: "2026-11-15",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       opens: "11:00",
       closes: "14:00",
       validFrom: LUNCH_START,
@@ -167,18 +192,21 @@ export const businessJsonLd = {
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Sunday"],
       opens: "17:00",
       closes: "21:00",
+      validFrom: HOURS_CHANGE,
     },
     {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: "Friday",
       opens: "17:00",
       closes: "22:00",
+      validFrom: HOURS_CHANGE,
     },
     {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: "Saturday",
       opens: "17:00",
       closes: "23:00",
+      validFrom: HOURS_CHANGE,
     },
   ],
 };

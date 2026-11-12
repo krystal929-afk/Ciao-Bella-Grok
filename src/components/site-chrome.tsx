@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { restaurant, onlineOrder, hours, serviceHours } from "@/data/restaurant";
+import { restaurant, onlineOrder, hours, hoursAreNew, serviceHours } from "@/data/restaurant";
 import { SOCIALS } from "@/data/menus";
 import { BirthdayNudge, NewsletterDialog, PromoPopup } from "@/components/live-widgets";
 import { cn } from "@/lib/cn";
@@ -197,15 +197,38 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         <p>Deerfield Beach, FL</p>
         <p>33441</p>
         <p className="mt-10 text-sm uppercase tracking-[0.25em]">Hours</p>
-        <div className="mt-4">
-          {hours.map((row) => (
-            <p key={row.day}>{row.day} · {row.time}</p>
-          ))}
-        </div>
-        <p className="mt-4">Lunch · {serviceHours.lunch}</p>
-        <p>Begins November 26, 2026</p>
-        <p className="mt-4">Dinner · {serviceHours.dinner}</p>
-        <p>{serviceHours.gap}</p>
+        {hoursAreNew() ? (
+          <>
+            <div className="mt-4">
+              {hours.map((row) => (
+                <p key={row.day}>
+                  {row.day} · {row.time}
+                </p>
+              ))}
+            </div>
+            <p className="mt-4">Lunch · {serviceHours.lunch}</p>
+            <p>Begins November 26, 2026</p>
+            <p className="mt-4">Dinner · {serviceHours.dinner}</p>
+            <p>{serviceHours.gap}</p>
+          </>
+        ) : (
+          <>
+            <p className="mt-4">Through Sunday, November 15</p>
+            <p>Dinner, every day · 5:00 PM – 10:00 PM</p>
+            <p className="mt-4">Beginning Monday, November 16</p>
+            <div className="mt-2">
+              {hours.map((row) => (
+                <p key={row.day}>
+                  {row.day} · {row.time}
+                </p>
+              ))}
+            </div>
+            <p className="mt-4">Lunch · {serviceHours.lunch}</p>
+            <p>Begins November 26, 2026. Not available before then.</p>
+            <p className="mt-4">Dinner · {serviceHours.dinner}</p>
+            <p>{serviceHours.gap}</p>
+          </>
+        )}
         <p className="mt-10 text-sm uppercase tracking-[0.25em]">Find us on...</p>
         <Socials className="mt-4 justify-center text-2xl" />
         <p className="mt-10 text-sm uppercase tracking-[0.25em]">Contact us</p>
@@ -217,7 +240,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         </a>
         {path === "/" ? <LargePartyNotice onDark className="mx-auto mt-4 max-w-md text-left" /> : null}
         <p className="mx-auto mt-10 max-w-md text-xs text-white/70">
-          Lunch is 11:00 AM – 2:00 PM daily, including Sunday, beginning November 26, 2026. Dinner is 5:00 PM until close. No dining service from 2:00 PM to 5:00 PM. Menu can change — call to confirm.
+          Through Sunday, November 15, dinner is daily, 5:00 PM – 10:00 PM. Beginning Monday, November 16, dinner is 5:00 PM until close, with no dining service from 2:00 PM to 5:00 PM. Lunch is 11:00 AM – 2:00 PM daily, including Sunday, beginning November 26, 2026. Menu can change — call to confirm.
           <Link to="/accessibility-page-01" className="ml-2 underline underline-offset-4">
             Accessibility
           </Link>
